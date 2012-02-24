@@ -1,0 +1,86 @@
+<div class="box content-box">
+  <div class="box-title"><%%= t(:listing, :default => "Listing") %> <%= plural_table_name %></div>
+
+  <%%= link_to t(:new, :default => "New") + ' <%= model %>', new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn box-margintl" %>
+  
+  <div id="table-items-and-filter">
+  <%%= form_tag  batch_<%= namespace_for_route %><%= plural_table_name %>_path, :class => "table-items" do %>
+  <div class="group-processing">
+    <p id="batch_label"><%%= t(:batch, :default => "Batch") %> : </p>
+    <select name="actionprocess">
+      <option value="destroy"><%%= t(:destroy, :default => "Destroy") %></option>
+        <%= render_partial 'app/views/partials/_index_batch.html.erb' %>
+        <!-- Beautiful_scaffold - AddField - Batch - Do not remove -->
+    </select>
+    <input type="submit" value="<%%= t(:processing, :default => "Processing") %>" />
+  </div>  
+  
+  <%%# Set your scopes below (string in array) %>
+  <%% scopes = [] %>
+  <%% if not scopes.blank? then %>
+    <%%= link_to "All (#{@<%= model %>_scope_for_scope.count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => ""), :class => "btn#{((session[:scope][:<%= model %>].to_s == '') ? 'selected' : '')}" %>
+    <%% for scope in scopes %>
+      <%%= link_to "#{scope} (#{@<%= model %>_scope_for_scope.send(scope).count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => scope), :class => "btn#{((session[:scope][:<%= model %>].to_s == scope) ? 'selected' : '')}" %>
+    <%% end %>
+  <%% end %>
+  
+  <div class="index_table">
+    <table>
+      <tr>
+        <th>
+          <%%= check_box_tag :checkall, '' %>
+          <script type="text/javascript">
+            $('#checkall').click(function(){
+              $('.cbbatch').attr('checked', ($(this).attr('checked') != undefined));
+            });
+          </script>
+        </th>
+        <%= render_partial 'app/views/partials/_index_header.html.erb' %>
+        <!-- Beautiful_scaffold - AddField - Header - Do not remove -->
+        <th colspan="3">
+          <label class="allitems">
+            <%%= check_box_tag :checkallelt, 'all' %>
+            <%%= pluralize(@<%= singular_table_name %>_scope.count, "<%= singular_table_name %>") %>
+          </label>
+        </th>
+      </tr>
+
+    <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
+      <tr class="line-<%%= cycle("1","2") %>">
+        <td><%%= check_box_tag "ids[]",<%= singular_table_name %>.id, false, :class => 'cbbatch' %></td>        
+        <%= render_partial 'app/views/partials/_index_column.html.erb' %><!-- Beautiful_scaffold - AddField - Column - Do not remove -->
+        <td><%%= link_to t(:show, :default => "Show"), <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>) %></td>
+        <td><%%= link_to t(:edit, :default => "Edit"), edit_<%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>) %></td>
+        <td><%%= link_to t(:destroy, :default => "Destroy"), <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :confirm => t(:areyousure, :default => "Are you sure?"), :method => :delete %></td>
+      </tr>
+    <%% end %>
+    </table>
+    
+    <div class="beautiful_pagination">
+      <%%= will_paginate @<%= plural_table_name %>,
+        :inner_window => 0,
+        :outer_window => 0,
+        :previous_label => t(:prev, :default => "Previous"),
+        :next_label => t(:next, :default => "Next") %>
+      <div id="export">
+        <p>
+        <span id="export_label"><%%= t(:download, :default => "Download") %></span>
+        <%%= link_to "CSV",  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :csv), :class => "nopjax" %>
+        <%%= link_to "XML",  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :xml), :class => "nopjax" %>
+        <%%= link_to "JSON", <%= namespace_for_route %><%= plural_table_name %>_path(:format => :json), :class => "nopjax" %>
+        <%%= link_to "PDF",  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :pdf), :class => "nopjax" %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <%% end %>
+  <div class="index_filter" id="index_filter_<%= singular_table_name %>">
+    <%%= search_form_for @q, :url => { :controller => "<%= namespace_for_url %><%= model_pluralize %>" } do |f| %>
+      <%= render_partial 'app/views/partials/_index_search.html.erb' %>
+      <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
+      <%%= f.submit t(:filter, :default => "Filter") %>
+      <%%= link_to  t(:cancel, :default => "Cancel"), <%= namespace_for_route %><%= model_pluralize %>_path(:nosearch => "ok"), :class => "btn" %>
+    <%% end %>
+  </div>
+  </div>
+</div>

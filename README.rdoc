@@ -1,0 +1,10 @@
+Beautiful Scaffold is a gem which propose generators for a complete scaffold with paginate, sort and filter. 
+Fully customizable.
+
+rails generate beautiful_scaffold mode attr:type attr:type... [--namespace=name]
+
+# Example : products
+rails generate beautiful_scaffold product name:string price:price tva:float description:richtext visible:boolean && rake db:migrate
+
+# Example : admin products
+rails generate beautiful_scaffold product name:string price:price tva:float description:richtext overview_description:richtext visible:boolean --namespace=admin && rake db:migrate

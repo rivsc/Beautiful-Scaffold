@@ -1,0 +1,14 @@
+<%- attributes.each do |attribute| -%>
+  <p>
+    <b><%%= t(:<%= attribute.name %>, :default => "<%= attribute.human_name %>") %>:</b>
+    <%- if @beautiful_attributes.include?(attribute.name + ':price') then -%>
+      <%%= number_to_currency(@<%= singular_table_name %>.<%= attribute.name %>) %>
+    <%- elsif @beautiful_attributes.include?(attribute.name + ':boolean') then -%>
+      <%%= t((@<%= singular_table_name %>.<%= attribute.name %> ? "yes".to_sym : "no".to_sym)) %>
+    <%- elsif @beautiful_attributes.include?(attribute.name + ':references') then -%>
+      <%%= (@<%= singular_table_name %>.<%= attribute.name %>.nil? ? "" : @<%= singular_table_name %>.<%= attribute.name %>.caption) %>
+    <%- else -%>
+      <%%= @<%= singular_table_name %>.<%= attribute.name %> %>
+    <%- end -%>
+  </p>
+<%- end -%>

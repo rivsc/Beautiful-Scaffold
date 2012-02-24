@@ -1,0 +1,24 @@
+<%-
+strformfor = singular_table_name
+if not namespace_alone.blank? then
+  strformfor = "[:#{namespace_alone}, @#{singular_table_name} ]"
+end
+-%>
+
+<%%= form_for(<%= strformfor %>) do |f| %>
+  <%% if @<%= singular_table_name %>.errors.any? %>
+    <div id="error_explanation">
+      <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
+
+      <ul>
+        <%% @<%= singular_table_name %>.errors.full_messages.each do |msg| %><li><%%= msg %></li><%% end %>
+      </ul>
+    </div>
+  <%% end %>
+  <%= render_partial 'app/views/partials/_form_field.html.erb' %><!-- Beautiful_scaffold - AddField - Do not remove -->
+  <div class="actions">
+    <%%= f.submit %>
+  </div>
+<%% end %>
+
+

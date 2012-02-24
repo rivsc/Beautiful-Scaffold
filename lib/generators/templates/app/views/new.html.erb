@@ -1,0 +1,5 @@
+<div class="box content-box">
+  <div class="box-title"><%%= t(:new, :default => 'New') %> <%= singular_table_name %></div>
+  <%%= render 'form' %>
+  <%%= link_to t(:back, :default => "Back"), <%= namespace_for_route %><%= plural_table_name %>_path, :class => "btn" %>
+</div>

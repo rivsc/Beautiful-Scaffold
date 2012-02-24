@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="<%%= I18n.default_locale %>">
+  <head>
+    <meta charset="utf-8">
+    <title>Beautiful Scaffold</title>
+
+    <meta name="description" content="Beautiful Scaffold">
+    <meta name="author" content="You or me Sylvain Claudel (http://blog.escarworld.com)">
+
+    <%%= stylesheet_link_tag "reset", "beautiful_scaffold" %>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <%%= javascript_include_tag "application", "jquery.pjax", "beautiful_scaffold" %>
+    
+    <%%= javascript_include_tag "jquery.markitup.js" %>
+    <%%= javascript_include_tag "markitup/sets/default/set.js" %>
+    <%%= stylesheet_link_tag "markitup/skins/simple/style.css" %>
+
+    <% miufile = ["bbcode","wiki","markdown","html","textile"] %>
+    <%%= stylesheet_link_tag <%= miufile.map{ |code| "'markitup/sets/#{code}/style.css'" }.join(',') %> %>
+    <%%= javascript_include_tag <%= miufile.map{ |code| "'markitup/sets/#{code}/set.js'" }.join(',') %> %>
+
+    <%%= csrf_meta_tags %>
+    <%%= yield :head %>
+  </head>
+  <body>
+    <div id="admin">
+      <div id="left-panel">
+        <p id="logo">Beautiful Scaffold</p>
+        <p id="home">Hello 
+          <span id="username">
+            <%%= l(Date.today, :format => :long) %>
+          </span>
+          <span id="message"></span>
+        </p>
+        <p id="home-link">
+          <a href="#">Homepage</a>
+          <div class="loader" style="display:none">
+            <div class="circle"></div>
+            <div class="circle1"></div>
+          </div>
+        </p>
+        
+        <%%= render :partial => "layouts/beautiful_menu" %>
+      </div>
+      <div id="right-panel">
+        <h1>Administration Panel</h1>
+        <p class="subtitle">Beautiful Scaffold</p>
+
+        <!--<p id="flash-warning">Lorem ipsum....</p>-->
+        <%% if not flash[:notice].blank? then %>
+          <p id="flash-notice"><%%= flash[:notice] %></p>
+        <%% end %>
+        <!--<p id="flash-success">Lorem ipsum....</p>-->
+        <%% if not flash[:error].blank? then %>
+          <p id="flash-error"><%%= flash[:error] %></p>
+        <%% end %>
+        
+        <div id="pjax-container">
+          <%%= yield %>
+        </div>
+        
+        <p id="footer">
+          Copyright 2011 Beautiful Scaffold | Powered by <a href="http://blog.escarworld.com">rivsc</a> | <a href="http://www.beautiful-scaffold.com">Beautiful Scaffold</a>
+        </p>
+        
+      </div>
+    </div>
+  </body>
+</html>
