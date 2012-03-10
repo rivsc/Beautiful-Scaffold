@@ -1,5 +1,5 @@
 <%-
-strformfor = singular_table_name
+strformfor = "@#{singular_table_name}"
 if not namespace_alone.blank? then
   strformfor = "[:#{namespace_alone}, @#{singular_table_name} ]"
 end
