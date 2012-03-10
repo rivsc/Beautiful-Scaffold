@@ -32,9 +32,12 @@ module BeautifulHelper
     end
     
     caption =   t(attribute_name, :default => default_caption)
+    strpath = model_name.pluralize + "_url"
+    strpath = namespace + '_' + strpath if not namespace.blank?
+
     return link_to(
         "#{csort} #{caption}",
-        eval(namespace + '_' + model_name.pluralize + "_url") + "?" + 
+        eval(strpath) + "?" + 
         CGI.unescape({:sorting => {:attribute => attribute_name.downcase,:sorting => opposite_sortstr}}.to_query)
       ).html_safe
   end
