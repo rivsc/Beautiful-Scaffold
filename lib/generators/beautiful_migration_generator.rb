@@ -11,6 +11,10 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
   argument :myattributes, :type => :array, :default => [], :banner => "field:type field:type"
   class_option :namespace, :default => nil
 
+  def install_gems
+    require_gems
+  end
+
   def add_field_for_fulltext
     @beautiful_attributes = myattributes.dup
     @fulltext_field = []

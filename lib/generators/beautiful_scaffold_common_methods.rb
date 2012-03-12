@@ -101,4 +101,15 @@ module BeautifulScaffoldCommonMethods
     return ["bbcode","html","text","wiki","textile","markdown"]
   end
 
+  def require_gems
+    gem('will_paginate')
+    gem('ransack')
+    gem('prawn', '1.0.0.rc1')
+    gem('RedCloth')
+    gem('bb-ruby')
+    gem('bluecloth')
+    gem('rdiscount')
+    gem('sanitize')
+  end
+
 end

@@ -18,6 +18,10 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   
   class_option :namespace, :default => nil
 
+  def install_gems
+    require_gems
+  end
+
   def add_field_for_fulltext
     @beautiful_attributes = myattributes.dup
     @fulltext_field = []
