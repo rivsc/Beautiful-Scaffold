@@ -1,0 +1,41 @@
+<div class="modal hide" id="modal-columns">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3><%= t(:select_columns, :default => "Select Columns") %></h3>
+  </div>
+  <div class="modal-body">
+    <% for field in model_columns %>
+      <label class="checkbox">
+        <input type="checkbox" name="field[]" value="<%= field %>" <%= "checked" if session[:fields][model_name.to_sym].include?(field) %>> <%= field %>
+      </label><br />
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" id="filter-columns">Ok</button>
+    <button type="button" class="btn" id="cancel-filter-columns"><%= t(:cancel, :default => "Cancel") %></button>
+  </div>
+  <script type="text/javascript">
+    $('#filter-columns').on('click', function(){
+      var return_json = [];
+      $.each($('input[name^="field"]:checked'), function(index, value) {
+        return_json.push($(value).val());
+      });
+      $.ajax({
+        url: '/<%= model_name %>/select_fields',
+        data: { 'fields' : return_json },
+        success: function(data) {
+          $('table.table th[class^="col"], table.table td[class^="col"]').css('display', 'none');
+          $.each(return_json, function(index, value) {
+            $('table.table th.col-' + value + ', table.table td.col-' + value).css('display', 'table-cell');
+          });
+          $('#modal-columns').modal('hide');
+        }
+      });
+      return false;
+    });
+    $('#cancel-filter-columns').on('click', function(){
+      $('#modal-columns').modal('hide');
+      return false;
+    });
+  </script>
+</div>
