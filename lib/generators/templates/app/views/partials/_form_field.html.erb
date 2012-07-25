@@ -1,37 +1,57 @@
 <%- attributes.each do |attribute| -%>
   <%- if @beautiful_attributes.include?(attribute.name + ':richtext') then -%>
-    <div class="field">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>") %>
-      <%%= f.text_area :<%= attribute.name %>, :class => "richtext-editor" %>
+    <div class="control-group">
+      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name.capitalize %>"), :class => "control-label" %>
+      <div class="controls">
+        <%%= f.text_area :<%= attribute.name %>, :class => "richtext-editor" %>
+      </div>
     </div>
-    <div class="field">
-      <% for type in richtext_type %>
-        <%% hashradio = {:id => "<%= attribute.name %>-<%= type %>", :class => "select-richtext", 'data-editor' => 'markItUp<%= singular_table_name.capitalize %>_<%= attribute.name.downcase %>', 'data-spleditor' => '<%= singular_table_name %>_<%= attribute.name %>' } %>
-        <%% hashradio[:checked] = "checked" if @<%= singular_table_name %>.<%= attribute.name %>_typetext == "<%= type %>" %>
-        <%%= f.radio_button :<%= attribute.name %>_typetext, "<%= type %>", hashradio  %>
-        <label for="<%= attribute.name %>-<%= type %>" class="label-richtext-type"><%= type.capitalize %></label>
-      <% end %>
+    <div class="control-group">
+      <label class="control-label" for="inlineCheckboxes"></label>
+      <div class="controls">
+        <% for type in richtext_type %>
+          <%% hashradio = {:id => "<%= attribute.name %>-<%= type %>", :class => "select-richtext", 'data-editor' => 'markItUp<%= singular_table_name.capitalize %>_<%= attribute.name.downcase %>', 'data-spleditor' => '<%= singular_table_name %>_<%= attribute.name %>' } %>
+          <%% hashradio[:checked] = "checked" if @<%= singular_table_name %>.<%= attribute.name %>_typetext == "<%= type %>" %>
+          <label for="<%= attribute.name %>-<%= type %>" class="label-richtext-type checkbox inline">
+            <%%= f.radio_button :<%= attribute.name %>_typetext, "<%= type %>", hashradio  %>
+            <%= type.capitalize %>
+          </label>
+        <% end %>
+      </div>
     </div>
 
-  <%% rttype = @<%= singular_table_name %>.<%= attribute.name %>_typetext.to_s %>
-  <%% if not rttype.blank? then %>
-  <script language="javascript">
-    $(document).ready(function(){
-      $('#<%= singular_table_name %>_<%= attribute.name %>').markItUp(my<%%= rttype.capitalize %>Settings);
-      $('#markItUp<%= singular_table_name.capitalize %>_<%= attribute.name.downcase %>').addClass('<%%= rttype.downcase %>');
-    });
-  </script>
-  <%% end %>
+    <%% rttype = @<%= singular_table_name %>.<%= attribute.name %>_typetext.to_s %>
+    <%% if not rttype.blank? then %>
+    <script language="javascript">
+      $(document).ready(function(){
+        $('#<%= singular_table_name %>_<%= attribute.name %>').markItUp(my<%%= rttype.capitalize %>Settings);
+        $('#markItUp<%= singular_table_name.capitalize %>_<%= attribute.name.downcase %>').addClass('<%%= rttype.downcase %>');
+      });
+    </script>
+    <%% end %>
     
   <%- elsif @beautiful_attributes.include?(attribute.name + ':references') then -%>
-    <div class="field">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>") %>
-      <%%= f.collection_select :<%= attribute.name %>_id, <%= attribute.name.camelcase %>.all, :id, :caption %>
+    <div class="control-group">
+      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name.capitalize %>"), :class => "control-label" %>
+      <div class="controls">
+        <%%= f.collection_select :<%= attribute.name %>_id, <%= attribute.name.camelcase %>.all, :id, :caption %>
+      </div>
+    </div>
+  <%- elsif @beautiful_attributes.include?(attribute.name + ':price') then -%>
+    <div class="control-group">
+      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name.capitalize %>"), :class => "control-label" %>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on">$</span><%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
+        </div>
+      </div>
     </div>
   <%- else -%>
-    <div class="field">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>") %>
-      <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
+    <div class="control-group">
+      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name.capitalize %>"), :class => "control-label" %>
+      <div class="controls">
+        <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
+      </div>
     </div>
   <%- end -%>
 <%- end -%>

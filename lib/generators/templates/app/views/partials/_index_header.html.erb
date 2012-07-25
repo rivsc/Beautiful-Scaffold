@@ -1,5 +1,5 @@
 <%- attributes.each do |attribute| -%>
-<th>
+<th <%%= visible_column("<%= singular_table_name %>", "<%= attribute.name %>") %> class="col-<%= attribute.name %>">
   <%- id_or_not = "" -%>
   <%- if @beautiful_attributes.include?(attribute.name + ':references') then -%>
     <%- id_or_not = "_id" -%>

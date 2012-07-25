@@ -5,7 +5,7 @@ if not namespace_alone.blank? then
 end
 -%>
 
-<%%= form_for(<%= strformfor %>) do |f| %>
+<%%= form_for(<%= strformfor %>, :class => "form-horizontal") do |f| %>
   <%% if @<%= singular_table_name %>.errors.any? %>
     <div id="error_explanation">
       <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
@@ -16,8 +16,8 @@ end
     </div>
   <%% end %>
   <%= render_partial 'app/views/partials/_form_field.html.erb' %><!-- Beautiful_scaffold - AddField - Do not remove -->
-  <div class="actions">
-    <%%= f.submit %>
+  <div class="form-actions">
+    <%%= f.submit :class => "btn btn-primary" %>
   </div>
 <%% end %>
 

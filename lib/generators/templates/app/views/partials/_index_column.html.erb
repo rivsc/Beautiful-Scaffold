@@ -1,5 +1,5 @@
 <%- attributes.each do |attribute| -%>
-  <td class="<%%= align_attribute("<%= attribute.type %>") %>">
+  <td <%%= visible_column("<%= singular_table_name %>", "<%= attribute.name %>") %> class="col-<%= attribute.name %> <%%= align_attribute("<%= attribute.type %>") %>">
     <% if @beautiful_attributes.include?(attribute.name + ':price') then %>
       <%%= number_to_currency(<%= singular_table_name %>.<%= attribute.name %>) %>
     <% elsif @beautiful_attributes.include?(attribute.name + ':richtext') then %>

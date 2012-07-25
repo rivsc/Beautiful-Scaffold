@@ -47,15 +47,28 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     
     # Css
     reset            = "#{stylesheetspath}reset.css"
-    bc_css           = "#{stylesheetspath}beautiful_scaffold.css.scss"
+    bc_css           = [
+                        "#{stylesheetspath}bootstrap.css",
+                        "#{stylesheetspath}bootstrap.min.css",
+                        "#{stylesheetspath}bootstrap-responsive.css",
+                        "#{stylesheetspath}bootstrap-responsive.min.css",
+                        "#{stylesheetspath}beautiful-scaffold.css.scss"
+                       ]
         
     javascriptspath = "app/assets/javascripts/"
     
     # Js
-    bc_js            = "#{javascriptspath}beautiful_scaffold.js"
+    bc_js            = [
+                        "#{javascriptspath}bootstrap.js",
+                        "#{javascriptspath}bootstrap.min.js",
+                        "#{javascriptspath}bootstrap-alert.js",
+                        "#{javascriptspath}bootstrap-dropdown.js",
+                        "#{javascriptspath}bootstrap-modal.js",
+                        "#{javascriptspath}bootstrap-tooltip.js"
+                       ]
     pjax_js          = "#{javascriptspath}jquery.pjax.js"
 
-    [reset, bc_css, bc_js, pjax_js].each{ |path|
+    [reset, bc_css, bc_js, pjax_js].flatten.each{ |path|
       copy_file path, path
     }
     
@@ -69,13 +82,15 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     if not File.exist?("app/views/layouts/_beautiful_menu.html.erb") then
       template  "app/views/_beautiful_menu.html.erb", "app/views/layouts/_beautiful_menu.html.erb"
     end
+
+    empty_directory "app/views/beautiful"
+    template  "app/views/dashboard.html.erb", "app/views/beautiful/dashboard.html.erb"
+    copy_file "app/views/_modal_columns.html.erb", "app/views/layouts/_modal_columns.html.erb"
     
     inject_into_file("app/views/layouts/_beautiful_menu.html.erb",'
-      <p class="menuelt <%= "active" if params[:controller] == "' + namespace_for_url + model.pluralize + '" %>" data-id="sub-' + model + '">' + model.capitalize + '</p>
-      <ul class="submenu <%= "hidden" if params[:controller] != "' + namespace_for_url + model.pluralize + '" %>" id="sub-' + model + '">
-        <li><%= link_to "New ' + model.capitalize + '", new_' + namespace_for_route + model + '_path %></li>
-        <li><%= link_to "Manage ' + model.capitalize.pluralize + '", ' + namespace_for_route + model.pluralize + '_path %></li>
-      </ul>', :after => "<!-- Beautiful Scaffold Menu Do Not Touch This -->")    
+      <li class="<%= "active" if params[:controller] == "' + namespace_for_url + model.pluralize + '" %>">
+        <%= link_to "' + model.capitalize.pluralize + '", ' + namespace_for_route + model.pluralize + '_path %>
+      </li>', :after => "<!-- Beautiful Scaffold Menu Do Not Touch This -->")
   end
 
   def install_markitup
@@ -152,7 +167,19 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     end
   end
 
+  def install_willpaginate_renderer_for_bootstrap
+    copy_file  "app/initializers/link_renderer.rb", "config/initializers/beautiful_helper.rb"
+  end
+
   def routes
+    routes_in_text = File.read("config/routes.rb")
+
+    if not routes_in_text[/beautiful#dashboard/] and not routes_in_text[/beautiful#select_fields/] then
+      myroute = "root :to => 'beautiful#dashboard'\n"
+      myroute += "  match ':model_sym/select_fields' => 'beautiful#select_fields'\n"
+      route(myroute)
+    end
+
     myroute = ""
     myroute += "namespace :#{namespace_alone} do\n  " if not namespace_alone.blank?
     myroute += "resources :#{model_pluralize} do\n    collection do\n      post :batch\n    end\n  end\n"

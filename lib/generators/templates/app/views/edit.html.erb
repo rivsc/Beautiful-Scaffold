@@ -1,6 +1,5 @@
-<div class="box content-box">
-  <div class="box-title"><%%= t(:editing, :default => 'Editing') %><%= singular_table_name %></div>
-  <%%= render 'form' %>
-  <%%= link_to t(:edit, :default => "Edit"), edit_<%= namespace_for_route %><%= singular_table_name %>_path(@<%= singular_table_name %>), :class => "btn" %>
-  <%%= link_to t(:back, :default => "Back"), <%= namespace_for_route %><%= plural_table_name %>_path, :class => "btn" %>
-</div>
+<h2><%%= t(:editing, :default => 'Editing') %><%= singular_table_name %></h2>
+
+<%%= render 'form' %>
+
+<%%= link_to t(:back, :default => "Back"), <%= namespace_for_route %><%= plural_table_name %>_path, :class => "btn" %>

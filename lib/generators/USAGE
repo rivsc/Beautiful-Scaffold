@@ -9,7 +9,4 @@ Example:
     rails generate beautiful_migration AddColorToProducts color:string
 
     rails generate beautiful_locale {fr|en|all}
-
-    This will create:
-        what/will/it/create
        

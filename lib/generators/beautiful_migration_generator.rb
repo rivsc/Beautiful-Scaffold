@@ -30,8 +30,19 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
   end
 
   def generate_model
-    generate("migration", "#{name} #{beautiful_attr_to_rails_attr.join(' ')} #{@fulltext_field.join(' ')}")
-    # TODO pour les references mettre _id et integer
+    generate("migration", "#{name} #{beautiful_attr_to_rails_attr(true).join(' ')} #{@fulltext_field.join(' ')}")
+  end
+
+  def add_to_model
+    myattributes.each{ |attr|
+      a,t = attr.split(':')
+      if ['references', 'reference'].include?(t) then
+        inject_into_file("app/models/#{model}.rb", "\n  belongs_to :#{a}", :after => "ActiveRecord::Base")
+        inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ActiveRecord::Base")
+        a += "_id"
+      end
+      inject_into_file("app/models/#{model}.rb", ":#{a}, ", :after => "attr_accessible ")
+    }
   end
 
   def generate_views

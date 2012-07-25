@@ -69,7 +69,7 @@ module BeautifulScaffoldCommonMethods
     }
   end
 
-  def beautiful_attr_to_rails_attr
+  def beautiful_attr_to_rails_attr(for_migration = false)
     newmyattributes = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
@@ -78,6 +78,9 @@ module BeautifulScaffoldCommonMethods
         newt = 'text'
       elsif t == 'price' then
         newt = 'float'
+      elsif ['references', 'reference'].include?(t) and for_migration then
+        a = a + '_id'
+        newt = 'integer:index'
       end
 
       newmyattributes << [a, newt].join(':')

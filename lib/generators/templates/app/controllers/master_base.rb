@@ -2,7 +2,28 @@
 class BeautifulController < ApplicationController
   
   layout "beautiful_layout"
-  
+
+  def dashboard
+    render :layout => "beautiful_layout"
+  end
+
+  # Call in AJAX
+  def select_fields
+    model_sym = params[:model_sym].to_sym
+
+    do_select_fields(model_sym)
+
+    render :nothing => true
+  end
+
+  def do_select_fields(model_sym)
+    # Fields
+    session[:fields] ||= {}
+    session[:fields][model_sym] ||= nil
+    params[:fields] ||= session[:fields][model_sym]
+    session[:fields][model_sym] = params[:fields]
+  end
+
   def do_sort_and_paginate(model_sym)
     # Paginate
     session[:paginate] ||= {}
