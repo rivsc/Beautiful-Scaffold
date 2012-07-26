@@ -59,6 +59,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     
     # Js
     bc_js            = [
+                        "#{javascriptspath}beautiful_scaffold.js",
                         "#{javascriptspath}bootstrap.js",
                         "#{javascriptspath}bootstrap.min.js",
                         "#{javascriptspath}bootstrap-alert.js",
