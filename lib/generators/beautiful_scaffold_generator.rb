@@ -138,6 +138,20 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     copy_file  "app/models/pdf_report.rb", "app/models/pdf_report.rb"
   end
 
+  def add_to_model
+    # Add relation and foreign_key in attr_accessible
+    myattributes.each{ |attr|
+      a,t = attr.split(':')
+      if ['references', 'reference'].include?(t) then
+        inject_into_file("app/models/#{model}.rb", ":#{a}_id, ", :after => "attr_accessible ")
+        begin
+          inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ActiveRecord::Base")
+        rescue
+        end
+      end
+    }
+  end
+
   def generate_controller
     copy_file  "app/controllers/master_base.rb", "app/controllers/beautiful_controller.rb"
     dirs = ['app', 'controllers', options[:namespace]].compact
