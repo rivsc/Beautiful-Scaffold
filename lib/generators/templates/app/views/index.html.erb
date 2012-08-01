@@ -1,19 +1,21 @@
 <h2><%%= t(:listing, :default => "Listing") %> <%= plural_table_name %></h2>
 
-<%%= link_to '<i class="icon-plus"></i>'.html_safe + t(:new, :default => "New") + ' <%= model %>', new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn" %>
+<p>
+  <%%= link_to '<i class="icon-plus"></i>'.html_safe + t(:new, :default => "New") + ' <%= model %>', new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn" %>
+</p>
 
+<%%# Set your scopes below (string in array) %>
+<%% scopes = [] %>
+<%% if not scopes.blank? then %>
 <div class="btn-toolbar">
   <div class="btn-group">
-    <%%# Set your scopes below (string in array) %>
-    <%% scopes = [] %>
-    <%% if not scopes.blank? then %>
     <%%= link_to "All (#{@<%= model %>_scope_for_scope.count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => ""), :class => "btn #{((session[:scope][:<%= model %>].to_s == '') ? 'active' : '')}" %>
     <%% for scope in scopes %>
     <%%= link_to "#{scope} (#{@<%= model %>_scope_for_scope.send(scope).count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => scope), :class => "btn #{((session[:scope][:<%= model %>].to_s == scope) ? 'active' : '')}" %>
     <%% end %>
-    <%% end %>
   </div>
 </div>
+<%% end %>
 
 <div class="row-fluid">
   <div class="span9">
