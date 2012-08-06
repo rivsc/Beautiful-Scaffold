@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%%= I18n.default_locale %>">
+<html lang="<%%= (I18n.locale || I18n.default_locale) %>">
   <head>
     <meta charset="utf-8">
     <title>Beautiful Scaffold</title>
@@ -7,7 +7,7 @@
     <meta name="description" content="Beautiful Scaffold">
     <meta name="author" content="You or me Sylvain Claudel (http://blog.escarworld.com)">
 
-    <%%= stylesheet_link_tag "reset", "bootstrap.min", "bootstrap-responsive.min", "beautiful-scaffold" %>
+    <%%= stylesheet_link_tag "reset", "bootstrap.min", "bootstrap-responsive.min", "datepicker", "timepicker", "beautiful-scaffold" %>
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -97,10 +97,18 @@
       <div class="circle1"></div>
     </div>
 
-    <%%= javascript_include_tag "bootstrap.min", "bootstrap-alert", "bootstrap-dropdown", "bootstrap-modal", "bootstrap-tooltip" %>
+    <%%= javascript_include_tag "bootstrap.min", "bootstrap-alert", "bootstrap-datepicker" ,"bootstrap-timepicker", "bootstrap-dropdown", "bootstrap-modal", "bootstrap-tooltip" %>
     <script type="text/javascript">
-        $('.dropdown-toggle').dropdown();
+      ;(function($){
+        $.fn.datepicker.dates['<%= I18n.locale.to_s %>'] = {
+          days:        <%= (I18n.t("date.day_names") + [I18n.t("date.day_names").first]).map(&:capitalize).to_s.html_safe %>,
+          daysShort:   <%= (I18n.t("date.abbr_day_names") + [I18n.t("date.abbr_day_names").first]).map(&:capitalize).to_s.html_safe %>,
+          daysMin:     <%= (I18n.t("date.abbr_day_names") + [I18n.t("date.abbr_day_names").first]).map{ |d| d.capitalize[0..2] }.to_s.html_safe %>,
+          months:      <%= I18n.t("date.month_names")[1..12].map(&:capitalize).to_s.html_safe %>,
+          monthsShort: <%= I18n.t("date.abbr_month_names")[1..12].map(&:capitalize).to_s.html_safe %>
+        };
+      }(jQuery));
     </script>
-
+    <%%= javascript_include_tag "bootstrap-datetimepicker-for-beautiful-scaffold" %>
   </body>
 </html>
