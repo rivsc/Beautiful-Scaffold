@@ -52,6 +52,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{stylesheetspath}bootstrap.min.css",
                         "#{stylesheetspath}bootstrap-responsive.css",
                         "#{stylesheetspath}bootstrap-responsive.min.css",
+                        "#{stylesheetspath}datepicker.css",
+                        "#{stylesheetspath}timepicker.css",
                         "#{stylesheetspath}beautiful-scaffold.css.scss"
                        ]
         
@@ -65,7 +67,11 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{javascriptspath}bootstrap-alert.js",
                         "#{javascriptspath}bootstrap-dropdown.js",
                         "#{javascriptspath}bootstrap-modal.js",
-                        "#{javascriptspath}bootstrap-tooltip.js"
+                        "#{javascriptspath}bootstrap-tooltip.js",
+                        "#{javascriptspath}bootstrap-datepicker.js",
+                        "#{javascriptspath}bootstrap-datetimepicker-for-beautiful-scaffold.js",
+                        "#{javascriptspath}bootstrap-timepicker.js",
+                        "#{javascriptspath}jquery.livequery.js"
                        ]
     pjax_js          = "#{javascriptspath}jquery.pjax.js"
 
@@ -86,7 +92,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
     empty_directory "app/views/beautiful"
     template  "app/views/dashboard.html.erb", "app/views/beautiful/dashboard.html.erb"
-    copy_file "app/views/_modal_columns.html.erb", "app/views/layouts/_modal_columns.html.erb"
+    copy_file "app/views/_modal_columns.html.erb",  "app/views/layouts/_modal_columns.html.erb"
+    copy_file "app/views/_mass_inserting.html.erb", "app/views/layouts/_mass_inserting.html.erb"
     
     inject_into_file("app/views/layouts/_beautiful_menu.html.erb",'
       <li class="<%= "active" if params[:controller] == "' + namespace_for_url + model.pluralize + '" %>">
@@ -195,7 +202,10 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       route(myroute)
     end
 
-    myroute = ""
+    search_namespace = namespace_alone + "/" if not namespace_alone.blank?
+    search_namespace ||= ""
+
+    myroute = 'match "' + search_namespace + model_pluralize + '/search_and_filter" => "' + search_namespace + model_pluralize + '#index", :via => [:get, :post], :as => :' + namespace_for_route + 'search_' + model_pluralize + "\n  "
     myroute += "namespace :#{namespace_alone} do\n  " if not namespace_alone.blank?
     myroute += "resources :#{model_pluralize} do\n    collection do\n      post :batch\n    end\n  end\n"
     myroute += "end\n"                                if not namespace_alone.blank?
