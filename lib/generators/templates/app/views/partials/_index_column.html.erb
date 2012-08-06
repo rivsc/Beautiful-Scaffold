@@ -1,19 +1,19 @@
 <%- attributes.each do |attribute| -%>
   <td <%%= visible_column("<%= singular_table_name %>", "<%= attribute.name %>") %> class="col-<%= attribute.name %> <%%= align_attribute("<%= attribute.type %>") %>">
-    <% if @beautiful_attributes.include?(attribute.name + ':price') then %>
+    <%- if @beautiful_attributes.include?(attribute.name + ':price') then -%>
       <%%= number_to_currency(<%= singular_table_name %>.<%= attribute.name %>) %>
-    <% elsif @beautiful_attributes.include?(attribute.name + ':richtext') then %>
+    <%- elsif @beautiful_attributes.include?(attribute.name + ':richtext') then -%>
       <%%= truncate(<%= singular_table_name %>.<%= attribute.name + "_fulltext" %>, :length => 30) %>
-    <% elsif @beautiful_attributes.include?(attribute.name + ':boolean') then %>
+    <%- elsif @beautiful_attributes.include?(attribute.name + ':boolean') then -%>
       <%%= t((<%= singular_table_name %>.<%= attribute.name %> ? "yes" : "no").to_sym) %>
-    <% elsif @beautiful_attributes.include?(attribute.name + ':references') then %>
+    <%- elsif @beautiful_attributes.include?(attribute.name + ':references') then -%>
       <%% if not <%= singular_table_name %>.<%= attribute.name %>_id.nil? then %>
         <%%= link_to "#" + <%= singular_table_name %>.<%= attribute.name %>_id.to_s, <%= namespace_for_route %><%= attribute.name %>_path(<%= singular_table_name %>.<%= attribute.name %>_id) %>
       <%% else %>
         <%%= t(:any, :default => "Any") %>
       <%% end %>
-    <% else %>
+    <%- else -%>
       <%%= <%= singular_table_name %>.<%= attribute.name %> %>
-    <% end %>
+    <%- end -%>
   </td>
 <%- end -%>
