@@ -1,8 +1,8 @@
 # encoding : utf-8
 module BeautifulHelper
 
-  def visible_column(model_name, field_name)
-    return ('style="display:' + ((session[:fields][model_name.to_sym].to_a.include?(field_name))  ? 'table-cell' : 'none') + ';"').html_safe
+  def visible_column(model_name, field_name, display_default = 'table-cell', other_css = "")
+    return ('style="display:' + ((session[:fields][model_name.to_sym].to_a.include?(field_name))  ? display_default : 'none') + ';' + other_css + '"').html_safe
   end
 
   def dropdown_submenu(link_caption, &block)
@@ -74,16 +74,47 @@ module BeautifulHelper
     case type_of_column
       when :date, :datetime then
         # DatePicker
-        response += '<div class="input-prepend input-append">'
+        response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
         response += '<span class="add-on"><i class="icon-chevron-right"></i></span>'
-        response += f.date_select((name_field + "_gteq").to_sym)
+        response += f.text_field((name_field + "_gteq").to_sym, :class => "span8 dpicker")
         response += '<span class="add-on"><i class="icon-calendar"></i></span>'
         response += '</div>'
-        response += '<div class="input-prepend input-append">'
+
+        response += f.hidden_field(name_field + '_gteq(3i)', :id => ('q_' + name_field + '_gteq_3i')) # Day
+        response += f.hidden_field(name_field + '_gteq(2i)', :id => ('q_' + name_field + '_gteq_2i')) # Mois
+        response += f.hidden_field(name_field + '_gteq(1i)', :id => ('q_' + name_field + '_gteq_1i')) # Year
+
+        if type_of_column == :datetime then
+          response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
+          response += '<span class="add-on"><i class="icon-chevron-right"></i></span>'
+          response += f.text_field((name_field + "_lteq").to_sym, :class => "span8 tpicker")
+          response += '<span class="add-on"><i class="icon-time"></i></span>'
+          response += '</div>'
+
+          response += f.hidden_field(name_field + '_gteq(4i)', :id => ('q_' + name_field + '_gteq_4i')) # Hour
+          response += f.hidden_field(name_field + '_gteq(5i)', :id => ('q_' + name_field + '_gteq_5i')) # Minute
+        end
+
+        response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
         response += '<span class="add-on"><i class="icon-chevron-left"></i></span>'
-        response += f.date_select((name_field + "_lteq").to_sym)
+        response += f.text_field((name_field + "_lteq").to_sym, :class => "span8 dpicker")
         response += '<span class="add-on"><i class="icon-calendar"></i></span>'
         response += '</div>'
+
+        response += f.hidden_field(name_field + '_lteq(3i)', :id => ('q_' + name_field + '_lteq_3i')) # Day
+        response += f.hidden_field(name_field + '_lteq(2i)', :id => ('q_' + name_field + '_lteq_2i')) # Mois
+        response += f.hidden_field(name_field + '_lteq(1i)', :id => ('q_' + name_field + '_lteq_1i')) # Year
+
+        if type_of_column == :datetime then
+          response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
+          response += '<span class="add-on"><i class="icon-chevron-left"></i></span>'
+          response += f.text_field((name_field + "_lteq").to_sym, :class => "span8 tpicker")
+          response += '<span class="add-on"><i class="icon-time"></i></span>'
+          response += '</div>'
+
+          response += f.hidden_field(name_field + '_lteq(4i)', :id => ('q_' + name_field + '_lteq_4i')) # Hour
+          response += f.hidden_field(name_field + '_lteq(5i)', :id => ('q_' + name_field + '_lteq_5i')) # Minute
+        end
       when :boolean then
         # Specify a default value (false) in rails migration
         response += f.label name_field + "_eq_true",   raw(f.radio_button((name_field + "_eq").to_sym, true))   + " " + h(t(:yes, :default => "Yes")), :class => "checkbox inline"
@@ -91,7 +122,7 @@ module BeautifulHelper
         response += f.label name_field + "_eq",        raw(f.radio_button((name_field + "_eq").to_sym, nil))    + " " + h(t(:all, :default => "All")), :class => "checkbox inline"
       when :string then
         response += f.text_field((name_field + "_cont").to_sym, :class => "filter span12")
-      when :integer, :float then
+      when :integer, :float, :decimal then
         if is_belongs_to_column?(name_field) then
           btmodel = get_belongs_to_model(name_field).classify.constantize
           response += f.collection_select((name_field + "_eq").to_sym, btmodel.all, :id, :caption, { :include_blank => t(:all, :default => "All") }, { :class => "span12" })
