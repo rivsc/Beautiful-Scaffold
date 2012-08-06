@@ -4,6 +4,8 @@
   <%%= link_to '<i class="icon-plus"></i>'.html_safe + t(:new, :default => "New") + ' <%= model %>', new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn" %>
 </p>
 
+<%%= render :partial => "layouts/mass_inserting", :locals => { :namespace => 'admin', :model_name => '<%= model %>', :model_columns => [<%= attributes.map{ |e| "'#{e.name}'" }.join(',') %>] } %>
+
 <%%# Set your scopes below (string in array) %>
 <%% scopes = [] %>
 <%% if not scopes.blank? then %>
@@ -31,7 +33,7 @@
         <button class="btn" type="submit"><i class="icon-ok"></i> <%%= t(:process, :default => "Process") %></button>
       </div>
 
-      <%%= render :partial => "layouts/modal_columns", :locals => { :model_name => "<%= singular_table_name %>", :model_columns => [<%= attributes.map{ |e| "'#{e.name}'" }.join(',') %>] } %>
+      <%%= render :partial => "layouts/modal_columns", :locals => { :model_name => "<%= singular_table_name %>", :model_columns => [<%= (attributes.map{ |e| "'#{e.name}'" }.to_a + ["'created_at'", "'updated_at'"]).join(',') %>] } %>
 
       <table class="table table-striped table-bordered table-condensed">
         <thead>
@@ -49,6 +51,12 @@
             </th>
             <%= render_partial 'app/views/partials/_index_header.html.erb' %>
             <!-- Beautiful_scaffold - AddField - Header - Do not remove -->
+            <th <%%= visible_column("<%= singular_table_name %>", "created_at") %> class="col-created_at">
+              <%%= sorting_header("<%= singular_table_name %>", "created_at", "<%= namespace_alone %>") %>
+            </th>
+            <th <%%= visible_column("<%= singular_table_name %>", "updated_at") %> class="col-updated_at">
+              <%%= sorting_header("<%= singular_table_name %>", "updated_at", "<%= namespace_alone %>") %>
+            </th>
             <th colspan="3">
               <label class="checkbox">
                 <%%= check_box_tag :checkallelt, 'all' %>
@@ -63,6 +71,12 @@
             <td><%%= <%= singular_table_name %>.id %></td>
             <td><%%= check_box_tag "ids[]",<%= singular_table_name %>.id, false, :class => 'cbbatch' %></td>
             <%= render_partial 'app/views/partials/_index_column.html.erb' %><!-- Beautiful_scaffold - AddField - Column - Do not remove -->
+            <td <%%= visible_column("<%= singular_table_name %>", "created_at") %> class="col-created_at <%%= align_attribute("datetime") %>">
+              <%%= l(<%= singular_table_name %>.created_at, :format => :long) %>
+            </td>
+            <td <%%= visible_column("<%= singular_table_name %>", "updated_at") %> class="col-updated_at <%%= align_attribute("datetime") %>">
+              <%%= l(<%= singular_table_name %>.updated_at, :format => :long) %>
+            </td>
             <td><%%= link_to '<i class="icon-search"></i>'.html_safe, <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>) %></td>
             <td><%%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_<%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>) %></td>
             <td><%%= link_to '<i class="icon-remove"></i>'.html_safe, <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :confirm => t(:are_you_sure, :default => "Are you sure?"), :method => :delete %></td>
@@ -91,7 +105,7 @@
     <%% end %>
   </div>
   <div class="span3">
-    <%%= search_form_for @q, :url => { :controller => "<%= namespace_for_url %><%= model_pluralize %>" }, :html => { :class => "well" } do |f| %>
+    <%%= search_form_for @q, :url => <%= namespace_for_route + 'search_' + model_pluralize + '_path' %>, :html => { :class => "well" }, :method => :post do |f| %>
       <%= render_partial 'app/views/partials/_index_search.html.erb' %>
       <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
       <%%= f.submit t(:filter, :default => "Filter"), :class => "btn btn-primary" %>
