@@ -99,10 +99,22 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
 
     respond_to do |format|
       if @<%= model %>.save
-        format.html { redirect_to <%= namespace_for_route %><%= singular_table_name %>_path(@<%= model %>), :notice => t(:create_success, :model => "<%= model %>") }
+        format.html {
+          if params[:mass_inserting] then
+            redirect_to <%= namespace_for_route %><%= model_pluralize %>_path(:mass_inserting => true)
+          else
+            redirect_to <%= namespace_for_route %><%= singular_table_name %>_path(@<%= model %>), :notice => t(:create_success, :model => "<%= model %>")
+          end
+        }
         format.json { render :json => @<%= model %>, :status => :created, :location => @<%= model %> }
       else
-        format.html { render :action => "new" }
+        format.html {
+          if params[:mass_inserting] then
+            redirect_to <%= namespace_for_route %><%= model_pluralize %>_path(:mass_inserting => true), :error => t(:error, "Error")
+          else
+            render :action => "new"
+          end
+        }
         format.json { render :json => @<%= model %>.errors, :status => :unprocessable_entity }
       end
     end
