@@ -87,7 +87,7 @@ module BeautifulHelper
         if type_of_column == :datetime then
           response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
           response += '<span class="add-on"><i class="icon-chevron-right"></i></span>'
-          response += f.text_field((name_field + "_lteq").to_sym, :class => "span8 tpicker")
+          response += f.text_field((name_field + "_gteq").to_sym, :class => "span8 tpicker")
           response += '<span class="add-on"><i class="icon-time"></i></span>'
           response += '</div>'
 
