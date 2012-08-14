@@ -8,3 +8,7 @@
   <%- end -%>
   <%%= ransack_field("<%= singular_table_name %>", "<%= a.name %><%= attribute %>", f, "<%= caption %>") %>
 <%- end -%>
+
+<%- { :created_at => "Created At", :updated_at => "Updated At", :id => "Id" }.each{ |k,v| -%>
+  <%%= ransack_field("<%= singular_table_name %>", "<%= k.to_s %>", f, "<%= v %>") %>
+<%- } -%>
