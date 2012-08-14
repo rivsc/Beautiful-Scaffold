@@ -180,6 +180,17 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
     
     redirect_to :back
   end
+
+  def treeview
+
+  end
+
+  def treeview_update
+    modelclass = <%= model_camelize %>
+    foreignkey = :<%= model %>_id
+
+    render :nothing => true, :status => (update_treeview(modelclass, foreignkey) ? 200 : 500)
+  end
   
   private 
   
