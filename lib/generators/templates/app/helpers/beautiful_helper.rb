@@ -73,47 +73,65 @@ module BeautifulHelper
     type_of_column ||= :other
     case type_of_column
       when :date, :datetime then
-        # DatePicker
+        dt = (type_of_column == :datetime)
+        interval = (dt ? (1..5) : (1..3))
+
+        # Greater than
         response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
         response += '<span class="add-on"><i class="icon-chevron-right"></i></span>'
-        response += f.text_field((name_field + "_gteq").to_sym, :class => "span8 dpicker")
+        response += f.text_field(
+            (name_field + "_dp_gt").to_sym,
+            :value => (begin params[:q][(name_field + "_dp_gt").to_sym] rescue '' end),
+            :class => "span8 dpicker",
+            "data-id" => ("q_" + name_field + "_gteq"))
         response += '<span class="add-on"><i class="icon-calendar"></i></span>'
         response += '</div>'
 
-        response += f.hidden_field(name_field + '_gteq(3i)', :id => ('q_' + name_field + '_gteq_3i')) # Day
-        response += f.hidden_field(name_field + '_gteq(2i)', :id => ('q_' + name_field + '_gteq_2i')) # Mois
-        response += f.hidden_field(name_field + '_gteq(1i)', :id => ('q_' + name_field + '_gteq_1i')) # Year
-
-        if type_of_column == :datetime then
+        if dt then
           response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
           response += '<span class="add-on"><i class="icon-chevron-right"></i></span>'
-          response += f.text_field((name_field + "_gteq").to_sym, :class => "span8 tpicker")
+          response += f.text_field(
+              (name_field + "_tp_gt").to_sym,
+              :value => (begin params[:q][(name_field + "_tp_gt").to_sym] rescue '' end),
+              :class => "span8 tpicker",
+              "data-id" => ("q_" + name_field + "_gteq"))
           response += '<span class="add-on"><i class="icon-time"></i></span>'
           response += '</div>'
-
-          response += f.hidden_field(name_field + '_gteq(4i)', :id => ('q_' + name_field + '_gteq_4i')) # Hour
-          response += f.hidden_field(name_field + '_gteq(5i)', :id => ('q_' + name_field + '_gteq_5i')) # Minute
         end
 
+        for i in interval
+          response += f.hidden_field(name_field + "_gteq(#{i}i)",
+                                     :value => (begin params[:q][(name_field + "_gteq(#{i}i)").to_sym] rescue '' end),
+                                     :id => ('q_' + name_field + "_gteq_#{i}i"))
+        end
+
+        # Less than
         response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
         response += '<span class="add-on"><i class="icon-chevron-left"></i></span>'
-        response += f.text_field((name_field + "_lteq").to_sym, :class => "span8 dpicker")
+        response += f.text_field(
+            (name_field + "_dp_lt").to_sym,
+            :value => (begin params[:q][(name_field + "_dp_lt").to_sym] rescue '' end),
+            :class => "span8 dpicker",
+            "data-id" => ("q_" + name_field + "_lteq"))
         response += '<span class="add-on"><i class="icon-calendar"></i></span>'
         response += '</div>'
 
-        response += f.hidden_field(name_field + '_lteq(3i)', :id => ('q_' + name_field + '_lteq_3i')) # Day
-        response += f.hidden_field(name_field + '_lteq(2i)', :id => ('q_' + name_field + '_lteq_2i')) # Mois
-        response += f.hidden_field(name_field + '_lteq(1i)', :id => ('q_' + name_field + '_lteq_1i')) # Year
-
-        if type_of_column == :datetime then
+        if dt then
           response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
           response += '<span class="add-on"><i class="icon-chevron-left"></i></span>'
-          response += f.text_field((name_field + "_lteq").to_sym, :class => "span8 tpicker")
+          response += f.text_field(
+              (name_field + "_tp_lt").to_sym,
+              :value => (begin params[:q][(name_field + "_tp_lt").to_sym] rescue '' end),
+              :class => "span8 tpicker",
+              "data-id" => ("q_" + name_field + "_lteq"))
           response += '<span class="add-on"><i class="icon-time"></i></span>'
           response += '</div>'
+        end
 
-          response += f.hidden_field(name_field + '_lteq(4i)', :id => ('q_' + name_field + '_lteq_4i')) # Hour
-          response += f.hidden_field(name_field + '_lteq(5i)', :id => ('q_' + name_field + '_lteq_5i')) # Minute
+        for i in interval
+          response += f.hidden_field(name_field + "_lteq(#{i}i)",
+                                     :value => (begin params[:q][(name_field + "_lteq(#{i}i)").to_sym] rescue '' end),
+                                     :id => ('q_' + name_field + "_lteq_#{i}i"))
         end
       when :boolean then
         # Specify a default value (false) in rails migration
@@ -179,5 +197,21 @@ module BeautifulHelper
 
   def get_belongs_to_model(column)
     return column[0..-4]
+  end
+
+  def build_treeview(obj, child_relation)
+    out = '
+      <li id="treeelt_' + obj.id.to_s + '" data-id="' + obj.id.to_s + '">
+        <a href="#" class="nopjax">' + obj.caption + '</a>
+        <ul>'
+    ar = obj.send(child_relation.to_sym)
+    ar = ar.order('position') if obj.class.column_names.include?("position")
+    for o in ar.all
+      out += build_treeview(o, child_relation)
+    end
+    out += '
+        </ul>
+      </li>'
+    return out.html_safe
   end
 end
