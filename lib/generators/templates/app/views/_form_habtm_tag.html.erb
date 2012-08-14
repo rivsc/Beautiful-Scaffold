@@ -1,0 +1,47 @@
+<%#=
+  render :partial => "layouts/form_habtm_tag", :locals => {
+    :model_class => @product,
+    :model_name => "product",
+    :plural_model_name => "products",
+    :linked_model_name => "tag",
+    :plural_linked_model_name => "tags",
+    :namespace_bs => "admin",
+    :field_to_search_for_linked_model => "name",
+    :f => f
+  }
+  # Example to put in a _form.html.erb
+%>
+
+<div class="control-group">
+    <%= f.label plural_linked_model_name.to_sym, t(plural_linked_model_name.to_sym, :default => plural_linked_model_name.capitalize), :class => "control-label" %>
+    <div class="controls">
+        <ul id="<%= model_name %>_<%= linked_model_name %>_ids" name="<%= model_name %>[<%= linked_model_name %>_ids][]">
+            <% for elt in model_class.send(plural_linked_model_name) %>
+            <li data-value="<%= elt.id %>"><%= elt.caption %></li>
+            <% end %>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+  $('#<%= model_name %>_<%= linked_model_name %>_ids').tagit({
+    tagSource : function( request, response ) {
+      <% path_namespace = '/' + namespace_bs if not namespace_bs.blank? %>
+      $.ajax({
+        url: "<%= path_namespace %>/<%= plural_linked_model_name %>/search_and_filter.json",
+        type: "POST",
+        data: {
+            "q[<%= field_to_search_for_linked_model %>_cont]" : request.term
+        },
+        dataType: "json",
+        success: function( data ) {
+          response( $.map( data, function( item ) {
+            return { label: String(item.<%= field_to_search_for_linked_model %>), value: item.id };
+          }));
+        }
+      });
+    },
+    triggerKeys:['enter', 'comma', 'tab'],
+    select : true,
+    allowNewTags : false
+  });
+</script>
