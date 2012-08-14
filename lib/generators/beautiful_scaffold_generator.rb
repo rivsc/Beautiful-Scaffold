@@ -54,7 +54,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{stylesheetspath}bootstrap-responsive.min.css",
                         "#{stylesheetspath}datepicker.css",
                         "#{stylesheetspath}timepicker.css",
-                        "#{stylesheetspath}beautiful-scaffold.css.scss"
+                        "#{stylesheetspath}beautiful-scaffold.css.scss",
+                        "#{stylesheetspath}tagit-dark-grey.css"
                        ]
         
     javascriptspath = "app/assets/javascripts/"
@@ -71,13 +72,24 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{javascriptspath}bootstrap-datepicker.js",
                         "#{javascriptspath}bootstrap-datetimepicker-for-beautiful-scaffold.js",
                         "#{javascriptspath}bootstrap-timepicker.js",
-                        "#{javascriptspath}jquery.livequery.js"
+                        "#{javascriptspath}jquery.livequery.js",
+                        "#{javascriptspath}jquery.jstree.js",
+                        "#{javascriptspath}tagit.js"
                        ]
     pjax_js          = "#{javascriptspath}jquery.pjax.js"
 
     [reset, bc_css, bc_js, pjax_js].flatten.each{ |path|
       copy_file path, path
     }
+
+    # Jstree theme
+    directory "app/assets/stylesheets/themes", "app/assets/stylesheets/themes"
+
+    # Inject jquery-ui
+    appjs = "app/assets/javascripts/application.js"
+    if not File.read(appjs)[/\/\/= require jquery-ui/] then
+      inject_into_file(appjs, "//= require jquery-ui\n", :after => "//= require jquery\n")
+    end
     
     # Images
     dir_image = "app/assets/images"
@@ -180,13 +192,16 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     dirs = [namespacedirs, model_pluralize]
     empty_directory File.join(dirs)
     
-    available_views.each do |view|
+    [available_views, 'treeview'].flatten.each do |view|
       filename = view + ".html.erb"
       current_template_path = File.join([dirs, filename].flatten)
       empty_template_path   = File.join(["app", "views", filename].flatten)
       
       template empty_template_path, current_template_path
     end
+
+    copy_file  "app/views/_treeview_js.html.erb",    "app/views/layouts/_treeview_js.html.erb"
+    copy_file  "app/views/_form_habtm_tag.html.erb", "app/views/layouts/_form_habtm_tag.html.erb"
   end
 
   def install_willpaginate_renderer_for_bootstrap
@@ -207,7 +222,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
     myroute = 'match "' + search_namespace + model_pluralize + '/search_and_filter" => "' + search_namespace + model_pluralize + '#index", :via => [:get, :post], :as => :' + namespace_for_route + 'search_' + model_pluralize + "\n  "
     myroute += "namespace :#{namespace_alone} do\n  " if not namespace_alone.blank?
-    myroute += "resources :#{model_pluralize} do\n    collection do\n      post :batch\n    end\n  end\n"
+    myroute += "resources :#{model_pluralize} do\n    collection do\n      post :batch\n      get  :treeview\n    end\n    member do\n      post :treeview_update\n    end\n  end\n"
     myroute += "end\n"                                if not namespace_alone.blank?
     route(myroute)
   end
