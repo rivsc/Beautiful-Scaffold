@@ -55,7 +55,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{stylesheetspath}datepicker.css",
                         "#{stylesheetspath}timepicker.css",
                         "#{stylesheetspath}beautiful-scaffold.css.scss",
-                        "#{stylesheetspath}tagit-dark-grey.css"
+                        "#{stylesheetspath}tagit-dark-grey.css",
+                        "#{stylesheetspath}colorpicker.css"
                        ]
         
     javascriptspath = "app/assets/javascripts/"
@@ -74,7 +75,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{javascriptspath}bootstrap-timepicker.js",
                         "#{javascriptspath}jquery.livequery.js",
                         "#{javascriptspath}jquery.jstree.js",
-                        "#{javascriptspath}tagit.js"
+                        "#{javascriptspath}tagit.js",
+                        "#{javascriptspath}bootstrap-colorpicker.js"
                        ]
     pjax_js          = "#{javascriptspath}jquery.pjax.js"
 
@@ -165,6 +167,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
         inject_into_file("app/models/#{model}.rb", ":#{a}_id, ", :after => "attr_accessible ")
         begin
           inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ActiveRecord::Base")
+          inject_into_file("app/models/#{a}.rb", ":#{model}_ids, ", :after => "attr_accessible ")
         rescue
         end
       end

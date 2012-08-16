@@ -81,6 +81,8 @@ module BeautifulScaffoldCommonMethods
       elsif ['references', 'reference'].include?(t) and for_migration then
         a = a + '_id'
         newt = 'integer:index'
+      elsif t == 'color' then
+        newt = 'string'
       end
 
       newmyattributes << [a, newt].join(':')

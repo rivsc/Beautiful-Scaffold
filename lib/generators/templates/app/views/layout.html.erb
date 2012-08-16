@@ -7,7 +7,7 @@
     <meta name="description" content="Beautiful Scaffold">
     <meta name="author" content="You or me Sylvain Claudel (http://blog.escarworld.com)">
 
-    <%%= stylesheet_link_tag "reset", "bootstrap.min", "bootstrap-responsive.min", "datepicker", "timepicker", "beautiful-scaffold", "tagit-dark-grey" %>
+    <%%= stylesheet_link_tag "reset", "bootstrap.min", "bootstrap-responsive.min", "datepicker", "timepicker", "beautiful-scaffold", "tagit-dark-grey", "colorpicker" %>
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -91,7 +91,7 @@
       <div class="circle1"></div>
     </div>
 
-    <%%= javascript_include_tag "bootstrap.min", "bootstrap-alert", "bootstrap-datepicker" ,"bootstrap-timepicker", "bootstrap-dropdown", "bootstrap-modal", "bootstrap-tooltip" %>
+    <%%= javascript_include_tag "bootstrap.min", "bootstrap-alert", "bootstrap-datepicker" ,"bootstrap-timepicker", "bootstrap-dropdown", "bootstrap-modal", "bootstrap-tooltip", "bootstrap-colorpicker" %>
     <script type="text/javascript">
       ;(function($){
         $.fn.datepicker.dates['<%= I18n.locale.to_s %>'] = {

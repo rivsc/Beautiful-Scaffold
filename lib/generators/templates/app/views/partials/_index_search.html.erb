@@ -1,4 +1,5 @@
 <%- attributes.each do |a| -%>
+  <%- next if @beautiful_attributes.include?(a.name + ':color') -%>
   <%- attribute = "" -%>
   <%- caption = a.name.capitalize -%>
   <%- if @beautiful_attributes.include?(a.name + ':references') then -%>
