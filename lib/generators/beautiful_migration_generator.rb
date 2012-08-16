@@ -39,6 +39,7 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
       if ['references', 'reference'].include?(t) then
         inject_into_file("app/models/#{model}.rb", "\n  belongs_to :#{a}", :after => "ActiveRecord::Base")
         inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ActiveRecord::Base")
+        inject_into_file("app/models/#{a}.rb", ":#{model}_ids, ", :after => "attr_accessible ")
         a += "_id"
       end
       inject_into_file("app/models/#{model}.rb", ":#{a}, ", :after => "attr_accessible ")
