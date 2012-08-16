@@ -25,12 +25,6 @@ class BeautifulController < ApplicationController
   end
 
   def do_sort_and_paginate(model_sym)
-    # Paginate
-    session[:paginate] ||= {}
-    session[:paginate][model_sym] ||= nil
-    params[:page] ||= session[:paginate][model_sym]
-    session[:paginate][model_sym] = params[:page]
-    
     # Sort
     session[:sorting] ||= {}
     session[:sorting][model_sym] ||= { :attribute => "id", :sorting => "DESC" }
@@ -40,14 +34,22 @@ class BeautifulController < ApplicationController
     # Search and Filter
     session[:search] ||= {}
     session[:search][model_sym] = nil if not params[:nosearch].blank?
+    params[:page] = 1 if not params[:q].nil?
     params[:q] ||= session[:search][model_sym]
-    session[:search][model_sym] = params[:q]
+    session[:search][model_sym] = params[:q] if not params[:skip_save_search].blank?
         
     # Scope
     session[:scope] ||= {}
     session[:scope][model_sym] ||= nil
+    params[:page] = 1 if not params[:scope].nil?
     params[:scope] ||= session[:scope][model_sym]
     session[:scope][model_sym] = params[:scope]
+
+    # Paginate
+    session[:paginate] ||= {}
+    session[:paginate][model_sym] ||= nil
+    params[:page] ||= session[:paginate][model_sym]
+    session[:paginate][model_sym] = params[:page]
   end
   
   def boolean(string)
