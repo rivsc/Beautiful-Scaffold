@@ -30,7 +30,8 @@
         url: "<%= path_namespace %>/<%= plural_linked_model_name %>/search_and_filter.json",
         type: "POST",
         data: {
-            "q[<%= field_to_search_for_linked_model %>_cont]" : request.term
+            "q[<%= field_to_search_for_linked_model %>_cont]" : request.term,
+            "skip_save_search" : true
         },
         dataType: "json",
         success: function( data ) {
