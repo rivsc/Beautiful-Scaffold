@@ -1,10 +1,41 @@
-Beautiful Scaffold is a gem which propose generators for a complete scaffold with paginate, sort and filter. 
-Fully customizable.
+= Beautiful Scaffold
 
-rails generate beautiful_scaffold mode attr:type attr:type... [--namespace=name]
+Beautiful Scaffold is a gem which propose generators for a complete scaffold with paginate, sort and filter.
+Fully customizable.
+More info : http://www.beautiful-scaffold.com/
+Demo : http://demo.beautiful-scaffold.com/
+
+== Install
+
+Add this in your Gemfile :
+gem 'beautiful_scaffold', '0.1.8'
+
+== Usage
+
+=== Scaffold
+
+rails generate beautiful_scaffold model attr:type attr:type... [--namespace=name]
+
+type available :
+* integer
+* float
+* text
+* string
+* price
+* color
+* richtext
+* wysiwyg
 
 # Example : products
 rails generate beautiful_scaffold product name:string price:price tva:float description:richtext visible:boolean && rake db:migrate
 
 # Example : admin products
 rails generate beautiful_scaffold product name:string price:price tva:float description:richtext overview_description:richtext visible:boolean --namespace=admin && rake db:migrate
+
+=== Locale (i18n)
+
+rails generate beautiful_locale all
+
+=== Join Table (has_and_belongs_to_many relation)
+
+rails generate beautiful_jointable model1 model2

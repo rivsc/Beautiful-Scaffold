@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.summary     = "Beautiful Scaffold generate fully customizable scaffold"
   s.email       = "claudel.sylvain@gmail.com"
   s.homepage    = "http://beautiful-scaffold.com"
-  s.description = "Beautiful Scaffold generate a complete scaffold (sort, export, paginate and filter data)"
+  s.description = "Beautiful Scaffold generate a complete scaffold (sort, export, paginate and filter data) http://www.beautiful-scaffold.com"
   s.authors     = ['Sylvain Claudel']
   s.files       = `git ls-files`.split("\n")
 
