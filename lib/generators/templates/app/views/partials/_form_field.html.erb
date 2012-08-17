@@ -29,7 +29,17 @@
       });
     </script>
     <%% end %>
-    
+  <%- elsif @beautiful_attributes.include?(attribute.name + ':wysiwyg') then -%>
+    <div class="control-group">
+      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name.capitalize %>"), :class => "control-label" %>
+      <div class="controls">
+        <%%= f.text_area :<%= attribute.name %>, :class => "wysiwyg-editor" %>
+      </div>
+    </div>
+    <%%= f.hidden_field :<%= attribute.name %>_typetext, :value => "html"  %>
+    <script type="text/javascript">
+      $('.wysiwyg-editor').wysihtml5({"html": true});
+    </script>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':references') then -%>
     <div class="control-group">
       <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name.capitalize %>"), :class => "control-label" %>
@@ -79,13 +89,13 @@
     <div class="control-group">
       <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name.capitalize %>"), :class => "control-label" %>
       <div class="controls">
-        <div class="input-append color" data-color="rgb(0, 0, 0)" data-color-format="rgb">
+        <div class="input-append color" data-color="<%%= (@<%= model %>.<%= attribute.name %> || "rgba(0, 0, 0)") %>" data-color-format="rgba">
           <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %><span class="add-on"><i style="background-color: rgb(0, 0, 0)"></i></span>
         </div>
       </div>
     </div>
     <script type="text/javascript">
-      $('.color').colorpicker();
+      $('.color').colorpicker({format: 'rgba'});
     </script>
   <%- else -%>
     <div class="control-group">

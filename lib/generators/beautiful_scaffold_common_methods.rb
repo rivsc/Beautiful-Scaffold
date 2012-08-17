@@ -74,7 +74,7 @@ module BeautifulScaffoldCommonMethods
     myattributes.each{ |attr|
       a,t = attr.split(':')
       newt = t
-      if t == 'richtext' then
+      if ['richtext', 'wysiwyg'].include?(t) then
         newt = 'text'
       elsif t == 'price' then
         newt = 'float'
@@ -95,7 +95,7 @@ module BeautifulScaffoldCommonMethods
     fulltext_field = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
-      if t == 'richtext' then
+      if ['richtext', 'wysiwyg'].include?(t) then
         fulltext_field << a
       end
     }

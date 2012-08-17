@@ -27,11 +27,11 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     @fulltext_field = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
-      if t == 'richtext' then
+      if ['richtext', 'wysiwyg'].include?(t) then
         # _typetext = {bbcode|html|text|wiki|textile|markdown}
         # _fulltext = text without any code
         @fulltext_field << [a + '_typetext', 'string'].join(':')
-        @fulltext_field << [a + '_fulltext', 'text'].join(':')    
+        @fulltext_field << [a + '_fulltext', 'text'].join(':')
       end
     }
   end
@@ -56,7 +56,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{stylesheetspath}timepicker.css",
                         "#{stylesheetspath}beautiful-scaffold.css.scss",
                         "#{stylesheetspath}tagit-dark-grey.css",
-                        "#{stylesheetspath}colorpicker.css"
+                        "#{stylesheetspath}colorpicker.css",
+                        "#{stylesheetspath}bootstrap-wysihtml5.css"
                        ]
         
     javascriptspath = "app/assets/javascripts/"
@@ -76,7 +77,9 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{javascriptspath}jquery.livequery.js",
                         "#{javascriptspath}jquery.jstree.js",
                         "#{javascriptspath}tagit.js",
-                        "#{javascriptspath}bootstrap-colorpicker.js"
+                        "#{javascriptspath}bootstrap-colorpicker.js",
+                        "#{javascriptspath}a-wysihtml5-0.3.0.min.js",
+                        "#{javascriptspath}bootstrap-wysihtml5.js"
                        ]
     pjax_js          = "#{javascriptspath}jquery.pjax.js"
 
@@ -140,7 +143,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   }
     # You can OVERRIDE this method used in model form and search form (in belongs_to relation)
   def caption
-   "#" + id.to_s
+    (self["name"] || self["label"] || self["description"] || "##{id}")
   end', :after => "class #{model_camelize} < ActiveRecord::Base")
     
      inject_into_file("app/models/#{model}.rb",'

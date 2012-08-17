@@ -20,7 +20,7 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
     @fulltext_field = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
-      if t == 'richtext' then
+      if ['richtext', 'wysiwyg'].include?(t) then
         # _typetext = {bbcode|html|text|wiki|textile|markdown}
         # _fulltext = text without any code
         @fulltext_field << [a + '_typetext', 'string'].join(':')
