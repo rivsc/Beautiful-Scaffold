@@ -25,7 +25,7 @@
 <div class="row-fluid">
   <div class="span9">
     <%%= form_tag  batch_<%= namespace_for_route %><%= plural_table_name %>_path, :class => "form-inline" do %>
-      <div class="well">
+      <div class="well well-small">
         <label class="control-label" for="select01"><%%= t(:batch, :default => "Batch") %></label>
 
         <select id="select01" name="actionprocess">
@@ -108,7 +108,7 @@
     <%% end %>
   </div>
   <div class="span3">
-    <%%= search_form_for @q, :url => <%= namespace_for_route + 'search_' + model_pluralize + '_path' %>, :html => { :class => "well" }, :method => :post do |f| %>
+    <%%= search_form_for @q, :url => <%= namespace_for_route + 'search_' + model_pluralize + '_path' %>, :html => { :class => "well well-small" }, :method => :post do |f| %>
       <%= render_partial 'app/views/partials/_index_search.html.erb' %>
       <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
       <%%= f.submit t(:filter, :default => "Filter"), :class => "btn btn-primary" %>

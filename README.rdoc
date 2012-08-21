@@ -9,6 +9,8 @@ Demo : http://demo.beautiful-scaffold.com/
 
 Add this in your Gemfile :
 gem 'beautiful_scaffold', '0.1.8'
+And run
+bundle install
 
 == Usage
 

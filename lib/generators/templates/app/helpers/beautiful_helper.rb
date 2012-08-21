@@ -82,7 +82,7 @@ module BeautifulHelper
         response += f.text_field(
             (name_field + "_dp_gt").to_sym,
             :value => (begin params[:q][(name_field + "_dp_gt").to_sym] rescue '' end),
-            :class => "span8 dpicker",
+            :class => "span9 dpicker",
             "data-id" => ("q_" + name_field + "_gteq"))
         response += '<span class="add-on"><i class="icon-calendar"></i></span>'
         response += '</div>'
@@ -93,7 +93,7 @@ module BeautifulHelper
           response += f.text_field(
               (name_field + "_tp_gt").to_sym,
               :value => (begin params[:q][(name_field + "_tp_gt").to_sym] rescue '' end),
-              :class => "span8 tpicker",
+              :class => "span9 tpicker",
               "data-id" => ("q_" + name_field + "_gteq"))
           response += '<span class="add-on"><i class="icon-time"></i></span>'
           response += '</div>'
@@ -111,7 +111,7 @@ module BeautifulHelper
         response += f.text_field(
             (name_field + "_dp_lt").to_sym,
             :value => (begin params[:q][(name_field + "_dp_lt").to_sym] rescue '' end),
-            :class => "span8 dpicker",
+            :class => "span9 dpicker",
             "data-id" => ("q_" + name_field + "_lteq"))
         response += '<span class="add-on"><i class="icon-calendar"></i></span>'
         response += '</div>'
@@ -122,7 +122,7 @@ module BeautifulHelper
           response += f.text_field(
               (name_field + "_tp_lt").to_sym,
               :value => (begin params[:q][(name_field + "_tp_lt").to_sym] rescue '' end),
-              :class => "span8 tpicker",
+              :class => "span9 tpicker",
               "data-id" => ("q_" + name_field + "_lteq"))
           response += '<span class="add-on"><i class="icon-time"></i></span>'
           response += '</div>'

@@ -1,4 +1,4 @@
-<%= form_for [namespace, model_name.classify.constantize.new], :method => :post, :html => { :class => "well form-horizontal mass-inserting" } do |f| %>
+<%= form_for [namespace, model_name.classify.constantize.new], :method => :post, :html => { :class => "well well-small form-horizontal mass-inserting" } do |f| %>
   <%= hidden_field_tag :mass_inserting, true %>
   <% for col in model_columns %>
     <div <%= visible_column(model_name, col, 'inline') %> class="col-<%= col %>">
