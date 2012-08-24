@@ -36,7 +36,7 @@ class BeautifulController < ApplicationController
     session[:search][model_sym] = nil if not params[:nosearch].blank?
     params[:page] = 1 if not params[:q].nil?
     params[:q] ||= session[:search][model_sym]
-    session[:search][model_sym] = params[:q] if not params[:skip_save_search].blank?
+    session[:search][model_sym] = params[:q] if params[:skip_save_search].blank?
         
     # Scope
     session[:scope] ||= {}
