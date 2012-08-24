@@ -7,7 +7,7 @@
       <%%= f.password_field :password, :placeholder => t(:password, :default => "Password") %>
     </div>
     <div class="control-group">
-      <label for="customer_remember_me">
+      <label for="<%= model %>_remember_me">
         <%%= f.check_box :remember_me %> <%%= t(:remember_me, :default => "Remember me") %>
       </label>
     </div>
