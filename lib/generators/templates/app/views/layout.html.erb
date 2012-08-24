@@ -35,20 +35,12 @@
             </a>
             <ul class="nav">
               <li class="active">
-                <a href="beautiful/dashboard">Home</a>
+                <a href="/">Home</a>
               </li>
             </ul>
             <ul class="nav pull-right">
               <li>
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  <i class="icon-user"></i> Username
-                  <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Profile</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Sign Out</a></li>
-                </ul>
+                <!-- Beautiful_scaffold - Signin - Do not remove -->
               </li>
             </ul>
           </div>
@@ -92,6 +84,14 @@
       <div class="circle"></div>
       <div class="circle1"></div>
     </div>
+
+    <!-- Beautiful_scaffold - Modal - Do not remove -->
+
+    <script type="text/javascript">
+      <%% if not @opened_modal.blank? then %>
+      $('<%%= @opened_modal %>').modal('show');
+      <%% end %>
+    </script>
 
     <%%= javascript_include_tag "bootstrap.min", "bootstrap-alert", "bootstrap-datepicker" ,"bootstrap-timepicker", "bootstrap-dropdown", "bootstrap-modal", "bootstrap-tooltip", "bootstrap-colorpicker", "a-wysihtml5-0.3.0.min", "bootstrap-wysihtml5" %>
     <script type="text/javascript">

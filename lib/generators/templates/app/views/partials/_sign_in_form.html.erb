@@ -1,0 +1,23 @@
+<div style="padding:10px;">
+  <%%= form_for("<%= model %>", :url => <%= model %>_session_path, :html => { :class => "form-horizontal" }) do |f| %>
+    <div class="control-group">
+      <%%= f.text_field :email, :placeholder => t(:email, :default => "Email") %>
+    </div>
+    <div class="control-group">
+      <%%= f.password_field :password, :placeholder => t(:password, :default => "Password") %>
+    </div>
+    <div class="control-group">
+      <label for="customer_remember_me">
+        <%%= f.check_box :remember_me %> <%%= t(:remember_me, :default => "Remember me") %>
+      </label>
+    </div>
+    <%%= f.submit t(:sign_in, :default => "Sign in"), :class => "btn" %>
+  <%% end %>
+  <a data-toggle="modal" href="#modal-forget-password" class="nopjax"><%%= t(:forgot_your_password, :default => "Forgot your password?") %></a>
+  <a data-toggle="modal" href="#modal-register-form" class="nopjax"><%%= t(:register, :default => "Register") %></a>
+  <script type="text/javascript">
+    $('.dropdown-menu').find('form').click(function (e) {
+      e.stopPropagation();
+    });
+  </script>
+</div>

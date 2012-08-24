@@ -1,0 +1,40 @@
+
+<div class="modal hide" id="modal-register-form">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3><%%= t(:register, :default => "Register") %></h3>
+  </div>
+  <div class="modal-body">
+    <%% resource ||= Customer.new %>
+    <%%= form_for(resource, :as => '<%= model %>', :url => registration_path('<%= model %>'), :html => { :class => "form-horizontal" }) do |f| %>
+      <%% begin %>
+        <%%= devise_error_messages! %>
+      <%% rescue %>
+      <%% end %>
+      <div class="control-group">
+        <%%= f.label :email, t(:email, :default => "Email"), :class => "control-label" %>
+        <div class="controls">
+          <%%= f.email_field :email %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%%= f.label :password, t(:password, :default => "Password"), :class => "control-label" %>
+        <div class="controls">
+          <%%= f.password_field :password %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%%= f.label :password_confirmation, t(:password_confirmation, :default => "Password confirmation"), :class => "control-label" %>
+        <div class="controls">
+          <%%= f.password_field :password_confirmation %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="controls">
+          <%%= f.submit t(:sign_up, :default => "Sign up"), :class => 'btn' %>
+        </div>
+      </div>
+    <%% end %>
+  </div>
+</div>
