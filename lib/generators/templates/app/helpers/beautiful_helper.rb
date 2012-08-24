@@ -214,4 +214,9 @@ module BeautifulHelper
       </li>'
     return out.html_safe
   end
+
+  def clean_params
+    params.delete :q
+    params.delete :fields
+  end
 end
