@@ -1,8 +1,10 @@
 # encoding : utf-8
 class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < BeautifulController
-  # Official Rails version : master/railties/lib/rails/generators/rails/scaffold_controller/templates/controller.rb
 
   before_filter :load_<%= model %>, :only => [:show, :edit, :update, :destroy]
+
+  # Uncomment for check abilities with CanCan
+  #authorize_resource
 
   def index
     session[:fields] ||= {}
