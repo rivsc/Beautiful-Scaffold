@@ -16,9 +16,12 @@
     <%= f.label plural_linked_model_name.to_sym, t(plural_linked_model_name.to_sym, :default => plural_linked_model_name.capitalize), :class => "control-label" %>
     <div class="controls">
         <ul id="<%= model_name %>_<%= linked_model_name %>_ids" name="<%= model_name %>[<%= linked_model_name %>_ids][]">
+          <% begin %>
             <% for elt in model_class.send(plural_linked_model_name) %>
             <li data-value="<%= elt.id %>"><%= elt.caption %></li>
             <% end %>
+          <% rescue %>
+          <% end %>
         </ul>
     </div>
 </div>
