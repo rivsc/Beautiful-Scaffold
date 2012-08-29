@@ -16,8 +16,8 @@ class BeautifulJointableGenerator < Rails::Generators::Base
       # Generate migration
       migration_content_up = "
       create_table :#{sorted_model[0].pluralize}_#{sorted_model[1].pluralize}, :id => false do |t|
-        t.integer :#{sorted_model[0]}
-        t.integer :#{sorted_model[1]}
+        t.integer :#{sorted_model[0]}_id
+        t.integer :#{sorted_model[1]}_id
       end
 
       add_index :#{sorted_model[0].pluralize}_#{sorted_model[1].pluralize}, [:#{sorted_model[0]}, :#{sorted_model[1]}]
