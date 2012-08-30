@@ -20,7 +20,7 @@ class BeautifulJointableGenerator < Rails::Generators::Base
         t.integer :#{sorted_model[1]}_id
       end
 
-      add_index :#{sorted_model[0].pluralize}_#{sorted_model[1].pluralize}, [:#{sorted_model[0]}, :#{sorted_model[1]}]
+      add_index :#{sorted_model[0].pluralize}_#{sorted_model[1].pluralize}, [:#{sorted_model[0]}_id, :#{sorted_model[1]}_id]
       "
 
       migration_content_down = "\n drop_table :#{sorted_model[0].pluralize}_#{sorted_model[1].pluralize} "
