@@ -114,7 +114,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     
     inject_into_file("app/views/layouts/_beautiful_menu.html.erb",'
       <li class="<%= "active" if params[:controller] == "' + namespace_for_url + model.pluralize + '" %>">
-        <%= link_to "' + model.capitalize.pluralize + '", ' + namespace_for_route + model.pluralize + '_path %>
+        <%= link_to t(:' + model.pluralize + ', :default => "' + model.pluralize + '").capitalize, ' + namespace_for_route + model.pluralize + '_path %>
       </li>', :after => "<!-- Beautiful Scaffold Menu Do Not Touch This -->")
   end
 
