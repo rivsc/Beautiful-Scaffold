@@ -41,7 +41,7 @@ module BeautifulHelper
       default_caption = get_belongs_to_model(default_caption)
     end
 
-    caption =   t(attribute_name, :default => default_caption)
+    caption =   t(attribute_name, :default => default_caption).capitalize
     strpath = model_name.pluralize + "_url"
     strpath = namespace + '_' + strpath if not namespace.blank?
 
@@ -52,7 +52,12 @@ module BeautifulHelper
     ).html_safe
   end
 
-  def ransack_field(model_name, attribute_name, f, caption = nil)
+  def ransack_field(path_of_model, attribute_name, f, caption = nil)
+    model_path = path_of_model.split("/")
+    model_name = model_path.last
+    model_path.delete(model_path.first)
+    model_name_for_ransack = model_path.join("_")
+
     ar_model = model_name.classify.constantize
 
     default_caption = caption
@@ -63,11 +68,19 @@ module BeautifulHelper
       end
     end
 
-    name_field = attribute_name
-    response   = '<div class="control-group">'
-    response += f.label name_field, t(attribute_name, :default => default_caption), :class => "control-label"
-    response += '<div class="controls">'
+    name_field    = attribute_name
+    name_field_bk = attribute_name
+    label_field   = attribute_name
 
+    if is_belongs_to_column?(name_field_bk) then
+      label_field = get_belongs_to_model(attribute_name)
+    end
+
+    name_field = model_name_for_ransack + "_" + name_field unless model_name_for_ransack.blank?
+
+    response   = '<div class="control-group">'
+    response += f.label name_field, t(label_field, :default => default_caption).capitalize, :class => "control-label"
+    response += '<div class="controls">'
 
     type_of_column = ar_model.columns_hash[attribute_name].type unless ar_model.columns_hash[attribute_name].nil?
     type_of_column ||= :other
@@ -141,8 +154,8 @@ module BeautifulHelper
       when :string then
         response += f.text_field((name_field + "_cont").to_sym, :class => "filter span12")
       when :integer, :float, :decimal then
-        if is_belongs_to_column?(name_field) then
-          btmodel = get_belongs_to_model(name_field).classify.constantize
+        if is_belongs_to_column?(name_field_bk) then
+          btmodel = get_belongs_to_model(name_field_bk).classify.constantize
           response += f.collection_select((name_field + "_eq").to_sym, btmodel.all, :id, :caption, { :include_blank => t(:all, :default => "All") }, { :class => "span12" })
         elsif name_field == "id" then
           response += f.text_field((name_field + "_eq").to_sym, :class => "filter span12")
@@ -199,15 +212,15 @@ module BeautifulHelper
     return column[0..-4]
   end
 
-  def build_treeview(obj, child_relation)
+  def build_treeview(obj, child_relation, caption_method = "caption")
     out = '
       <li id="treeelt_' + obj.id.to_s + '" data-id="' + obj.id.to_s + '">
-        <a href="#" class="nopjax">' + obj.caption + '</a>
+        <a href="#" class="nopjax">' + obj.send(caption_method).to_s + '</a>
         <ul>'
     ar = obj.send(child_relation.to_sym)
     ar = ar.order('position') if obj.class.column_names.include?("position")
     for o in ar.all
-      out += build_treeview(o, child_relation)
+      out += build_treeview(o, child_relation, caption_method)
     end
     out += '
         </ul>
