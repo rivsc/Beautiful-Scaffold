@@ -1,0 +1,15 @@
+== 0.2.3
+
+* enhancement
+  * Add preselect collection_select in mass inserting with filter params
+  * Adapt ransack_field helper for nested resource
+  * Add custom caption for treeview element in build_treeview helper
+  * I18n for menu
+  * I18n for fields name (placeholder mass inserting and select fields)
+  * I18n for title h2
+  * I18n for button New
+  * Show caption in table instead of #id
+
+== Previous versions
+
+* See commits on github
