@@ -1,4 +1,4 @@
-<h2><%%= t(:show, :default => "Show") %> <%= singular_table_name %></h2>
+<h2><%%= t(:show, :default => "Show") %> <%%= t(:<%= singular_table_name %>, :default => "<%= singular_table_name %>") %></h2>
 
 <%= render_partial 'app/views/partials/_show_field.html.erb' %>
 <!-- Beautiful_scaffold - AddField - Field - Do not remove -->

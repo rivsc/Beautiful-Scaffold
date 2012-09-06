@@ -6,7 +6,7 @@
   <div class="modal-body">
     <% for field in model_columns %>
       <label class="checkbox">
-        <input type="checkbox" name="field[]" value="<%= field %>" <%= "checked" if session[:fields][model_name.to_sym].include?(field) %>> <%= field %>
+        <input type="checkbox" name="field[]" value="<%= field %>" <%= "checked" if session[:fields][model_name.to_sym].include?(field) %>> <%= t(field, :default => field.capitalize) %>
       </label><br />
     <% end %>
   </div>

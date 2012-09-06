@@ -1,4 +1,4 @@
-<h2><%%= t(:editing, :default => 'Editing') %> <%= singular_table_name %></h2>
+<h2><%%= t(:editing, :default => 'Editing') %> <%%= t(:<%= singular_table_name %>, :default => "<%= singular_table_name %>") %></h2>
 
 <%%= render 'form' %>
 

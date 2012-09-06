@@ -1,9 +1,9 @@
-<h2><%%= t(:listing, :default => "Listing") %> <%= plural_table_name %></h2>
+<h2><%%= t(:listing, :default => "Listing") %> <%%= t(:<%= plural_table_name %>, :default => "<%= plural_table_name %>") %></h2>
 
 <p>
-  <%%= link_to '<i class="icon-plus"></i>'.html_safe + t(:new, :default => "New") + ' <%= model %>', new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn" %>
+  <%%= link_to '<i class="icon-plus"></i>'.html_safe + t(:new, :default => "New") + ' ' + t(:<%= model %>, :default => "<%= model %>"), new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn" %>
   <%% if <%= model_camelize %>.columns.map(&:name).include?("<%= model %>_id") then %>
-    <%%= link_to '<i class="icon-folder-close"></i>'.html_safe + t(:treeview, :default => "Treeview") + ' <%= model %>', treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn" %>
+    <%%= link_to '<i class="icon-folder-close"></i>'.html_safe + t(:treeview, :default => "Treeview") + ' ' + t(:<%= model %>, :default => "<%= model %>"), treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn" %>
   <%% end %>
 </p>
 

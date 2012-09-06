@@ -8,9 +8,9 @@
           case ar.type
           when 'integer' then
             if col =~ /.*_id/ then
-              f.collection_select((col).to_sym, col.classify.constantize.all, :id, :caption, { :include_blank => true }, { :class => "input-small", :placeholder => col.capitalize })
+              f.collection_select((col).to_sym, col.classify.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_eq"].to_i rescue '' end) }, { :class => "input-small" })
             else
-              f.text_field(col.to_sym, :class => "input-small", :placeholder => col.capitalize)
+              f.text_field(col.to_sym, :class => "input-small", :placeholder => t(col.to_sym, :default => col.capitalize))
             end
           when 'boolean' then
             (
@@ -20,10 +20,10 @@
             f.label((col + "_false").to_sym, t(:no))
             )
           else
-            f.text_field(col.to_sym, :class => "input-small", :placeholder => col.capitalize)
+            f.text_field(col.to_sym, :class => "input-small", :placeholder => t(col.to_sym, :default => col.capitalize))
           end
         else
-          f.collection_select((col + '_id').to_sym, col.classify.constantize.all, :id, :caption, { :include_blank => true }, { :class => "input-small", :placeholder => col.capitalize })
+          f.collection_select((col + '_id').to_sym, col.classify.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_id_eq"].to_i rescue '' end) }, { :class => "input-small" })
         end
       %>
     </div>
