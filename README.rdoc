@@ -8,7 +8,7 @@ Demo : http://demo.beautiful-scaffold.com/
 == Install
 
 Add this in your Gemfile :
-gem 'beautiful_scaffold', '0.2.1'
+gem 'beautiful_scaffold', '0.2.3'
 And run
 bundle install
 
@@ -41,3 +41,7 @@ rails generate beautiful_locale all
 === Join Table (has_and_belongs_to_many relation)
 
 rails generate beautiful_jointable model1 model2
+
+=== Install et Configure Devise (authentification) and Cancan (authorization)
+
+rails generate beautiful_devisecancan model
