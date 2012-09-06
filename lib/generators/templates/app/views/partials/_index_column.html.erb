@@ -8,7 +8,7 @@
       <%%= t((<%= singular_table_name %>.<%= attribute.name %> ? "yes" : "no").to_sym) %>
     <%- elsif @beautiful_attributes.include?(attribute.name + ':references') then -%>
       <%% if not <%= singular_table_name %>.<%= attribute.name %>_id.nil? then %>
-        <%%= link_to "#" + <%= singular_table_name %>.<%= attribute.name %>_id.to_s, <%= namespace_for_route %><%= attribute.name %>_path(<%= singular_table_name %>.<%= attribute.name %>_id) %>
+        <%%= link_to <%= singular_table_name %>.<%= attribute.name %>.caption, <%= namespace_for_route %><%= attribute.name %>_path(<%= singular_table_name %>.<%= attribute.name %>_id) %>
       <%% else %>
         <%%= t(:any, :default => "Any") %>
       <%% end %>
