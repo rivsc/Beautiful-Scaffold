@@ -7,7 +7,7 @@
   <%% end %>
 </p>
 
-<%%= render :partial => "layouts/mass_inserting", :locals => { :namespace => 'admin', :model_name => '<%= model %>', :model_columns => [<%= attributes.map{ |e| "'#{e.name}'" }.join(',') %>] } %>
+<%%= render :partial => "layouts/mass_inserting", :locals => { :namespace => '<%= namespace_alone %>', :model_name => '<%= model %>', :model_columns => [<%= attributes.map{ |e| "'#{e.name}'" }.join(',') %>] } %>
 
 <%%# Set your scopes below (string in array) %>
 <%% scopes = [] %>
