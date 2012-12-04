@@ -8,7 +8,7 @@ Demo : http://demo.beautiful-scaffold.com/
 == Install
 
 Add this in your Gemfile :
-gem 'beautiful_scaffold', '0.2.3'
+gem 'beautiful_scaffold', '0.2.5'
 And run
 bundle install
 

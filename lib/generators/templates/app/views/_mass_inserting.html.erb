@@ -11,21 +11,18 @@
         ar = model_name.classify.constantize.columns_hash[col]
         if not ar.nil? then
           case ar.type
-          when 'integer' then
+          when :integer then
             if col =~ /.*_id/ then
               f.collection_select((col).to_sym, col.classify.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_eq"].to_i rescue '' end) }, { :class => "input-small" })
             else
-              f.text_field(col.to_sym, :class => "input-small", :placeholder => t(col.to_sym, :default => col.capitalize))
+              f.text_field(col.to_sym, :class => "input-small", :placeholder => t(col.to_sym, :default => col).capitalize)
             end
-          when 'boolean' then
+          when :boolean then
             (
-            f.radio_button_tag(col.to_sym, true)
-            f.label((col + "_true").to_sym, t(:yes))
-            f.radio_button_tag(col.to_sym, false)
-            f.label((col + "_false").to_sym, t(:no))
+            "<label class='bs-label-ib'>#{f.check_box(col.to_sym, {}, true, false)}#{t(col.to_sym, :default => col).capitalize}</label>".html_safe
             )
           else
-            f.text_field(col.to_sym, :class => "input-small", :placeholder => t(col.to_sym, :default => col.capitalize))
+            f.text_field(col.to_sym, :class => "input-small", :placeholder => t(col.to_sym, :default => col).capitalize)
           end
         else
           f.collection_select((col + '_id').to_sym, col.classify.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_id_eq"].to_i rescue '' end) }, { :class => "input-small" })

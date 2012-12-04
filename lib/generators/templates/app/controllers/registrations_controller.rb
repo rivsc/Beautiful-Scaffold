@@ -5,7 +5,11 @@ class RegistrationsController < Devise::RegistrationsController
     if resource.id.nil? then
       self.instance_variable_set(:@_response_body, nil)
       @opened_modal = "#modal-register-form"
-      render "beautiful/dashboard", :layout => "beautiful_layout", :location => root_path
+      if params[:path_to_redirect] then
+        redirect_to params[:path_to_redirect]
+      else
+        render "beautiful/dashboard", :layout => "beautiful_layout", :location => root_path
+      end
     end
   end
 end

@@ -13,10 +13,11 @@
 </div>
 
 <%%
+ namespace_for_url = "<%= namespace_for_url %>"
  plural_model_name = "<%= model_pluralize %>"
  model_name        = "<%= singular_table_name %>"
  opened_node       = <%= model_camelize %>.select(:id).all.map{ |g| '"treeelt_' + g.id.to_s + '"' }.join(',').html_safe
 %>
 
-<%%= render :partial => "layouts/treeview_js", :locals => { :model_name => model_name, :plural_model_name => plural_model_name, :opened_node => opened_node } %>
+<%%= render :partial => "layouts/treeview_js", :locals => { :model_name => model_name, :plural_model_name => plural_model_name, :opened_node => opened_node, :namespace_for_url => namespace_for_url } %>
 

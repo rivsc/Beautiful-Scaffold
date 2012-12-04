@@ -1,3 +1,13 @@
+== 0.2.5
+
+* enhancement
+  * Capitalize label (forms)
+  * Capitalize placeholder (massinserting)
+
+* Bugfix
+  * Massinserting with boolean
+  * Treeview with namespace works
+
 == 0.2.4
 
 * Bugfix

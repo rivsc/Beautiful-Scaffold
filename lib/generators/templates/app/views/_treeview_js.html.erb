@@ -14,7 +14,7 @@
         $.ajax({
           async : false,
           type: 'POST',
-          url: "/admin/<%= plural_model_name %>/" + $(this).data("id") + "/treeview_update",
+          url: "/<%= namespace_for_url %><%= plural_model_name %>/" + $(this).data("id") + "/treeview_update",
             data : {
               "operation" : "move_node",
               "<%= model_name %>_id" : data.rslt.cr === -1 ? "" : data.rslt.np.data("id"),

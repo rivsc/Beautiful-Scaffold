@@ -86,3 +86,12 @@ $shadow-spinner:#0060CC;
   0% { -webkit-transform:rotate(0deg); }
   100% { -webkit-transform:rotate(360deg); }
 }
+label.bs-label-ib{
+  display:inline-block;
+  padding-left:4px;
+  padding-right:4px;
+}
+label.bs-label-ib input{
+  margin-right:3px;
+  margin-top:0;
+}

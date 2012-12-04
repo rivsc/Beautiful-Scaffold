@@ -41,7 +41,10 @@ module BeautifulHelper
       default_caption = get_belongs_to_model(default_caption)
     end
 
-    caption =   t(attribute_name, :default => default_caption).capitalize
+    cap = attribute_name
+    cap = "number-attr" if attribute_name == "number"
+
+    caption =   t(cap, :default => default_caption).capitalize
     strpath = model_name.pluralize + "_url"
     strpath = namespace + '_' + strpath if not namespace.blank?
 
@@ -78,8 +81,12 @@ module BeautifulHelper
 
     name_field = model_name_for_ransack + "_" + name_field unless model_name_for_ransack.blank?
 
+
+    cap = label_field
+    cap = "number-attr" if label_field == "number"
+
     response   = '<div class="control-group">'
-    response += f.label name_field, t(label_field, :default => default_caption).capitalize, :class => "control-label"
+    response += f.label name_field, t(cap, :default => default_caption).capitalize, :class => "control-label"
     response += '<div class="controls">'
 
     type_of_column = ar_model.columns_hash[attribute_name].type unless ar_model.columns_hash[attribute_name].nil?
