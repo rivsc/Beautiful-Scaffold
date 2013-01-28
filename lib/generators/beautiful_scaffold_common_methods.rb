@@ -46,7 +46,7 @@ module BeautifulScaffoldCommonMethods
   end
 
   def model_class
-    model.classify
+    model.camelize
   end
   
   # For the views

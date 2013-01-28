@@ -61,7 +61,7 @@ module BeautifulHelper
     model_path.delete(model_path.first)
     model_name_for_ransack = model_path.join("_")
 
-    ar_model = model_name.classify.constantize
+    ar_model = model_name.camelize.constantize
 
     default_caption = caption
     if default_caption.blank? then
@@ -162,7 +162,7 @@ module BeautifulHelper
         response += f.text_field((name_field + "_cont").to_sym, :class => "filter span12")
       when :integer, :float, :decimal then
         if is_belongs_to_column?(name_field_bk) then
-          btmodel = get_belongs_to_model(name_field_bk).classify.constantize
+          btmodel = get_belongs_to_model(name_field_bk).camelize.constantize
           response += f.collection_select((name_field + "_eq").to_sym, btmodel.all, :id, :caption, { :include_blank => t(:all, :default => "All") }, { :class => "span12" })
         elsif name_field == "id" then
           response += f.text_field((name_field + "_eq").to_sym, :class => "filter span12")
