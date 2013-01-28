@@ -1,3 +1,8 @@
+== 0.2.6
+
+* Bugfix
+  * Thanks to : gregwis Problem with models ending with s (http://api.rubyonrails.org/classes/ActiveSupport/Inflector.html#method-i-classify)
+
 == 0.2.5
 
 * enhancement
