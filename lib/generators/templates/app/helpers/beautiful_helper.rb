@@ -85,7 +85,8 @@ module BeautifulHelper
     cap = label_field
     cap = "number-attr" if label_field == "number"
 
-    response   = '<div class="control-group">'
+    infostr   = ''
+    response  = '' # See at end
     response += f.label name_field, t(cap, :default => default_caption).capitalize, :class => "control-label"
     response += '<div class="controls">'
 
@@ -153,19 +154,29 @@ module BeautifulHelper
                                      :value => (begin params[:q][(name_field + "_lteq(#{i}i)").to_sym] rescue '' end),
                                      :id => ('q_' + name_field + "_lteq_#{i}i"))
         end
+
+        infostr = info_input(model_name, [(name_field + "_dp_lt").to_sym, (name_field + "_tp_lt").to_sym, (name_field + "_dp_gt").to_sym, (name_field + "_tp_gt").to_sym])
       when :boolean then
         # Specify a default value (false) in rails migration
         response += f.label name_field + "_eq_true",   raw(f.radio_button((name_field + "_eq").to_sym, true))   + " " + h(t(:yes, :default => "Yes")), :class => "checkbox inline"
         response += f.label name_field + "_eq_false",  raw(f.radio_button((name_field + "_eq").to_sym, false))  + " " + h(t(:no, :default => "No")),   :class => "checkbox inline"
         response += f.label name_field + "_eq",        raw(f.radio_button((name_field + "_eq").to_sym, nil))    + " " + h(t(:all, :default => "All")), :class => "checkbox inline"
+
+        infostr = (begin session[:search][model_name.to_sym][(name_field + "_eq").to_sym] == "on" ? "" : "info" rescue "" end)
       when :string then
         response += f.text_field((name_field + "_cont").to_sym, :class => "filter span12")
+
+        infostr = info_input(model_name, (name_field + "_cont").to_sym)
       when :integer, :float, :decimal then
         if is_belongs_to_column?(name_field_bk) then
           btmodel = get_belongs_to_model(name_field_bk).camelize.constantize
           response += f.collection_select((name_field + "_eq").to_sym, btmodel.all, :id, :caption, { :include_blank => t(:all, :default => "All") }, { :class => "span12" })
+
+          infostr = info_input(model_name, (name_field + "_eq").to_sym)
         elsif name_field == "id" then
           response += f.text_field((name_field + "_eq").to_sym, :class => "filter span12")
+
+          infostr = info_input(model_name, (name_field + "_eq").to_sym)
         else
           response += '<div class="input-prepend">'
           response += '<span class="add-on" rel="tooltip" title="' + t(:greater_than, :default => "Greater than") + '"><i class="icon-chevron-right"></i></span>'
@@ -175,22 +186,41 @@ module BeautifulHelper
           response += '<span class="add-on" rel="tooltip" title="' + t(:smaller_than, :default => "Smaller than") + '"><i class="icon-chevron-left"></i></span>'
           response += f.text_field((name_field + "_lteq").to_sym, :class => "#{align_attribute("integer")} filter-max span10")
           response += '</div>'
+
+          infostr = info_input(model_name, [(name_field + "_lteq").to_sym, (name_field + "_gteq").to_sym])
         end
       else
         response += f.text_field((name_field + "_cont").to_sym, :class => "filter span12")
+        infostr = info_input(model_name, (name_field + "_cont").to_sym)
     end
 
-    response += "</div>"
-    response += "</div>"
+    response += '</div>'
+    response += '</div>'
+
+    # Add info class
+    response = '<div class="control-group ' + infostr + '">' + response
 
     return response.html_safe
+  end
+
+  def info_input(modname, attr)
+    model_name = modname.to_sym
+    rep = false
+    if not session[:search].blank? and not session[:search][model_name].blank? then
+      if attr.kind_of?(Array) then
+        rep = (attr.any? { |elt| (not session[:search][model_name][elt].blank?) })
+      else
+        rep = (not session[:search][model_name][attr].blank?)
+      end
+    end
+    return (rep ? "info" : "")
   end
 
   def align_attribute(attribute_type)
     return case attribute_type
              when "string" then
                "al"
-             when "integer", "float", "numeric" then
+             when "integer", "float", "numeric", "decimal" then
                "ar"
              when "boolean" then
                "ac"
