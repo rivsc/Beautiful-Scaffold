@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "beautiful_scaffold"
-  s.version     = "0.2.6"
+  s.version     = "0.2.7"
   s.platform    = Gem::Platform::RUBY  
   s.summary     = "Beautiful Scaffold generate fully customizable scaffold"
   s.email       = "claudel.sylvain@gmail.com"

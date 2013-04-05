@@ -1,3 +1,13 @@
+== 0.2.7
+
+* enhancement
+  * Info class for input with content in search form
+  * Add current locale for price in number_to_currency
+
+* Bugfix
+  * Add type decimal for align
+  * Bug css rules ignored for alignment in table (td, th)
+
 == 0.2.6
 
 * Bugfix
