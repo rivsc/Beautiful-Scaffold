@@ -1,7 +1,7 @@
 <%- attributes.each do |attribute| -%>
   <%- if @beautiful_attributes.include?(attribute.name + ':richtext') then -%>
     <div class="control-group">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>").capitalize, :class => "control-label" %>
+      <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <%%= f.text_area :<%= attribute.name %>, :class => "richtext-editor" %>
       </div>
@@ -31,25 +31,22 @@
     <%% end %>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':wysiwyg') then -%>
     <div class="control-group">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>").capitalize, :class => "control-label" %>
+      <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <%%= f.text_area :<%= attribute.name %>, :class => "wysiwyg-editor" %>
       </div>
     </div>
     <%%= f.hidden_field :<%= attribute.name %>_typetext, :value => "html"  %>
-    <script type="text/javascript">
-      $('.wysiwyg-editor').wysihtml5({"html": true});
-    </script>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':references') then -%>
     <div class="control-group">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>").capitalize, :class => "control-label" %>
+      <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <%%= f.collection_select :<%= attribute.name %>_id, <%= attribute.name.camelcase %>.all, :id, :caption, :include_blank => true %>
       </div>
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':price') then -%>
     <div class="control-group">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>").capitalize, :class => "control-label" %>
+      <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <div class="input-prepend">
           <span class="add-on">$</span><%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
@@ -58,7 +55,7 @@
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':date') then -%>
     <div class="control-group">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>").capitalize, :class => "control-label" %>
+      <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <div class="input-append">
           <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(3i)]" id="<%= singular_table_name %>_<%= attribute.name %>_3i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.day rescue "" end %>" />
@@ -70,7 +67,7 @@
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':datetime') then -%>
     <div class="control-group">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>").capitalize, :class => "control-label" %>
+      <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <div class="input-append">
           <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(3i)]" id="<%= singular_table_name %>_<%= attribute.name %>_3i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.day rescue "" end %>" />
@@ -87,19 +84,16 @@
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':color') then -%>
     <div class="control-group">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>").capitalize, :class => "control-label" %>
+      <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <div class="input-append color" data-color="<%%= (@<%= model %>.<%= attribute.name %> || "rgba(0, 0, 0)") %>" data-color-format="rgba">
           <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %><span class="add-on"><i style="background-color: rgb(0, 0, 0)"></i></span>
         </div>
       </div>
     </div>
-    <script type="text/javascript">
-      $('.color').colorpicker({format: 'rgba'});
-    </script>
   <%- else -%>
     <div class="control-group">
-      <%%= f.label :<%= attribute.name %>, t(:<%= attribute.name %>, :default => "<%= attribute.name %>").capitalize, :class => "control-label" %>
+      <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <%%= f.<%= attribute.field_type %> :<%= attribute.name %><%= ', :rows => 5' if attribute.field_type == :text_area %> %>
       </div>
