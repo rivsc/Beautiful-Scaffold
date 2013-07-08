@@ -2,28 +2,26 @@ module BeautifulScaffoldCommonMethods
   require 'erb'
 
   private
+
+  #############
+  # Namespace
+  #############
   
   def namespace_for_class
     str = namespace_alone
-    if not str.blank? then
-      str = str.camelcase + '::'
-    end
+    str = str.camelcase + '::' if not str.blank?
     return str
   end
   
   def namespace_for_route
     str = namespace_alone
-    if not str.blank? then
-      str = str.downcase + '_'
-    end
+    str = str.downcase + '_' if not str.blank?
     return str
   end
   
   def namespace_for_url
     str = namespace_alone
-    if not str.blank? then
-      str = str.downcase + '/'
-    end
+    str = str.downcase + '/' if not str.blank?
     return str
   end
   
@@ -37,6 +35,10 @@ module BeautifulScaffoldCommonMethods
     return result
   end
 
+  ############
+  # Models
+  ############
+
   def model_camelize
     model.camelize
   end
@@ -49,12 +51,43 @@ module BeautifulScaffoldCommonMethods
     model.camelize
   end
   
-  # For the views
+  ############
+  # Table
+  ############
+
   def plural_table_name
     model_pluralize
   end
   def singular_table_name
     model
+  end
+
+  ############
+  # I18n
+  ############
+
+  def attribute_path_i18n(model, attribute)
+    "app.models.#{model}.attributes.#{attribute}"
+  end
+
+  def model_path_i18n(model)
+    "app.models.#{model}.caption"
+  end
+
+  def model_p_path_i18n(model)
+    "app.models.#{model}.caption_pluralize"
+  end
+
+  def i18n_t_a(model, attribute)
+    "t('#{attribute_path_i18n(model, attribute)}', :default => '#{model}')"
+  end
+
+  def i18n_t_m(model)
+    "t('#{model_path_i18n(model)}', :default => '#{model}')"
+  end
+
+  def i18n_t_m_p(model)
+    "t('#{model_p_path_i18n(model)}', :default => '#{model}')"
   end
 
   def available_views
@@ -107,14 +140,18 @@ module BeautifulScaffoldCommonMethods
   end
 
   def require_gems
+    # for jquery-ui add "2.3.0" version for jquery-rails
+    say_status("Warning", "Set 2.0.1 version for jquery-rails (for a good compatibility with beautiful_scaffold)", :yellow)
+
     gem('will_paginate')
-    gem('ransack')
-    gem('prawn', '1.0.0.rc1')
+    gem('ransack', :github => 'ernie/ransack', :branch => 'rails-4')
+    gem('prawn', '1.0.0.rc2')
     gem('RedCloth')
     gem('bb-ruby')
     gem('bluecloth')
     gem('rdiscount')
     gem('sanitize')
+    gem('twitter-bootstrap-rails')
   end
 
 end
