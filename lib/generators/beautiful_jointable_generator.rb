@@ -9,7 +9,7 @@ class BeautifulJointableGenerator < Rails::Generators::Base
   
   def create_join_table
     if join_models.length != 2 then
-      puts "Error need two singular models : example : user product"
+      say_status("Error", "Error need two singular models : example : user product", :red)
     else
       sorted_model = join_models.sort
 
