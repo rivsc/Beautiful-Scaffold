@@ -1,0 +1,26 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require reset
+ *= require datepicker
+ *= require timepicker
+ *= require beautiful-scaffold
+ *= require tagit-dark-grey
+ *= require colorpicker
+ *= require bootstrap-wysihtml5
+ *= require bootstrap_and_overrides
+ *= require markitup/skins/simple/style.css
+ *= require markitup/sets/bbcode/style.css
+ *= require markitup/sets/wiki/style.css
+ *= require markitup/sets/markdown/style.css
+ *= require markitup/sets/html/style.css
+ *= require markitup/sets/textile/style.css
+ */
