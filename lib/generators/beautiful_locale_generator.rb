@@ -13,22 +13,33 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
     localestr = name.downcase
     
     locale_to_process = []
-    if availablelocale.include?(localestr) then
-      locale_to_process << localestr
-    elsif localestr == 'all' then
+
+    if localestr == 'all' then
       locale_to_process = availablelocale
     else
-      puts "This locale #{localestr} doesn't exist !"
+      locale_to_process << localestr
     end
     
     locale_to_process.each{ |temp_locale|
       filename = "beautiful_scaffold.#{temp_locale}.yml"
       gem_localepath = "app/locales/#{filename}"
       app_localepath = "config/locales/#{filename}"
-      copy_file gem_localepath, app_localepath
+      begin
+        copy_file gem_localepath, app_localepath
+      rescue
+        say_status("Error", "This beautiful_locale #{localestr} doesn't exist !", :red)
+      end
+
+      rails_locale_file = "#{temp_locale}.yml"
+      download_path = "https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/#{rails_locale_file}"
+      begin
+        get download_path, "config/locales/#{rails_locale_file}"
+      rescue
+        say_status("Error", "Error to download locale, verify if locale exist at : #{download_path}", :red)
+      end
     }
-    
-    puts "/!\\ Remember to download rails locale and update your application.rb file !"
+
+    say_status("Warning", "/!\\ Remember to update your application.rb file !", :yellow)
   end
 
 end
