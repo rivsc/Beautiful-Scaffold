@@ -3,7 +3,7 @@
   <% formparams << namespace %>
 <% end %>
 <% formparams << model_name.camelize.constantize.new %>
-<%= form_for formparams, :method => :post, :html => { :class => "well well-small form-horizontal mass-inserting" } do |f| %>
+<%= form_for formparams, :method => :post, :html => { :class => "well well-small form-horizontal mass-inserting #{(params[:mass_inserting] ? 'setfocus' : '')}" } do |f| %>
   <%= hidden_field_tag :mass_inserting, true %>
   <% for col in model_columns %>
     <div <%= visible_column(model_name, col, 'inline') %> class="col-<%= col %>">
@@ -31,13 +31,6 @@
     </div>
   <% end %>
   <div style="display:inline;">
-    <%= f.submit t(:create, :default => "Create"), :class => 'btn' %>
+    <%= f.submit t(:create, :default => "Create"), :class => "btn" %>
   </div>
-<% end %>
-
-<% if params[:mass_inserting] then %>
-  <script type="text/javascript">
-    elt = $('form.mass-inserting div[style*="inline"][class*="col"] .input-small').first();
-    $(elt).focus();
-  </script>
 <% end %>
