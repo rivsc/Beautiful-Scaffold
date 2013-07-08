@@ -95,3 +95,48 @@ label.bs-label-ib input{
   margin-right:3px;
   margin-top:0;
 }
+
+/* Fixed left menu */
+
+.fixed {
+  width: 200px;
+  float: left;
+}
+.fixed + div {
+  margin-left: 200px;
+  padding-left:20px;
+  overflow: hidden;
+  min-height:500px;
+  background:white;
+}
+body {
+  padding-top:70px;
+}
+@media (max-width: 979px) {
+  .fixed + div {
+    margin-left: 0;
+    padding:10px;
+  }
+  body {
+    padding-top:0px;
+  }
+}
+html, body {
+  height: 100%;
+}
+.filler:after{
+  background-color:inherit;
+  bottom: 0;
+  content: "";
+  height: auto;
+  min-height: 100%;
+  left: 0;
+  margin:inherit;
+  right: 0;
+  position: absolute;
+  top: 0;
+  width: inherit;
+  z-index: -1;
+}
+
+#jstree-marker-line {pointer-events: none;}
