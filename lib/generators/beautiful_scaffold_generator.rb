@@ -20,6 +20,9 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
   def install_gems
     require_gems
+    inside Rails.root do
+      run "bundle install"
+    end
   end
 
   def add_field_for_fulltext
@@ -48,10 +51,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     # Css
     reset            = "#{stylesheetspath}reset.css"
     bc_css           = [
-                        "#{stylesheetspath}bootstrap.css",
-                        "#{stylesheetspath}bootstrap.min.css",
-                        "#{stylesheetspath}bootstrap-responsive.css",
-                        "#{stylesheetspath}bootstrap-responsive.min.css",
+                        "#{stylesheetspath}application-bs.css",
                         "#{stylesheetspath}datepicker.css",
                         "#{stylesheetspath}timepicker.css",
                         "#{stylesheetspath}beautiful-scaffold.css.scss",
@@ -64,13 +64,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     
     # Js
     bc_js            = [
+                        "#{javascriptspath}application-bs.js",
                         "#{javascriptspath}beautiful_scaffold.js",
-                        "#{javascriptspath}bootstrap.js",
-                        "#{javascriptspath}bootstrap.min.js",
-                        "#{javascriptspath}bootstrap-alert.js",
-                        "#{javascriptspath}bootstrap-dropdown.js",
-                        "#{javascriptspath}bootstrap-modal.js",
-                        "#{javascriptspath}bootstrap-tooltip.js",
                         "#{javascriptspath}bootstrap-datepicker.js",
                         "#{javascriptspath}bootstrap-datetimepicker-for-beautiful-scaffold.js",
                         "#{javascriptspath}bootstrap-timepicker.js",
@@ -79,26 +74,22 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{javascriptspath}tagit.js",
                         "#{javascriptspath}bootstrap-colorpicker.js",
                         "#{javascriptspath}a-wysihtml5-0.3.0.min.js",
-                        "#{javascriptspath}bootstrap-wysihtml5.js"
+                        "#{javascriptspath}bootstrap-wysihtml5.js",
+                        "#{javascriptspath}fixed_menu.js"
                        ]
-    pjax_js          = "#{javascriptspath}jquery.pjax.js"
 
-    [reset, bc_css, bc_js, pjax_js].flatten.each{ |path|
+    [reset, bc_css, bc_js].flatten.each{ |path|
       copy_file path, path
     }
 
     # Jstree theme
     directory "app/assets/stylesheets/themes", "app/assets/stylesheets/themes"
 
-    # Inject jquery-ui
-    appjs = "app/assets/javascripts/application.js"
-    if not File.read(appjs)[/\/\/= require jquery-ui/] then
-      inject_into_file(appjs, "//= require jquery-ui\n", :after => "//= require jquery\n")
-    end
-    
     # Images
     dir_image = "app/assets/images"
     directory dir_image, dir_image
+
+    generate("bootstrap:install","static")
   end
   
   def generate_layout
@@ -114,7 +105,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     
     inject_into_file("app/views/layouts/_beautiful_menu.html.erb",'
       <li class="<%= "active" if params[:controller] == "' + namespace_for_url + model.pluralize + '" %>">
-        <%= link_to t(:' + model.pluralize + ', :default => "' + model.pluralize + '").capitalize, ' + namespace_for_route + model.pluralize + '_path %>
+        <%= link_to ' + i18n_t_m_p(model) + '.capitalize, ' + namespace_for_route + model.pluralize + '_path %>
       </li>', :after => "<!-- Beautiful Scaffold Menu Do Not Touch This -->")
   end
 
@@ -206,7 +197,6 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       template empty_template_path, current_template_path
     end
 
-    copy_file  "app/views/_treeview_js.html.erb",    "app/views/layouts/_treeview_js.html.erb"
     copy_file  "app/views/_form_habtm_tag.html.erb", "app/views/layouts/_form_habtm_tag.html.erb"
   end
 
@@ -219,7 +209,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
     if not routes_in_text[/beautiful#dashboard/] and not routes_in_text[/beautiful#select_fields/] then
       myroute = "root :to => 'beautiful#dashboard'\n"
-      myroute += "  match ':model_sym/select_fields' => 'beautiful#select_fields'\n"
+      myroute += "  match ':model_sym/select_fields' => 'beautiful#select_fields', :via => [:get, :post]\n"
       route(myroute)
     end
 
