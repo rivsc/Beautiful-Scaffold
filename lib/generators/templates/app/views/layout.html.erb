@@ -7,46 +7,45 @@
     <meta name="description" content="Beautiful Scaffold">
     <meta name="author" content="You or me Sylvain Claudel (http://blog.escarworld.com)">
 
-    <%%= stylesheet_link_tag "reset", "bootstrap.min", "bootstrap-responsive.min", "datepicker", "timepicker", "beautiful-scaffold", "tagit-dark-grey", "colorpicker", "bootstrap-wysihtml5" %>
-    <style>
-        body {
-            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-        }
-    </style>
-    <%%= javascript_include_tag "application", "jquery.pjax" %>
-    <%%= javascript_include_tag "jquery.markitup.js" %>
-    <%%= javascript_include_tag "markitup/sets/default/set.js" %>
-    <%%= stylesheet_link_tag "markitup/skins/simple/style.css" %>
-
-    <% miufile = ["bbcode","wiki","markdown","html","textile"] %>
-    <%%= stylesheet_link_tag <%= miufile.map{ |code| "'markitup/sets/#{code}/style.css'" }.join(',') %> %>
-    <%%= javascript_include_tag <%= miufile.map{ |code| "'markitup/sets/#{code}/set.js'" }.join(',') %> %>
+    <%%= stylesheet_link_tag "application-bs" %>
+    <%%= javascript_include_tag "application-bs" %>
 
     <%%= csrf_meta_tags %>
     <%%= yield :head %>
   </head>
-  <body>
-    <div class="container-fluid">
-      <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-          <div class="container">
-            <a class="brand" href="#">
-              Beautiful-Scaffold
-            </a>
-            <ul class="nav">
-              <li class="active">
-                <a href="/">Home</a>
-              </li>
-            </ul>
-            <ul class="nav pull-right">
-              <li>
-                <!-- Beautiful_scaffold - Signin - Do not remove -->
-              </li>
+  <body style="display:none;">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">
+            Beautiful-Scaffold
+          </a>
+          <ul class="nav">
+            <li class="active">
+              <a href="/">Home</a>
+            </li>
+            <li class="hidden-desktop">
+              <!-- Mobile navbar -->
+              <a href="#" class="nopjax" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-th-list"></i>
+              </a>
+            </li>
+          </ul>
+          <ul class="nav pull-right">
+            <li>
+              <!-- Beautiful_scaffold - Signin - Do not remove -->
+            </li>
+          </ul>
+          <div class="nav-collapse collapse">
+            <ul class="nav hidden-desktop">
+              <%% @nopjax = "nopjax" %>
+              <%%= render :partial => "layouts/beautiful_menu" %>
             </ul>
           </div>
         </div>
       </div>
-
+    </div>
+    <div class="container-fluid">
       <div class="row-fluid">
         <div class="span2">
           <ul class="nav nav-list well">
@@ -92,19 +91,16 @@
       $('<%%= @opened_modal %>').modal('show');
       <%% end %>
     </script>
-
-    <%%= javascript_include_tag "bootstrap.min", "bootstrap-alert", "bootstrap-datepicker" ,"bootstrap-timepicker", "bootstrap-dropdown", "bootstrap-modal", "bootstrap-tooltip", "bootstrap-colorpicker", "a-wysihtml5-0.3.0.min", "bootstrap-wysihtml5" %>
     <script type="text/javascript">
-      ;(function($){
-        $.fn.datepicker.dates['<%= I18n.locale.to_s %>'] = {
-          days:        <%= (I18n.t("date.day_names") + [I18n.t("date.day_names").first]).map(&:capitalize).to_s.html_safe %>,
-          daysShort:   <%= (I18n.t("date.abbr_day_names") + [I18n.t("date.abbr_day_names").first]).map(&:capitalize).to_s.html_safe %>,
-          daysMin:     <%= (I18n.t("date.abbr_day_names") + [I18n.t("date.abbr_day_names").first]).map{ |d| d.capitalize[0..2] }.to_s.html_safe %>,
-          months:      <%= I18n.t("date.month_names")[1..12].map(&:capitalize).to_s.html_safe %>,
-          monthsShort: <%= I18n.t("date.abbr_month_names")[1..12].map(&:capitalize).to_s.html_safe %>
-        };
-      }(jQuery));
+        ;(function($){
+            $.fn.datepicker.dates['<%%= I18n.locale.to_s %>'] = {
+                days:        <%%= (t("date.day_names") + [t("date.day_names").first]).map(&:capitalize).to_s.html_safe %>,
+                daysShort:   <%%= (t("date.abbr_day_names") + [t("date.abbr_day_names").first]).map(&:capitalize).to_s.html_safe %>,
+                daysMin:     <%%= (t("date.abbr_day_names") + [t("date.abbr_day_names").first]).map{ |d| d.capitalize[0..2] }.to_s.html_safe %>,
+                months:      <%%= t("date.month_names")[1..12].map(&:capitalize).to_s.html_safe %>,
+                monthsShort: <%%= t("date.abbr_month_names")[1..12].map(&:capitalize).to_s.html_safe %>
+            };
+        }(jQuery));
     </script>
-    <%%= javascript_include_tag "bootstrap-datetimepicker-for-beautiful-scaffold" %>
   </body>
 </html>
