@@ -1,6 +1,6 @@
 <%- attributes.each do |attribute| -%>
   <p>
-    <b><%%= t(:<%= attribute.name %>, :default => "<%= attribute.human_name %>") %>:</b>
+    <b><%%= <%= i18n_t_a(singular_table_name, attribute.name) %> %>:</b>
     <%- if @beautiful_attributes.include?(attribute.name + ':price') then -%>
       <%%= number_to_currency(@<%= singular_table_name %>.<%= attribute.name %>) %>
     <%- elsif @beautiful_attributes.include?(attribute.name + ':boolean') then -%>
