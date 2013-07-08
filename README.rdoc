@@ -7,8 +7,18 @@ Demo : http://demo.beautiful-scaffold.com/
 
 == Install
 
+=== RubyOnRails 3.X
+
 Add this in your Gemfile :
 gem 'beautiful_scaffold', '0.2.7'
+
+=== RubyOnRails 4.X
+
+Add this in your Gemfile :
+gem 'beautiful_scaffold', '0.3.0'
+
+=== Next
+
 And run
 bundle install
 

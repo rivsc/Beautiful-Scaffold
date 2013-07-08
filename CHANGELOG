@@ -1,3 +1,21 @@
+== 0.3.0
+
+* enhancement
+  * Refactoring i18n (avoid reserved words) :
+  *   t(:my_model) -> t('models.my_model.caption')
+  *   t(:my_attribute) -> t('models.my_model.attributes.my_attribute')
+  * Add javascript/css to change DOM for a fixed menu
+  * Add responsive menu
+  * Update for rails 4
+  * Replace PJAX with turbolinks
+  * Update prawn version 1.0.0.rc2
+  * Big refactoring with javascript
+  * Using twitter-bootstrap-rails with turbolinks compatibility and last version of bootstrap and fontawesome
+
+* Bugfix
+  * Avoid to re-generate created_at, updated_at, id search field at each migration
+  * Bugfix for several responsive behavior
+
 == 0.2.7
 
 * enhancement
