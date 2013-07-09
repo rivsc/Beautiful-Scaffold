@@ -75,7 +75,7 @@ module BeautifulScaffoldCommonMethods
   end
 
   def model_p_path_i18n(model)
-    "app.models.#{model}.bs_caption_pluralize"
+    "app.models.#{model}.bs_caption_plural"
   end
 
   def i18n_t_a(model, attribute)
