@@ -124,6 +124,21 @@ module BeautifulScaffoldCommonMethods
     return newmyattributes
   end
 
+  def attributes_without_type
+    newmyattributes = []
+    myattributes.each{ |attr|
+      a,t = attr.split(':')
+
+      if ['references', 'reference'].include?(t) then
+        a = a + '_id'
+      end
+
+      newmyattributes << a
+    }
+
+    return newmyattributes
+  end
+
   def fulltext_attribute
     fulltext_field = []
     myattributes.each{ |attr|

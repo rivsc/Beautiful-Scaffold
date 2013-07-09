@@ -132,19 +132,22 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
     order("#{attribute} #{direction}")
   }
-    # You can OVERRIDE this method used in model form and search form (in belongs_to relation)
+
+  include BeautifulScaffoldModule
+  before_save :fulltext_field_processing
+
+  # You can OVERRIDE this method used in model form and search form (in belongs_to relation)
   def caption
     (self["name"] || self["label"] || self["description"] || "##{id}")
-  end', :after => "class #{model_camelize} < ActiveRecord::Base")
-    
-     inject_into_file("app/models/#{model}.rb",'
-  include BeautifulScaffoldModule      
-
-  before_save :fulltext_field_processing
+  end
 
   def fulltext_field_processing
     # You can preparse with own things here
     generate_fulltext_field([' + fulltext_attribute.map{ |e| ('"' + e + '"') }.join(",") + '])
+  end
+
+  def self.permitted_attributes
+    return ' + attributes_without_type.map{ |attr| ":#{attr}" }.join(",") + '
   end', :after => "class #{model_camelize} < ActiveRecord::Base")
 
     inject_into_file("config/application.rb", '    config.autoload_paths += %W(#{config.root}/app/modules)' + "\n", :after => "< Rails::Application\n")

@@ -97,7 +97,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
   end
 
   def create
-    @<%= model %> = <%= model_camelize %>.create(params[:<%= model %>])
+    @<%= model %> = <%= model_camelize %>.create(params_for_model)
 
     respond_to do |format|
       if @<%= model %>.save
@@ -125,7 +125,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
   def update
 
     respond_to do |format|
-      if @<%= model %>.update_attributes(params[:<%= model %>])
+      if @<%= model %>.update_attributes(params_for_model)
         format.html { redirect_to <%= namespace_for_route %><%= singular_table_name %>_path(@<%= model %>), :notice => t(:update_success, :model => "<%= model %>") }
         format.json { head :ok }
       else
@@ -198,6 +198,10 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
   
   def load_<%= model %>
     @<%= model %> = <%= model_camelize %>.find(params[:id])
+  end
+
+  def params_for_model
+    params.require(:<%= model %>).permit(<%= model_camelize %>.permitted_attributes)
   end
 end
 
