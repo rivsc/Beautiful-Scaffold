@@ -42,4 +42,81 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
     say_status("Warning", "/!\\ Remember to update your application.rb file !", :yellow)
   end
 
+  def regenerate_app_locale
+    require 'net/http'
+
+    already_processed = { name.downcase => {}}
+
+    filepath = File.join(Rails.root, 'config', 'locales', "#{Rails.application.class.parent_name.downcase}.#{name.downcase}.yml")
+    begin
+      hi18n                                   = YAML.load_file(filepath)
+    rescue
+    end
+    hi18n                                 ||= { name.downcase => {} }
+    hi18n[name.downcase]                  ||= { 'app' => {} }
+    hi18n[name.downcase]['app']           ||= { 'models' => {} }
+    hi18n[name.downcase]['app']['models'] ||= {}
+
+
+    Dir.glob("app/models/**/*").each { |model_file|
+      puts model_file
+      next if File.directory?(model_file)
+      model = File.basename(model_file, File.extname(model_file))
+      klass = model.camelize.constantize
+
+      begin
+        sorted_attr = klass.attribute_names.sort
+      rescue
+        next
+      end
+
+      hi18n[name.downcase]['app']['models'][model] ||= {
+          'bs_caption'            => model,
+          'bs_caption_pluralize'  => model.pluralize,
+          'bs_attributes'         => {},
+      }
+
+      hi18n[name.downcase]['app']['models'][model]['bs_caption']              = translate_string(name.downcase, model)
+      hi18n[name.downcase]['app']['models'][model]['bs_caption_pluralize']    = translate_string(name.downcase, model.pluralize)
+      hi18n[name.downcase]['app']['models'][model]['bs_attributes']         ||= {}
+
+      sorted_attr.each { |k|
+        if already_processed[name.downcase][k].nil? then
+          begin
+            attr_translate = translate_string(name.downcase, k)
+            already_processed[name.downcase][k] = attr_translate
+          rescue
+            puts "Plantage translate API"
+            attr_translate = k
+          end
+        else
+          attr_translate = already_processed[name.downcase][k]
+        end
+
+        puts "====> #{k} / #{attr_translate} / #{hi18n[name.downcase]['app']['models'][model]}"
+        hi18n[name.downcase]['app']['models'][model]['bs_attributes'][k] = attr_translate
+      }
+    }
+
+    File.unlink(filepath) if File.exist?(filepath)
+
+    file = File.open(filepath, "w")
+    file.write(hi18n.to_yaml)
+    file.close
+  end
+
+  def translate_string(locale, str)
+    # See http://www.microsofttranslator.com/dev/
+    #
+    url_domain    = "mymemory.translated.net"
+    url_translate = "/api/get?q=to_translate&langpair=en%7C#{locale}"
+
+    urlstr = url_translate.gsub(/to_translate/, str.gsub(/_/, "%20"))
+    json = JSON.parse(Net::HTTP.get(url_domain, urlstr))
+    attr_translate = json["responseData"]["translatedText"].strip.downcase
+    raise 'Free Limit' if attr_translate =~ /mymemory/
+
+    return attr_translate
+  end
+
 end

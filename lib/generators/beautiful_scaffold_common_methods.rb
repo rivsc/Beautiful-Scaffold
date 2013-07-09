@@ -67,15 +67,15 @@ module BeautifulScaffoldCommonMethods
   ############
 
   def attribute_path_i18n(model, attribute)
-    "app.models.#{model}.attributes.#{attribute}"
+    "app.models.#{model}.bs_attributes.#{attribute}"
   end
 
   def model_path_i18n(model)
-    "app.models.#{model}.caption"
+    "app.models.#{model}.bs_caption"
   end
 
   def model_p_path_i18n(model)
-    "app.models.#{model}.caption_pluralize"
+    "app.models.#{model}.bs_caption_pluralize"
   end
 
   def i18n_t_a(model, attribute)
