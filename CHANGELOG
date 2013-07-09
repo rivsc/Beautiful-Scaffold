@@ -11,6 +11,7 @@
   * Update prawn version 1.0.0.rc2
   * Big refactoring with javascript
   * Using twitter-bootstrap-rails with turbolinks compatibility and last version of bootstrap and fontawesome
+  * Generate locale file with auto translation
 
 * Bugfix
   * Avoid to re-generate created_at, updated_at, id search field at each migration
