@@ -41,10 +41,9 @@ module BeautifulHelper
       default_caption = get_belongs_to_model(default_caption)
     end
 
-    cap = attribute_name
-    cap = "number-attr" if attribute_name == "number"
+    cap = "app.models.#{model_name}.bs_attributes.#{attribute_name}"
 
-    caption =   t(cap, :default => default_caption).capitalize
+    caption = t(cap, :default => default_caption).capitalize
     strpath = model_name.pluralize + "_url"
     strpath = namespace + '_' + strpath if not namespace.blank?
 
@@ -82,8 +81,7 @@ module BeautifulHelper
     name_field = model_name_for_ransack + "_" + name_field unless model_name_for_ransack.blank?
 
 
-    cap = label_field
-    cap = "number-attr" if label_field == "number"
+    cap = "app.models.#{model_name}.bs_attributes.#{attribute_name}"
 
     infostr   = ''
     response  = '' # See at end
