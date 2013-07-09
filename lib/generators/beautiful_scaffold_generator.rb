@@ -157,14 +157,12 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   end
 
   def add_to_model
-    # Add relation and foreign_key in attr_accessible
+    # Add relation
     myattributes.each{ |attr|
       a,t = attr.split(':')
       if ['references', 'reference'].include?(t) then
-        inject_into_file("app/models/#{model}.rb", ":#{a}_id, ", :after => "attr_accessible ")
         begin
           inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ActiveRecord::Base")
-          inject_into_file("app/models/#{a}.rb", ":#{model}_ids, ", :after => "attr_accessible ")
         rescue
         end
       end
