@@ -60,7 +60,7 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
 
     Dir.glob("app/models/**/*").each { |model_file|
       puts model_file
-      next if File.directory?(model_file)
+      next if File.directory?(model_file) or File.basename(model_file).first == '.'
       model = File.basename(model_file, File.extname(model_file))
       klass = model.camelize.constantize
 
