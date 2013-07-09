@@ -15,7 +15,7 @@ gem 'beautiful_scaffold', '0.2.7'
 === RubyOnRails 4.X
 
 Add this in your Gemfile :
-gem 'beautiful_scaffold', '0.3.0'
+gem 'beautiful_scaffold', '0.3.0.rc1'
 
 === Next
 
@@ -39,19 +39,25 @@ type available :
 * wysiwyg
 
 # Example : products
-rails generate beautiful_scaffold product name:string price:price tva:float description:richtext visible:boolean && rake db:migrate
+rails g beautiful_scaffold product name:string price:price tva:float description:richtext visible:boolean && rake db:migrate
 
 # Example : admin products
-rails generate beautiful_scaffold product name:string price:price tva:float description:richtext overview_description:richtext visible:boolean --namespace=admin && rake db:migrate
+rails g beautiful_scaffold product name:string price:price tva:float description:richtext overview_description:richtext visible:boolean --namespace=admin && rake db:migrate
 
-=== Locale (i18n)
+=== Migration (Use Add[Field]To[ModelPluralize] syntax)
 
-rails generate beautiful_locale all
+rails g beautiful_migration AddFieldToModels field:type
+
+=== Locale (i18n) (Example)
+
+rails g beautiful_locale all
+rails g beautiful_locale fr
+rails g beautiful_locale de
 
 === Join Table (has_and_belongs_to_many relation)
 
-rails generate beautiful_jointable model1 model2
+rails g beautiful_jointable model1 model2
 
 === Install et Configure Devise (authentification) and Cancan (authorization)
 
-rails generate beautiful_devisecancan model
+rails g beautiful_devisecancan model
