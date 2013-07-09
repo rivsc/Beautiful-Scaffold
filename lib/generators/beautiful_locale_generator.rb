@@ -81,12 +81,12 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
 
       hi18n[name.downcase]['app']['models'][model] ||= {
           'bs_caption'            => model,
-          'bs_caption_pluralize'  => model.pluralize,
+          'bs_caption_plural'     => model.pluralize,
           'bs_attributes'         => {},
       }
 
       hi18n[name.downcase]['app']['models'][model]['bs_caption']              = translate_string(name.downcase, model)
-      hi18n[name.downcase]['app']['models'][model]['bs_caption_pluralize']    = translate_string(name.downcase, model.pluralize)
+      hi18n[name.downcase]['app']['models'][model]['bs_caption_plural']    = translate_string(name.downcase, model.pluralize)
       hi18n[name.downcase]['app']['models'][model]['bs_attributes']         ||= {}
 
       sorted_attr.each { |k|

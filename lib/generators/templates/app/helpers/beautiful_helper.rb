@@ -270,4 +270,12 @@ module BeautifulHelper
   def i18n_translate_path(model, attr)
     "app.models.#{model}.bs_attributes.#{attr}"
   end
+
+  def i18n_translate_path_model(model)
+    "app.models.#{model}.bs_caption"
+  end
+
+  def i18n_translate_path_model_plural(model)
+    "app.models.#{model}.bs_caption_plural"
+  end
 end
