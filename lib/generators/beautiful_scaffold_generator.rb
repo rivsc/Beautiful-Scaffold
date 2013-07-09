@@ -20,7 +20,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
   def install_gems
     require_gems
-    inside Rails.root do
+    #inside Rails.root do # Bug ?!
+    Bundler.with_clean_env do
       run "bundle install"
     end
   end
