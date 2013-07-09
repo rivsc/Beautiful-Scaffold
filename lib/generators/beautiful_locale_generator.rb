@@ -105,6 +105,8 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
     file.close
   end
 
+  private
+
   def translate_string(locale, str)
     # See http://www.microsofttranslator.com/dev/
     #
