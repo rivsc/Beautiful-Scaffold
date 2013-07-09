@@ -41,7 +41,7 @@ module BeautifulHelper
       default_caption = get_belongs_to_model(default_caption)
     end
 
-    cap = "app.models.#{model_name}.bs_attributes.#{attribute_name}"
+    cap = i18n_translate_path(model_name, attribute_name)
 
     caption = t(cap, :default => default_caption).capitalize
     strpath = model_name.pluralize + "_url"
@@ -80,8 +80,7 @@ module BeautifulHelper
 
     name_field = model_name_for_ransack + "_" + name_field unless model_name_for_ransack.blank?
 
-
-    cap = "app.models.#{model_name}.bs_attributes.#{attribute_name}"
+    cap = i18n_translate_path(model_name, attribute_name)
 
     infostr   = ''
     response  = '' # See at end
@@ -266,5 +265,9 @@ module BeautifulHelper
   def clean_params
     params.delete :q
     params.delete :fields
+  end
+
+  def i18n_translate_path(model, attr)
+    "app.models.#{model}.bs_attributes.#{attr}"
   end
 end
