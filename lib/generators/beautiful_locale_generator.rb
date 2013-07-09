@@ -37,6 +37,15 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
       rescue
         say_status("Error", "Error to download locale, verify if locale exist at : #{download_path}", :red)
       end
+
+      willpaginate_locale_file = "will_paginate.#{temp_locale}.yml"
+      download_path = "https://raw.github.com/mislav/will_paginate/master/lib/will_paginate/locale/en.yml"
+      begin
+        get download_path, "config/locales/#{willpaginate_locale_file}"
+        say_status("Warning", "You must modify Will_paginate locale at : Rails.root/config/locale/#{willpaginate_locale_file}", :red)
+      rescue
+        say_status("Error", "Error to download locale, verify if locale exist at : #{download_path}", :red)
+      end
     }
 
     say_status("Warning", "/!\\ Remember to update your application.rb file !", :yellow)
