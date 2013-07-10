@@ -1,9 +1,9 @@
 <h2><%%= t(:listing, :default => "Listing") %> <%%= <%= i18n_t_m_p(singular_table_name) %> %></h2>
 
 <p>
-  <%%= link_to '<i class="icon-plus"></i>'.html_safe + t(:new, :default => "New") + ' ' + <%= i18n_t_m(model) %>, new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn" %>
+  <%%= link_to '<i class="icon-plus"></i> '.html_safe + t(:new, :default => "New") + ' ' + <%= i18n_t_m(model) %>, new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn" %>
   <%% if <%= model_camelize %>.columns.map(&:name).include?("<%= model %>_id") then %>
-    <%%= link_to '<i class="icon-folder-close"></i>'.html_safe + t(:treeview, :default => "Treeview") + ' ' + <%= i18n_t_m(model) %>, treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn" %>
+    <%%= link_to '<i class="icon-folder-close"></i> '.html_safe + t(:treeview, :default => "Treeview") + ' ' + <%= i18n_t_m(model) %>, treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn" %>
   <%% end %>
 </p>
 
