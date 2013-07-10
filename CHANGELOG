@@ -1,3 +1,8 @@
+== 0.3.0.rc3
+
+* Bugfix
+  * Avoid normal behavior for link and button for chardinjs
+
 == 0.3.0.rc2
 
 * enhancement
