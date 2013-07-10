@@ -167,6 +167,7 @@ module BeautifulScaffoldCommonMethods
     gem('rdiscount')
     gem('sanitize')
     gem('twitter-bootstrap-rails')
+    gem('chardinjs-rails')
   end
 
 end

@@ -62,7 +62,9 @@ rails g beautiful_jointable model1 model2
 
 rails g beautiful_devisecancan model
 
-=== In views you can show barcodes
+=== In views
+
+==== Barcodes
 
 Set code like this :
 <span class="barcode" data-barcode="1234567890128" data-type-barcode="ean13"></span>
@@ -80,3 +82,15 @@ std25 (standard 2 of 5 - industrial 2 of 5)
 int25 (interleaved 2 of 5)
 msi
 datamatrix (ASCII + extended)
+
+==== Chardinjs (overlay instructions)
+
+Example : This button triggers chardinjs on element with 'menu' id.
+<a href="#" class="bs-chardinjs" data-selector="#menu">Help Menu</a>
+
+If you want display all chardinjs :
+<a href="#" class="bs-chardinjs" data-selector="body">Help</a>
+
+Just add class="bs-chardinjs" in a button / link for trigger chardinjs. Beautiful-Scaffold does the job !
+
+For add instruction to element, read official documentation : https://github.com/heelhook/chardin.js#adding-data-for-the-instructions

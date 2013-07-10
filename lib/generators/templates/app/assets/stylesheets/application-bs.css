@@ -23,4 +23,5 @@
  *= require markitup/sets/markdown/style.css
  *= require markitup/sets/html/style.css
  *= require markitup/sets/textile/style.css
+ *= require chardinjs
  */

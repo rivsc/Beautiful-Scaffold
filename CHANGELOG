@@ -1,11 +1,14 @@
 == 0.3.0.rc2
 
+* enhancement
+  * Barcode support (set README for usage)
+  * Chardinjs for overlay instruction (set README for usage)
+
 * Bugfix
   * i18n some bugfix i18n
   * i18n download willpaginate i18n file
   * Body hidden in firefox
   * Add space after icon for some button
-
 
 == 0.3.0.rc1
 
