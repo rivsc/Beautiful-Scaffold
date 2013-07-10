@@ -15,7 +15,7 @@ gem 'beautiful_scaffold', '0.2.7'
 === RubyOnRails 4.X
 
 Add this in your Gemfile :
-gem 'beautiful_scaffold', '0.3.0.rc1'
+gem 'beautiful_scaffold', '0.3.0.rc2'
 
 === Next
 
@@ -61,3 +61,22 @@ rails g beautiful_jointable model1 model2
 === Install et Configure Devise (authentification) and Cancan (authorization)
 
 rails g beautiful_devisecancan model
+
+=== In views you can show barcodes
+
+Set code like this :
+<span class="barcode" data-barcode="1234567890128" data-type-barcode="ean13"></span>
+
+data-type-barcode can be :
+
+codabar
+code11 (code 11)
+code39 (code 39)
+code93 (code 93)
+code128 (code 128)
+ean8 (ean 8)
+ean13 (ean 13)
+std25 (standard 2 of 5 - industrial 2 of 5)
+int25 (interleaved 2 of 5)
+msi
+datamatrix (ASCII + extended)

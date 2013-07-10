@@ -1,4 +1,13 @@
-== 0.3.0
+== 0.3.0.rc2
+
+* Bugfix
+  * i18n some bugfix i18n
+  * i18n download willpaginate i18n file
+  * Body hidden in firefox
+  * Add space after icon for some button
+
+
+== 0.3.0.rc1
 
 * enhancement
   * Refactoring i18n (avoid reserved words) :

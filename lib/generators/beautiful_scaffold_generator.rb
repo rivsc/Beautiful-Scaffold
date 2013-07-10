@@ -72,6 +72,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{javascriptspath}bootstrap-timepicker.js",
                         "#{javascriptspath}jquery.livequery.js",
                         "#{javascriptspath}jquery.jstree.js",
+                        "#{javascriptspath}jquery-barcode.js",
                         "#{javascriptspath}tagit.js",
                         "#{javascriptspath}bootstrap-colorpicker.js",
                         "#{javascriptspath}a-wysihtml5-0.3.0.min.js",
