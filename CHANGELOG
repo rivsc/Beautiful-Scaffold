@@ -9,6 +9,7 @@
   * i18n download willpaginate i18n file
   * Body hidden in firefox
   * Add space after icon for some button
+  * Bug treeview double quote in attribute (data-opened=""")
 
 == 0.3.0.rc1
 
