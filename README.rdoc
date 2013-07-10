@@ -50,6 +50,8 @@ rails g beautiful_migration AddFieldToModels field:type
 
 === Locale (i18n) (Example)
 
+Run rake db:migrate before rail g beautiful_locale (to get lastest attribute translation)
+
 rails g beautiful_locale all
 rails g beautiful_locale fr
 rails g beautiful_locale de
