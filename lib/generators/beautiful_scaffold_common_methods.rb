@@ -79,7 +79,7 @@ module BeautifulScaffoldCommonMethods
   end
 
   def i18n_t_a(model, attribute)
-    "t('#{attribute_path_i18n(model, attribute)}', :default => '#{model}')"
+    "t('#{attribute_path_i18n(model, attribute)}', :default => '#{attribute}')"
   end
 
   def i18n_t_m(model)
