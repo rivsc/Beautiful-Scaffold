@@ -85,9 +85,19 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
           'bs_attributes'         => {},
       }
 
-      hi18n[name.downcase]['app']['models'][model]['bs_caption']              = translate_string(name.downcase, model)
-      hi18n[name.downcase]['app']['models'][model]['bs_caption_plural']    = translate_string(name.downcase, model.pluralize)
-      hi18n[name.downcase]['app']['models'][model]['bs_attributes']         ||= {}
+      begin
+        bs_caption = translate_string(name.downcase, model)
+      rescue
+        bs_caption = model
+      end
+      hi18n[name.downcase]['app']['models'][model]['bs_caption'] = bs_caption
+      begin
+        bs_caption_plural = translate_string(name.downcase, model.pluralize)
+      rescue
+        bs_caption_plural = model.pluralize
+      end
+      hi18n[name.downcase]['app']['models'][model]['bs_caption_plural'] = bs_caption_plural
+      hi18n[name.downcase]['app']['models'][model]['bs_attributes'] ||= {}
 
       sorted_attr.each { |k|
         if already_processed[name.downcase][k].nil? then
