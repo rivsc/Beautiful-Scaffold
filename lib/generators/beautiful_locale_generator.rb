@@ -112,7 +112,6 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
           attr_translate = already_processed[name.downcase][k]
         end
 
-        puts "====> #{k} / #{attr_translate} / #{hi18n[name.downcase]['app']['models'][model]}"
         hi18n[name.downcase]['app']['models'][model]['bs_attributes'][k] = attr_translate
       }
     }
