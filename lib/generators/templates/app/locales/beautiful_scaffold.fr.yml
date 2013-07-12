@@ -38,7 +38,7 @@ fr:
   sign_in: "Authentification"
   sign_up: "Inscription"
   login: "Login"
-  remember_me: "Ce souvenir de moi"
+  remember_me: "Se souvenir de moi"
   email: "Email"
   password: "Mot de passe"
   password_confirmation: "Mot de passe (Confirmation)"
