@@ -14,7 +14,7 @@ class BeautifulJointableGenerator < Rails::Generators::Base
       sorted_model = join_models.sort
 
       # Generate migration
-      migration_content_up = "
+      migration_content = "
       create_table :#{sorted_model[0].pluralize}_#{sorted_model[1].pluralize}, :id => false do |t|
         t.integer :#{sorted_model[0]}_id
         t.integer :#{sorted_model[1]}_id
@@ -23,15 +23,12 @@ class BeautifulJointableGenerator < Rails::Generators::Base
       add_index :#{sorted_model[0].pluralize}_#{sorted_model[1].pluralize}, [:#{sorted_model[0]}_id, :#{sorted_model[1]}_id]
       "
 
-      migration_content_down = "\n drop_table :#{sorted_model[0].pluralize}_#{sorted_model[1].pluralize} "
-
       migration_name = "create_join_table_for_#{sorted_model[0]}_and_#{sorted_model[1]}"
       generate("migration", migration_name)
 
       filename = Dir.glob("db/migrate/*#{migration_name}.rb")[0]
 
-      inject_into_file(filename, migration_content_up, :after => "def up")
-      inject_into_file(filename, migration_content_down, :after => "def down")
+      inject_into_file(filename, migration_content, :after => "def change")
 
       # Add habtm relation
       inject_into_file("app/models/#{sorted_model[0]}.rb", "\n  has_and_belongs_to_many :#{sorted_model[1].pluralize}", :after => "ActiveRecord::Base")
