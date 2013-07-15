@@ -1,3 +1,9 @@
+== 0.3.0.rc5
+
+* bugfix
+  * avoid to crash if translate limit is overflowed
+  * avoid to display log of translation
+
 == 0.3.0.rc4
 
 * Bugfix
