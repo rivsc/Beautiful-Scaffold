@@ -96,7 +96,7 @@ module BeautifulScaffoldCommonMethods
   
   def attributes
     # https://raw.github.com/rails/rails/master/railties/lib/rails/generators/generated_attribute.rb
-    puts require 'rails/generators/generated_attribute'
+    require 'rails/generators/generated_attribute'
     return myattributes.map{ |a|
       attr, type = a.split(":")
       Rails::Generators::GeneratedAttribute.new(attr, type.to_sym)
