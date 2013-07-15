@@ -1,3 +1,13 @@
+== 0.3.0.rc6
+
+* enhancement
+  * Add title for show, edit, destroy icon
+
+* bugfix
+  * require jquery-barcode to application-bs.js
+  * avoid to display log of require
+  * jointable def up def down -> def change (migration)
+
 == 0.3.0.rc5
 
 * bugfix
