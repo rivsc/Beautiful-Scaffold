@@ -1,3 +1,15 @@
+== 0.3.1
+
+* enhancement
+  * Spinner works with turbolink
+
+* bugfix
+  * Remove PJAX references
+  * i18n bug names of columns
+  * Flash notice/error with redirect_to fixed
+  * Change Info string to Error in flash[:error] div
+  * Add new attributes in model's permitted attributes and columns select and mass inserting form
+
 == 0.3.0.rc6
 
 * enhancement
