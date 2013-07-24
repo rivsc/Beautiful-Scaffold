@@ -41,6 +41,8 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
         inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ActiveRecord::Base")
         a += "_id"
       end
+
+      inject_into_file("app/models/#{model}.rb", ":#{a},", :after => "def self.permitted_attributes\n    return ")
     }
   end
 
