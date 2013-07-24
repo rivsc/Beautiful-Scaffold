@@ -56,6 +56,7 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
     inject_into_file("#{commonpath}index.html.erb", render_partial("app/views/partials/_index_header.html.erb"), :before => "<!-- Beautiful_scaffold - AddField - Header - Do not remove -->\n" )
     inject_into_file("#{commonpath}index.html.erb", render_partial("app/views/partials/_index_column.html.erb"), :before => "<!-- Beautiful_scaffold - AddField - Column - Do not remove -->\n" )
     inject_into_file("#{commonpath}index.html.erb", render_partial("app/views/partials/_index_search.html.erb"), :before => "<!-- Beautiful_scaffold - AddField - Search - Do not remove -->\n" )
+    inject_into_file("#{commonpath}index.html.erb", myattributes.map{ |attr| a,t = attr.split(':');(['references', 'reference'].include?(t) ? "'#{a}_id'" : "'#{a}'") }.join(',') + ',', :after => ":model_columns => [" )
     # Show
     inject_into_file("#{commonpath}show.html.erb", render_partial("app/views/partials/_show_field.html.erb"), :before => "<!-- Beautiful_scaffold - AddField - Field - Do not remove -->\n" )    
   end
