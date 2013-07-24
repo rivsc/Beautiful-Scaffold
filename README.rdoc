@@ -15,7 +15,7 @@ gem 'beautiful_scaffold', '0.2.7'
 === RubyOnRails 4.X
 
 Add this in your Gemfile :
-gem 'beautiful_scaffold', '0.3.0.rc5'
+gem 'beautiful_scaffold', '0.3.1'
 
 === Next
 
