@@ -249,7 +249,7 @@ module BeautifulHelper
   def build_treeview(obj, child_relation, caption_method = "caption")
     out = '
       <li id="treeelt_' + obj.id.to_s + '" data-id="' + obj.id.to_s + '">
-        <a href="#" class="nopjax">' + obj.send(caption_method).to_s + '</a>
+        <a href="#">' + obj.send(caption_method).to_s + '</a>
         <ul>'
     ar = obj.send(child_relation.to_sym)
     ar = ar.order('position') if obj.class.column_names.include?("position")

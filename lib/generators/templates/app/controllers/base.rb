@@ -35,11 +35,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
 
     respond_to do |format|
       format.html{
-        if request.headers['X-PJAX']
-          render :layout => false
-        else
-          render
-        end
+        render
       }
       format.json{
         render :json => @<%= model %>_scope.all 
@@ -67,11 +63,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
   def show
     respond_to do |format|
       format.html{
-        if request.headers['X-PJAX']
-          render :layout => false
-        else
-          render
-        end
+        render
       }
       format.json { render :json => @<%= model %> }
     end
@@ -82,11 +74,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
 
     respond_to do |format|
       format.html{
-        if request.headers['X-PJAX']
-          render :layout => false
-        else
-          render
-        end
+        render
       }
       format.json { render :json => @<%= model %> }
     end

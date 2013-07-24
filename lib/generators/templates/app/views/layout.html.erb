@@ -26,7 +26,7 @@
             </li>
             <li class="hidden-desktop">
               <!-- Mobile navbar -->
-              <a href="#" class="nopjax" data-toggle="collapse" data-target=".nav-collapse">
+              <a href="#" data-toggle="collapse" data-target=".nav-collapse">
                 <i class="icon-th-list"></i>
               </a>
             </li>
@@ -38,7 +38,6 @@
           </ul>
           <div class="nav-collapse collapse">
             <ul class="nav hidden-desktop">
-              <%% @nopjax = "nopjax" %>
               <%%= render :partial => "layouts/beautiful_menu" %>
             </ul>
           </div>
@@ -56,7 +55,6 @@
           </ul>
         </div>
         <div class="span10">
-          <!-- Zone PJAX -->
           <%% if not flash[:notice].blank? then %>
             <div class="alert alert-info">
               <a class="close" data-dismiss="alert" href="#">×</a>
@@ -71,10 +69,9 @@
               <%%= flash[:error] %>
             </div>
           <%% end %>
-          <div id="pjax-container">
+          <div>
             <%%= yield %>
           </div>
-          <!-- FIN Zone PJAX -->
         </div>
       </div>
     </div>

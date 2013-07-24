@@ -94,10 +94,10 @@
 
         </div>
         <div class="btn-group pull-right">
-          <%%= link_to '<i class="icon-download"></i> CSV'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :csv), :class => "nopjax btn" %>
-          <%%= link_to '<i class="icon-download"></i> XML'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :xml), :class => "nopjax btn" %>
-          <%%= link_to '<i class="icon-download"></i> JSON'.html_safe, <%= namespace_for_route %><%= plural_table_name %>_path(:format => :json), :class => "nopjax btn" %>
-          <%%= link_to '<i class="icon-download"></i> PDF'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :pdf), :class => "nopjax btn" %>
+          <%%= link_to '<i class="icon-download"></i> CSV'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :csv), :class => "btn" %>
+          <%%= link_to '<i class="icon-download"></i> XML'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :xml), :class => "btn" %>
+          <%%= link_to '<i class="icon-download"></i> JSON'.html_safe, <%= namespace_for_route %><%= plural_table_name %>_path(:format => :json), :class => "btn" %>
+          <%%= link_to '<i class="icon-download"></i> PDF'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :pdf), :class => "btn" %>
         </div>
       </div>
     <%% end %>
