@@ -128,12 +128,16 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
   def translate_string(locale, str)
     # See http://www.microsofttranslator.com/dev/
     #
-    url_domain    = "mymemory.translated.net"
-    url_translate = "/api/get?q=to_translate&langpair=en%7C#{locale}"
+    if locale == "en" then
+      attr_translate = "#{str.gsub(/_/, " ")}"
+    else
+      url_domain    = "mymemory.translated.net"
+      url_translate = "/api/get?q=to_translate&langpair=en%7C#{locale}"
 
-    urlstr = url_translate.gsub(/to_translate/, str.gsub(/_/, "%20"))
-    json = JSON.parse(Net::HTTP.get(url_domain, urlstr))
-    attr_translate = json["responseData"]["translatedText"].strip.downcase
+      urlstr = url_translate.gsub(/to_translate/, str.gsub(/_/, "%20"))
+      json = JSON.parse(Net::HTTP.get(url_domain, urlstr))
+      attr_translate = json["responseData"]["translatedText"].strip.downcase
+    end
     raise 'Free Limit' if attr_translate =~ /mymemory/
 
     return attr_translate
