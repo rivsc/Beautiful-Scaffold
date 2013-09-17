@@ -1,3 +1,14 @@
+== 0.3.2
+
+* bugfix
+  * Don't try to translate EN to EN (beautiful_locale)
+  * rails destroy beautiful_scaffold don't remove app/controllers directory
+
+* enhancement
+  * Add error class to control-group (bootstrap + rails validates)
+  * :data => { :confirm => "" } replace :confirm => "" (Rails 4 deprecation warning)
+  * activerelation.all -> .to_a (rails 4)
+
 == 0.3.1
 
 * enhancement

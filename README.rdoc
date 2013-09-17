@@ -15,7 +15,7 @@ gem 'beautiful_scaffold', '0.2.7'
 === RubyOnRails 4.X
 
 Add this in your Gemfile :
-gem 'beautiful_scaffold', '0.3.1'
+gem 'beautiful_scaffold', '~>0.3'
 
 === Next
 
@@ -53,6 +53,7 @@ rails g beautiful_migration AddFieldToModels field:type
 Run rake db:migrate before rail g beautiful_locale (to get lastest attribute translation)
 
 rails g beautiful_locale all
+rails g beautiful_locale en
 rails g beautiful_locale fr
 rails g beautiful_locale de
 
