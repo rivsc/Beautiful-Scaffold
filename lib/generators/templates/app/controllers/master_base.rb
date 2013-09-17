@@ -68,7 +68,7 @@ class BeautifulController < ApplicationController
     if modelclass.column_names.include?("position") then
       new_pos = 0
       modelclass.transaction do
-        all_elt = modelclass.where(foreignkey => parent_id).order("position ASC").all
+        all_elt = modelclass.where(foreignkey => parent_id).order("position ASC").to_a
 
         begin
           if index == all_elt.length then

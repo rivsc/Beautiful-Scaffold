@@ -31,27 +31,27 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
     @<%= model_pluralize %> = @<%= model %>_scope.paginate(
       :page => params[:page],
       :per_page => 20
-    ).all
+    ).to_a
 
     respond_to do |format|
       format.html{
         render
       }
       format.json{
-        render :json => @<%= model %>_scope.all 
+        render :json => @<%= model %>_scope.to_a
       }
       format.csv{
         require 'csv'
         csvstr = CSV.generate do |csv|
           csv << <%= model_camelize %>.attribute_names
-          @<%= model %>_scope.all.each{ |o|
+          @<%= model %>_scope.to_a.each{ |o|
             csv << <%= model_camelize %>.attribute_names.map{ |a| o[a] }
           }
         end 
         render :text => csvstr
       }
       format.xml{ 
-        render :xml => @<%= model %>_scope.all 
+        render :xml => @<%= model %>_scope.to_a
       }             
       format.pdf{
         pdfcontent = PdfReport.new.to_pdf(<%= model_camelize %>,@<%= model %>_scope)
