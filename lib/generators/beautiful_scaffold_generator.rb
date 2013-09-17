@@ -174,7 +174,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   def generate_controller
     copy_file  "app/controllers/master_base.rb", "app/controllers/beautiful_controller.rb"
     dirs = ['app', 'controllers', options[:namespace]].compact
-    empty_directory File.join(dirs)
+    # Avoid to remove app/controllers directory (https://github.com/rivsc/Beautiful-Scaffold/issues/6)
+    empty_directory File.join(dirs) if not options[:namespace].blank?
     template   "app/controllers/base.rb", File.join([dirs, "#{model_pluralize}_controller.rb"].flatten)
   end
   
