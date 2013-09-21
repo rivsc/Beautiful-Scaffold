@@ -4,7 +4,9 @@ Beautiful Scaffold is a gem which propose generators for a complete scaffold wit
 Fully customizable.
 
 [Demo](http://demo.beautiful-scaffold.com/)
+
 [More info](http://www.beautiful-scaffold.com/)
+
 [Changelog](https://raw.github.com/rivsc/Beautiful-Scaffold/master/CHANGELOG)
 
 ### Preview
