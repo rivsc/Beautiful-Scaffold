@@ -253,7 +253,7 @@ module BeautifulHelper
         <ul>'
     ar = obj.send(child_relation.to_sym)
     ar = ar.order('position') if obj.class.column_names.include?("position")
-    for o in ar.all
+    for o in ar.to_a
       out += build_treeview(o, child_relation, caption_method)
     end
     out += '
