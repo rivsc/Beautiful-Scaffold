@@ -70,11 +70,11 @@ class BeautifulController < ApplicationController
       modelclass.transaction do
         all_elt = modelclass.where(foreignkey => parent_id).order("position ASC").to_a
 
-        begin
-          if index == all_elt.length then
-            new_pos = all_elt.last.position + 1
-          elsif index == 0 then
-            new_pos = all_elt.first.position - 1
+        #begin
+          if index == 0 then
+            new_pos = (begin (all_elt.first.position - 1) rescue 1 end)
+          elsif index == all_elt.length then
+            new_pos = (begin (all_elt.last.position + 1) rescue 1 end)
           else
             new_pos = all_elt[index].position
 
@@ -82,18 +82,18 @@ class BeautifulController < ApplicationController
             end_of_array.each{ |g|
               next if g == elt
               g.position = g.position.to_i + 1
-              g.save
+              g.save!
 
               next_elt = end_of_array[end_of_array.index(g) + 1]
               break if not next_elt.nil? and next_elt.position > g.position
             }
           end
-        rescue
-          new_pos = 0
-        end
+        #rescue
+        #  new_pos = 0
+        #end
       end
       elt.position = new_pos
     end
-    return elt.save
+    return elt.save!
   end
 end
