@@ -2,10 +2,19 @@
   text-align:right;
 }
 .al, table td.al, table th.al{
-    text-align:left;
+  text-align:left;
 }
 .ac, table td.ac, table th.ac{
-    text-align:center;
+  text-align:center;
+}
+.ab, table td.ab, table th.ab{
+  vertical-align:bottom;
+}
+.am, table td.am, table th.am{
+  vertical-align:middle;
+}
+.at, table td.at, table th.at{
+  vertical-align:top;
 }
 
 $border-spinner:#0088CC;
