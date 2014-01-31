@@ -103,9 +103,27 @@
     <%% end %>
   </div>
   <div class="span3">
-    <%%= search_form_for @q, :url => <%= namespace_for_route + 'search_' + model_pluralize + '_path' %>, :html => { :class => "well well-small" }, :method => :post do |f| %>
+    <%%= search_form_for @q, :url => <%= namespace_for_route + 'search_' + model_pluralize + '_path' %>, :html => { :class => "well well-small search-and-filter" }, :method => :post do |f| %>
+
+      <h3><%%= t("search-and-filter", :default => "Search & filter") %></h3>
+
       <%= render_partial 'app/views/partials/_index_search.html.erb' %>
-      <%= render_partial 'app/views/partials/_index_search_default_fields.html.erb' %>
+
+      <div class="accordion">
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse-next">
+              <%%= t(:more_options, :default => "More options...") %>
+            </a>
+          </div>
+          <div class="accordion-body collapse">
+            <div class="accordion-inner">
+              <%= render_partial 'app/views/partials/_index_search_default_fields.html.erb' %>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
       <%%= f.submit t(:filter, :default => "Filter"), :class => "btn btn-primary" %>
       <%%= link_to  t(:cancel, :default => "Cancel"), <%= namespace_for_route %><%= model_pluralize %>_path(:nosearch => "ok"), :class => "btn" %>

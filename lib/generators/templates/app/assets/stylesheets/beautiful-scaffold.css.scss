@@ -140,3 +140,21 @@ html, body {
 }
 
 #jstree-marker-line {pointer-events: none;}
+
+/* Search & filter  */
+.search-and-filter div.accordion{
+  margin-bottom:0;
+}
+.search-and-filter div.accordion .accordion-toggle{
+  padding-left:0;
+}
+.search-and-filter div.accordion .accordion-group{
+  border:0;
+}
+.search-and-filter div.accordion .accordion-inner{
+  padding:0;
+  margin-top:0;
+}
+.search-and-filter h3{
+  margin-top:0;
+}
