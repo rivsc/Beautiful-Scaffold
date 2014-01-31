@@ -1,3 +1,19 @@
+== 0.3.3
+
+* enhancement
+  * Icons aligned to center, id aligned to right in table
+  * Accordion for option
+  * Add vertical-align on icon
+  * Add title for search-and-filter box
+
+* bugfix
+  * Mass inserting set focus for first input
+  * I18n for caption in index table
+  * Rails 4 all -> to_a
+  * Improve sorting with treeview
+  * Responsive for Tablet / Mobile / Desktop
+  * Foreignkey in mass-insert and filter-columns error
+
 == 0.3.2
 
 * bugfix
