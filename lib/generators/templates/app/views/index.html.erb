@@ -105,7 +105,7 @@
   <div class="span3">
     <%%= search_form_for @q, :url => <%= namespace_for_route + 'search_' + model_pluralize + '_path' %>, :html => { :class => "well well-small search-and-filter" }, :method => :post do |f| %>
 
-      <h3><%%= t("search-and-filter", :default => "Search & filter") %></h3>
+      <h3><%%= t("search_and_filter", :default => "Search & filter") %></h3>
 
       <%= render_partial 'app/views/partials/_index_search.html.erb' %>
 

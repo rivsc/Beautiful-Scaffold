@@ -45,3 +45,5 @@ en:
   forgot_your_password: "Forgot your password?"
   send_me_reset_password_instructions: "Send me reset password instructions"
   register: "Register"
+  search_and_filter: "Search and filter"
+  more_options: "More options..."

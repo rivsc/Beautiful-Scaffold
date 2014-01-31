@@ -45,3 +45,5 @@ fr:
   forgot_your_password: "Mot de passe oublié ?"
   send_me_reset_password_instructions: "Me ré-envoyer les instructions de réinitialisation du mot de passe"
   register: "Inscription"
+  search_and_filter: "Option de filtre"
+  more_options: "Plus d'options..."
