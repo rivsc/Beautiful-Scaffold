@@ -1,9 +1,9 @@
 <h2><%%= t(:listing, :default => "Listing") %> <%%= <%= i18n_t_m_p(singular_table_name) %> %></h2>
 
 <p>
-  <%%= link_to '<i class="icon-plus"></i> '.html_safe + t(:new, :default => "New") + ' ' + <%= i18n_t_m(model) %>, new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn btn-default" %>
+  <%%= link_to '<i class="fa fa-plus"></i> '.html_safe + t(:new, :default => "New") + ' ' + <%= i18n_t_m(model) %>, new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn btn-default" %>
   <%% if <%= model_camelize %>.columns.map(&:name).include?("<%= model %>_id") then %>
-    <%%= link_to '<i class="icon-folder-close"></i> '.html_safe + t(:treeview, :default => "Treeview") + ' ' + <%= i18n_t_m(model) %>, treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn btn-default" %>
+    <%%= link_to '<i class="fa fa-folder-close"></i> '.html_safe + t(:treeview, :default => "Treeview") + ' ' + <%= i18n_t_m(model) %>, treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn btn-default" %>
   <%% end %>
 </p>
 
@@ -28,12 +28,12 @@
       <div class="well well-small">
         <label class="control-label" for="select01"><%%= t(:batch, :default => "Batch") %></label>
 
-        <select id="select01" name="actionprocess">
+        <select id="select01" name="actionprocess" class="form-control">
           <option value="destroy"><%%= t(:destroy, :default => "Destroy") %></option>
           <%= render_partial 'app/views/partials/_index_batch.html.erb' %>
           <!-- Beautiful_scaffold - AddField - Batch - Do not remove -->
         </select>
-        <button class="btn btn-default" type="submit"><i class="icon-ok"></i> <%%= t(:process, :default => "Process") %></button>
+        <button class="btn btn-default" type="submit"><i class="fa fa-ok"></i> <%%= t(:process, :default => "Process") %></button>
       </div>
 
       <%%= render :partial => "layouts/modal_columns", :locals => { :model_name => "<%= singular_table_name %>", :model_columns => [<%= (attributes.map{ |e| "'#{e.name}'" }.to_a + ["'created_at'", "'updated_at'"]).join(',') %>] } %>
@@ -42,7 +42,7 @@
         <thead>
           <tr>
             <th class="ac">
-              <a class="" data-toggle="modal" href="#modal-columns" title="<%%= t(:select_columns, :default => "Select Columns") %>" ><i class="icon-th-list"></i></a>
+              <a class="" data-toggle="modal" href="#modal-columns" title="<%%= t(:select_columns, :default => "Select Columns") %>" ><i class="fa fa-th-list"></i></a>
             </th>
             <th>
               <%%= check_box_tag :checkall, '' %>
@@ -75,9 +75,9 @@
             <td <%%= visible_column("<%= singular_table_name %>", "updated_at") %> class="col-updated_at <%%= align_attribute("datetime") %>">
               <%%= l(<%= singular_table_name %>.updated_at, :format => :long) %>
             </td>
-            <td class="ac am"><%%= link_to '<i class="icon-search"></i>'.html_safe, <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :title => t(:show, :default => "Show") %></td>
-            <td class="ac am"><%%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_<%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :title => t(:edit, :default => "Edit") %></td>
-            <td class="ac am"><%%= link_to '<i class="icon-remove"></i>'.html_safe, <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :data => { :confirm => t(:are_you_sure, :default => "Are you sure?") }, :method => :delete, :title => t(:destroy, :default => "Destroy") %></td>
+            <td class="ac am"><%%= link_to '<i class="fa fa-search"></i>'.html_safe, <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :title => t(:show, :default => "Show") %></td>
+            <td class="ac am"><%%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_<%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :title => t(:edit, :default => "Edit") %></td>
+            <td class="ac am"><%%= link_to '<i class="fa fa-remove"></i>'.html_safe, <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :data => { :confirm => t(:are_you_sure, :default => "Are you sure?") }, :method => :delete, :title => t(:destroy, :default => "Destroy") %></td>
           </tr>
           <%% end %>
         </tbody>
@@ -94,10 +94,10 @@
 
         </div>
         <div class="btn-group pull-right">
-          <%%= link_to '<i class="icon-download"></i> CSV'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :csv), :class => "btn btn-default" %>
-          <%%= link_to '<i class="icon-download"></i> XML'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :xml), :class => "btn btn-default" %>
-          <%%= link_to '<i class="icon-download"></i> JSON'.html_safe, <%= namespace_for_route %><%= plural_table_name %>_path(:format => :json), :class => "btn btn-default" %>
-          <%%= link_to '<i class="icon-download"></i> PDF'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :pdf), :class => "btn btn-default" %>
+          <%%= link_to '<i class="fa fa-download"></i> CSV'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :csv), :class => "btn btn-default" %>
+          <%%= link_to '<i class="fa fa-download"></i> XML'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :xml), :class => "btn btn-default" %>
+          <%%= link_to '<i class="fa fa-download"></i> JSON'.html_safe, <%= namespace_for_route %><%= plural_table_name %>_path(:format => :json), :class => "btn btn-default" %>
+          <%%= link_to '<i class="fa fa-download"></i> PDF'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :pdf), :class => "btn btn-default" %>
         </div>
       </div>
     <%% end %>
