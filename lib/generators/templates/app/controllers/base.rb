@@ -1,7 +1,7 @@
 # encoding : utf-8
 class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < BeautifulController
 
-  before_filter :load_<%= model %>, :only => [:show, :edit, :update, :destroy]
+  before_action :load_<%= model %>, :only => [:show, :edit, :update, :destroy]
 
   # Uncomment for check abilities with CanCan
   #authorize_resource

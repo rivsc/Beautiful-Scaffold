@@ -39,7 +39,7 @@ class BeautifulDevisecancanGenerator < Rails::Generators::Base
 
 
     # Limited access (Must be commented if use cancan)
-    inject_into_file("app/controllers/beautiful_controller.rb","before_filter :authenticate_#{model}!, :except => [:dashboard]", :after => 'layout "beautiful_layout"' + "\n")
+    inject_into_file("app/controllers/beautiful_controller.rb","before_action :authenticate_#{model}!, :except => [:dashboard]", :after => 'layout "beautiful_layout"' + "\n")
 
     # Custom redirect
     inject_into_file("app/controllers/application_controller.rb","
@@ -123,6 +123,6 @@ class BeautifulDevisecancanGenerator < Rails::Generators::Base
   ", :after => "class ApplicationController < ActionController::Base\n")
 
     # Access controlled by CanCan (in beautiful_scaffold)
-    inject_into_file("app/controllers/application_controller.rb", "#", :before => "before_filter :authenticate_#{model}!, :except => [:dashboard]")
+    inject_into_file("app/controllers/application_controller.rb", "#", :before => "before_action :authenticate_#{model}!, :except => [:dashboard]")
   end
 end
