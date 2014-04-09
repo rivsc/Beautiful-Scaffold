@@ -47,7 +47,7 @@
     </div>
     <div class="container-fluid">
       <div class="row">
-        <div class="span2">
+        <div class="col-md-2">
           <ul class="nav nav-list well">
             <li class="nav-header">
               Menu
@@ -55,7 +55,7 @@
             <%%= render :partial => "layouts/beautiful_menu" %>
           </ul>
         </div>
-        <div class="span10">
+        <div class="col-md-10">
           <%% if not flash[:notice].blank? then %>
             <div class="alert alert-info">
               <a class="close" data-dismiss="alert" href="#">×</a>

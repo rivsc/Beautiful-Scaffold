@@ -23,7 +23,7 @@
 <%% end %>
 
 <div class="row">
-  <div class="span9">
+  <div class="col-md-9">
     <%%= form_tag  batch_<%= namespace_for_route %><%= plural_table_name %>_path, :class => "form-inline" do %>
       <div class="well well-small">
         <label class="control-label" for="select01"><%%= t(:batch, :default => "Batch") %></label>
@@ -102,7 +102,7 @@
       </div>
     <%% end %>
   </div>
-  <div class="span3">
+  <div class="col-md-3">
     <%%= search_form_for @q, :url => <%= namespace_for_route + 'search_' + model_pluralize + '_path' %>, :html => { :class => "well well-small search-and-filter" }, :method => :post do |f| %>
 
       <h3><%%= t("search_and_filter", :default => "Search & filter") %></h3>
