@@ -151,16 +151,16 @@ html, body {
 #jstree-marker-line {pointer-events: none;}
 
 /* Search & filter  */
-.search-and-filter div.accordion{
+.search-and-filter div.panel-group{
   margin-bottom:0;
 }
-.search-and-filter div.accordion .accordion-toggle{
+.search-and-filter div.panel-group .accordion-toggle{
   padding-left:0;
 }
-.search-and-filter div.accordion .accordion-group{
+.search-and-filter div.panel-group .panel.panel-default{
   border:0;
 }
-.search-and-filter div.accordion .accordion-inner{
+.search-and-filter div.panel-group .panel-body{
   padding:0;
   margin-top:0;
 }

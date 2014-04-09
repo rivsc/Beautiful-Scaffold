@@ -109,15 +109,15 @@
 
       <%= render_partial 'app/views/partials/_index_search.html.erb' %>
 
-      <div class="accordion">
-        <div class="accordion-group">
-          <div class="accordion-heading">
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
             <a class="accordion-toggle" data-toggle="collapse-next">
               <%%= t(:more_options, :default => "More options...") %>
             </a>
           </div>
-          <div class="accordion-body collapse">
-            <div class="accordion-inner">
+          <div class="panel-collapse collapse">
+            <div class="panel-body">
               <%= render_partial 'app/views/partials/_index_search_default_fields.html.erb' %>
             </div>
           </div>
