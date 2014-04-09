@@ -1,3 +1,9 @@
+== 0.3.4
+
+* bugfix
+  * Show number element in table (i18n bug)
+  * Improve translation (keep manual translation and check previous translated string)
+
 == 0.3.3
 
 * enhancement
