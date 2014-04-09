@@ -113,7 +113,7 @@ module BeautifulHelper
               :value => (begin params[:q][(name_field + "_tp_gt").to_sym] rescue '' end),
               :class => "col-md-9 tpicker form-control",
               "data-id" => ("q_" + name_field + "_gteq"))
-          response += '<span class="input-group-addon"><i class="fa fa-time"></i></span>'
+          response += '<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>'
           response += '</div>'
         end
 
@@ -142,7 +142,7 @@ module BeautifulHelper
               :value => (begin params[:q][(name_field + "_tp_lt").to_sym] rescue '' end),
               :class => "col-md-9 tpicker form-control",
               "data-id" => ("q_" + name_field + "_lteq"))
-          response += '<span class="input-group-addon"><i class="fa fa-time"></i></span>'
+          response += '<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>'
           response += '</div>'
         end
 
