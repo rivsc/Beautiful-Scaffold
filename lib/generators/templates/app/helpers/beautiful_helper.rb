@@ -23,7 +23,7 @@ module BeautifulHelper
     attr    = attr.to_s.downcase
     sortstr = sort.to_s.downcase
     opposite_sortstr = ""
-    csort = '' # <i class="icon-stop"></i>
+    csort = '' # <i class="fa fa-stop"></i>
     if attribute_name == attr then
       if sortstr == "asc" then
         csort = '<i class="fa fa-chevron-up"></i>'
@@ -96,24 +96,24 @@ module BeautifulHelper
 
         # Greater than
         response += '<div class="input-group input-' + type_of_column.to_s + '">'
-        response += '<span class="input-group-addon"><i class="icon-chevron-right"></i></span>'
+        response += '<span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>'
         response += f.text_field(
             (name_field + "_dp_gt").to_sym,
             :value => (begin params[:q][(name_field + "_dp_gt").to_sym] rescue '' end),
             :class => "col-md-9 dpicker form-control",
             "data-id" => ("q_" + name_field + "_gteq"))
-        response += '<span class="input-group-addon"><i class="icon-calendar"></i></span>'
+        response += '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'
         response += '</div>'
 
         if dt then
           response += '<div class="input-group input-' + type_of_column.to_s + '">'
-          response += '<span class="input-group-addon"><i class="icon-chevron-right"></i></span>'
+          response += '<span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>'
           response += f.text_field(
               (name_field + "_tp_gt").to_sym,
               :value => (begin params[:q][(name_field + "_tp_gt").to_sym] rescue '' end),
               :class => "col-md-9 tpicker form-control",
               "data-id" => ("q_" + name_field + "_gteq"))
-          response += '<span class="input-group-addon"><i class="icon-time"></i></span>'
+          response += '<span class="input-group-addon"><i class="fa fa-time"></i></span>'
           response += '</div>'
         end
 
@@ -125,24 +125,24 @@ module BeautifulHelper
 
         # Less than
         response += '<div class="input-group input-' + type_of_column.to_s + '">'
-        response += '<span class="input-group-addon"><i class="icon-chevron-left"></i></span>'
+        response += '<span class="input-group-addon"><i class="fa fa-chevron-left"></i></span>'
         response += f.text_field(
             (name_field + "_dp_lt").to_sym,
             :value => (begin params[:q][(name_field + "_dp_lt").to_sym] rescue '' end),
             :class => "col-md-9 dpicker form-control",
             "data-id" => ("q_" + name_field + "_lteq"))
-        response += '<span class="input-group-addon"><i class="icon-calendar"></i></span>'
+        response += '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'
         response += '</div>'
 
         if dt then
           response += '<div class="input-group input-' + type_of_column.to_s + '">'
-          response += '<span class="input-group-addon"><i class="icon-chevron-left"></i></span>'
+          response += '<span class="input-group-addon"><i class="fa fa-chevron-left"></i></span>'
           response += f.text_field(
               (name_field + "_tp_lt").to_sym,
               :value => (begin params[:q][(name_field + "_tp_lt").to_sym] rescue '' end),
               :class => "col-md-9 tpicker form-control",
               "data-id" => ("q_" + name_field + "_lteq"))
-          response += '<span class="input-group-addon"><i class="icon-time"></i></span>'
+          response += '<span class="input-group-addon"><i class="fa fa-time"></i></span>'
           response += '</div>'
         end
 
@@ -176,11 +176,11 @@ module BeautifulHelper
           infostr = info_input(model_name, (name_field + "_eq").to_sym)
         else
           response += '<div class="input-group">'
-          response += '<span class="input-group-addon" rel="tooltip" title="' + t(:greater_than, :default => "Greater than") + '"><i class="icon-chevron-right"></i></span>'
+          response += '<span class="input-group-addon" rel="tooltip" title="' + t(:greater_than, :default => "Greater than") + '"><i class="fa fa-chevron-right"></i></span>'
           response += f.text_field((name_field + "_gteq").to_sym, :class => "#{align_attribute("integer")} filter-min col-md-10 form-control")
           response += '</div>'
           response += '<div class="input-group">'
-          response += '<span class="input-group-addon" rel="tooltip" title="' + t(:smaller_than, :default => "Smaller than") + '"><i class="icon-chevron-left"></i></span>'
+          response += '<span class="input-group-addon" rel="tooltip" title="' + t(:smaller_than, :default => "Smaller than") + '"><i class="fa fa-chevron-left"></i></span>'
           response += f.text_field((name_field + "_lteq").to_sym, :class => "#{align_attribute("integer")} filter-max col-md-10 form-control")
           response += '</div>'
 
