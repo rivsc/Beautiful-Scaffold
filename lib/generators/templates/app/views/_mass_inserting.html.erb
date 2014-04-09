@@ -3,7 +3,7 @@
   <% formparams << namespace %>
 <% end %>
 <% formparams << model_name.camelize.constantize.new %>
-<%= form_for formparams, :method => :post, :html => { :class => "well well-small form-horizontal mass-inserting #{(params[:mass_inserting] ? 'setfocus' : '')}" } do |f| %>
+<%= form_for formparams, :method => :post, :html => { :class => "well well-small form-inline mass-inserting #{(params[:mass_inserting] ? 'setfocus' : '')}" } do |f| %>
   <%= hidden_field_tag :mass_inserting, true %>
   <% for col in model_columns %>
     <div <%= visible_column(model_name, col, 'inline') %> class="col-<%= col %>">
