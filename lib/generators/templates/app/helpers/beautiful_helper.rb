@@ -95,7 +95,7 @@ module BeautifulHelper
         interval = (dt ? (1..5) : (1..3))
 
         # Greater than
-        response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
+        response += '<div class="input-group input-' + type_of_column.to_s + '">'
         response += '<span class="add-on"><i class="icon-chevron-right"></i></span>'
         response += f.text_field(
             (name_field + "_dp_gt").to_sym,
@@ -106,7 +106,7 @@ module BeautifulHelper
         response += '</div>'
 
         if dt then
-          response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
+          response += '<div class="input-group input-' + type_of_column.to_s + '">'
           response += '<span class="add-on"><i class="icon-chevron-right"></i></span>'
           response += f.text_field(
               (name_field + "_tp_gt").to_sym,
@@ -124,7 +124,7 @@ module BeautifulHelper
         end
 
         # Less than
-        response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
+        response += '<div class="input-group input-' + type_of_column.to_s + '">'
         response += '<span class="add-on"><i class="icon-chevron-left"></i></span>'
         response += f.text_field(
             (name_field + "_dp_lt").to_sym,
@@ -135,7 +135,7 @@ module BeautifulHelper
         response += '</div>'
 
         if dt then
-          response += '<div class="input-prepend input-append input-' + type_of_column.to_s + '">'
+          response += '<div class="input-group input-' + type_of_column.to_s + '">'
           response += '<span class="add-on"><i class="icon-chevron-left"></i></span>'
           response += f.text_field(
               (name_field + "_tp_lt").to_sym,
@@ -175,11 +175,11 @@ module BeautifulHelper
 
           infostr = info_input(model_name, (name_field + "_eq").to_sym)
         else
-          response += '<div class="input-prepend">'
+          response += '<div class="input-group">'
           response += '<span class="add-on" rel="tooltip" title="' + t(:greater_than, :default => "Greater than") + '"><i class="icon-chevron-right"></i></span>'
           response += f.text_field((name_field + "_gteq").to_sym, :class => "#{align_attribute("integer")} filter-min col-md-10")
           response += '</div>'
-          response += '<div class="input-prepend">'
+          response += '<div class="input-group">'
           response += '<span class="add-on" rel="tooltip" title="' + t(:smaller_than, :default => "Smaller than") + '"><i class="icon-chevron-left"></i></span>'
           response += f.text_field((name_field + "_lteq").to_sym, :class => "#{align_attribute("integer")} filter-max col-md-10")
           response += '</div>'

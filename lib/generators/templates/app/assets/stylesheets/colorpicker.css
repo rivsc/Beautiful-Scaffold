@@ -119,7 +119,7 @@ background-position: 0 100%;
 .colorpicker-color div {
 height: 10px;
 }
-.input-append.color .add-on i, .input-prepend.color .add-on i {
+.input-group.color .add-on i, .input-group.color .add-on i {
 display: block;
 cursor: pointer;
 width: 16px;
