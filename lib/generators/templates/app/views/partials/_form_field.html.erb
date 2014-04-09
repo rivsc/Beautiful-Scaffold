@@ -1,12 +1,12 @@
 <%- attributes.each do |attribute| -%>
   <%- if @beautiful_attributes.include?(attribute.name + ':richtext') then -%>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <%%= f.text_area :<%= attribute.name %>, :class => "richtext-editor" %>
       </div>
     </div>
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label" for="inlineCheckboxes"></label>
       <div class="controls">
         <% for type in richtext_type %>
@@ -30,7 +30,7 @@
     </script>
     <%% end %>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':wysiwyg') then -%>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <%%= f.text_area :<%= attribute.name %>, :class => "wysiwyg-editor" %>
@@ -38,14 +38,14 @@
     </div>
     <%%= f.hidden_field :<%= attribute.name %>_typetext, :value => "html"  %>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':references') then -%>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <%%= f.collection_select :<%= attribute.name %>_id, <%= attribute.name.camelcase %>.all, :id, :caption, :include_blank => true %>
       </div>
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':price') then -%>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <div class="input-prepend">
@@ -54,7 +54,7 @@
       </div>
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':date') then -%>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <div class="input-append">
@@ -66,7 +66,7 @@
       </div>
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':datetime') then -%>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <div class="input-append">
@@ -83,7 +83,7 @@
       </div>
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':color') then -%>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <div class="input-append color" data-color="<%%= (@<%= model %>.<%= attribute.name %> || "rgba(0, 0, 0)") %>" data-color-format="rgba">
@@ -92,7 +92,7 @@
       </div>
     </div>
   <%- else -%>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <div class="controls">
         <%%= f.<%= attribute.field_type %> :<%= attribute.name %><%= ', :rows => 5' if attribute.field_type == :text_area %> %>

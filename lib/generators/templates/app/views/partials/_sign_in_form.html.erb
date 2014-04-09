@@ -1,12 +1,12 @@
 <div style="padding:10px;">
   <%%= form_for("<%= model %>", :url => <%= model %>_session_path, :html => { :class => "form-horizontal" }) do |f| %>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.text_field :email, :placeholder => t(:email, :default => "Email") %>
     </div>
-    <div class="control-group">
+    <div class="form-group">
       <%%= f.password_field :password, :placeholder => t(:password, :default => "Password") %>
     </div>
-    <div class="control-group">
+    <div class="form-group">
       <label for="<%= model %>_remember_me">
         <%%= f.check_box :remember_me %> <%%= t(:remember_me, :default => "Remember me") %>
       </label>

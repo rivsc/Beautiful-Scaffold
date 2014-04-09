@@ -195,7 +195,7 @@ module BeautifulHelper
     response += '</div>'
 
     # Add info class
-    response = '<div class="control-group ' + infostr + '">' + response
+    response = '<div class="form-group ' + infostr + '">' + response
 
     return response.html_safe
   end
