@@ -161,13 +161,13 @@ module BeautifulScaffoldCommonMethods
 
     gem('will_paginate')
     gem('ransack', :github => 'ernie/ransack', :branch => 'rails-4')
-    gem('prawn', '1.0.0.rc2')
+    gem('prawn', '1.1.0')
     gem('RedCloth')
     gem('bb-ruby')
     gem('bluecloth')
     gem('rdiscount')
     gem('sanitize')
-    gem('twitter-bootstrap-rails')
+    gem('twitter-bootstrap-rails', :github => 'seyhunak/twitter-bootstrap-rails', :branch => 'bootstrap3')
     gem('chardinjs-rails')
   end
 
