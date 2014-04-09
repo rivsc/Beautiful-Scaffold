@@ -160,7 +160,7 @@ module BeautifulScaffoldCommonMethods
     say_status("Warning", "Set 2.0.1 version for jquery-rails (for a good compatibility with beautiful_scaffold)", :yellow)
 
     gem('will_paginate')
-    gem('ransack', :github => 'ernie/ransack', :branch => 'rails-4')
+    gem('ransack', :github => 'activerecord-hackery/ransack', :branch => 'rails-4.1')
     gem('prawn', '1.1.0')
     gem('RedCloth')
     gem('bb-ruby')
