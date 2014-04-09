@@ -13,19 +13,19 @@
           case ar.type
           when :integer then
             if col =~ /.*_id/ then
-              f.collection_select((col).to_sym, col.camelize.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_eq"].to_i rescue '' end) }, { :class => "input-small" })
+              f.collection_select((col).to_sym, col.camelize.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_eq"].to_i rescue '' end) })
             else
-              f.text_field(col.to_sym, :class => "input-small", :placeholder => t(i18n_translate_path(model_name, col)).capitalize)
+              f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col)).capitalize)
             end
           when :boolean then
             (
             "<label class='bs-label-ib'>#{f.check_box(col.to_sym, {}, true, false)}#{t(i18n_translate_path(model_name, col)).capitalize}</label>".html_safe
             )
           else
-            f.text_field(col.to_sym, :class => "input-small", :placeholder => t(i18n_translate_path(model_name, col)).capitalize)
+            f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col)).capitalize)
           end
         else
-          f.collection_select((col + '_id').to_sym, col.camelize.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_id_eq"].to_i rescue '' end) }, { :class => "input-small" })
+          f.collection_select((col + '_id').to_sym, col.camelize.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_id_eq"].to_i rescue '' end) })
         end
       %>
     </div>
