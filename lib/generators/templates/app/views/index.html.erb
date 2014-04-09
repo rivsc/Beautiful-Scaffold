@@ -58,7 +58,7 @@
             <th colspan="3">
               <label class="checkbox">
                 <%%= check_box_tag :checkallelt, 'all' %>
-                <%%= pluralize(@<%= singular_table_name %>_scope.count, "<%= i18n_t_m(singular_table_name) %>", "<%= i18n_t_m_p(singular_table_name) %>") %>
+                <%%= pluralize(@<%= singular_table_name %>_scope.count, <%= i18n_t_m(singular_table_name) %>, <%= i18n_t_m_p(singular_table_name) %>) %>
               </label>
             </th>
           </tr>
