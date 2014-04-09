@@ -60,12 +60,20 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
     begin
       hi18n                                   = YAML.load_file(filepath)
     rescue
+      puts "Error loading locale file : #{filepath}"
     end
+
     hi18n                                 ||= { name.downcase => {} }
     hi18n[name.downcase]                  ||= { 'app' => {} }
     hi18n[name.downcase]['app']           ||= { 'models' => {} }
     hi18n[name.downcase]['app']['models'] ||= {}
 
+    # Feed data already translated
+    hi18n[name.downcase]['app']['models'].each{ |modelname,hshtranslations|
+      hshtranslations['bs_attributes'].each{ |attr, translated_attr|
+        already_processed[name.downcase][attr] = translated_attr
+      }
+    }
 
     Dir.glob("app/models/**/*").each { |model_file|
       puts model_file
@@ -79,37 +87,42 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
         next
       end
 
+      newmodel = !hi18n[name.downcase]['app']['models'].has_key?(model)
+
       hi18n[name.downcase]['app']['models'][model] ||= {
           'bs_caption'            => model,
           'bs_caption_plural'     => model.pluralize,
           'bs_attributes'         => {},
       }
 
-      begin
-        bs_caption = translate_string(name.downcase, model)
-      rescue
-        bs_caption = model
+      if newmodel then
+        bs_caption          = (begin translate_string(name.downcase, model) rescue model end)
+        bs_caption_plural   = (begin translate_string(name.downcase, model.pluralize) rescue model.pluralize end)
+
+        hi18n[name.downcase]['app']['models'][model]['bs_caption'] = bs_caption
+        hi18n[name.downcase]['app']['models'][model]['bs_caption_plural'] = bs_caption_plural
       end
-      hi18n[name.downcase]['app']['models'][model]['bs_caption'] = bs_caption
-      begin
-        bs_caption_plural = translate_string(name.downcase, model.pluralize)
-      rescue
-        bs_caption_plural = model.pluralize
-      end
-      hi18n[name.downcase]['app']['models'][model]['bs_caption_plural'] = bs_caption_plural
+
       hi18n[name.downcase]['app']['models'][model]['bs_attributes'] ||= {}
 
       sorted_attr.each { |k|
-        if already_processed[name.downcase][k].nil? then
-          begin
-            attr_translate = translate_string(name.downcase, k)
-            already_processed[name.downcase][k] = attr_translate
-          rescue
-            puts "Plantage translate API"
-            attr_translate = k
+        # Si pas déjà renseigné
+        if hi18n[name.downcase]['app']['models'][model]['bs_attributes'][k].blank? then
+          # Si pas déjà traduit
+          if already_processed[name.downcase][k].nil? then
+            begin
+              attr_translate = translate_string(name.downcase, k)
+              already_processed[name.downcase][k] = attr_translate
+            rescue
+              puts "Plantage translate API"
+              attr_translate = k
+            end
+          else
+            attr_translate = already_processed[name.downcase][k]
           end
         else
-          attr_translate = already_processed[name.downcase][k]
+          # Récupère l'attribut traduit
+          attr_translate = hi18n[name.downcase]['app']['models'][model]['bs_attributes'][k]
         end
 
         hi18n[name.downcase]['app']['models'][model]['bs_attributes'][k] = attr_translate
