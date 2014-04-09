@@ -161,7 +161,9 @@ module BeautifulScaffoldCommonMethods
 
     gem('will_paginate')
     gem('ransack', :github => 'activerecord-hackery/ransack', :branch => 'rails-4.1')
-    gem('prawn', '1.1.0')
+    gem('polyamorous', :github => 'activerecord-hackery/polyamorous')
+    gem('jquery-ui-rails')
+    gem('prawn', '1.0.0')
     gem('RedCloth')
     gem('bb-ruby')
     gem('bluecloth')
