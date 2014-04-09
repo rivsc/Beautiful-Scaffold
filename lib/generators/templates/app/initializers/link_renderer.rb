@@ -8,22 +8,22 @@ module WillPaginate
     
       def page_number(page)
         unless page == current_page
-          link(page, page, :rel => rel_value(page), :class => "btn")
+          link(page, page, :rel => rel_value(page), :class => "btn btn-default")
         else
-          tag(:a, page, :class => 'current active btn')
+          tag(:a, page, :class => 'current active btn btn-default')
         end
       end
       
       def gap
         text = @template.will_paginate_translate(:page_gap) { '&hellip;' }
-        %(<a class="gap btn disabled">#{text}</a>)
+        %(<a class="gap btn btn-default disabled">#{text}</a>)
       end
       
       def previous_or_next_page(page, text, classname)
         if page
-          link(text, page, :class => classname + ' btn')
+          link(text, page, :class => classname + ' btn btn-default')
         else
-          tag(:a, text, :class => classname + ' disabled btn')
+          tag(:a, text, :class => classname + ' disabled btn btn-default')
         end
       end
       

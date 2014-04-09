@@ -1,9 +1,9 @@
 <h2><%%= t(:listing, :default => "Listing") %> <%%= <%= i18n_t_m_p(singular_table_name) %> %></h2>
 
 <p>
-  <%%= link_to '<i class="icon-plus"></i> '.html_safe + t(:new, :default => "New") + ' ' + <%= i18n_t_m(model) %>, new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn" %>
+  <%%= link_to '<i class="icon-plus"></i> '.html_safe + t(:new, :default => "New") + ' ' + <%= i18n_t_m(model) %>, new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn btn-default" %>
   <%% if <%= model_camelize %>.columns.map(&:name).include?("<%= model %>_id") then %>
-    <%%= link_to '<i class="icon-folder-close"></i> '.html_safe + t(:treeview, :default => "Treeview") + ' ' + <%= i18n_t_m(model) %>, treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn" %>
+    <%%= link_to '<i class="icon-folder-close"></i> '.html_safe + t(:treeview, :default => "Treeview") + ' ' + <%= i18n_t_m(model) %>, treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn btn-default" %>
   <%% end %>
 </p>
 
@@ -14,9 +14,9 @@
 <%% if not scopes.blank? then %>
 <div class="btn-toolbar">
   <div class="btn-group">
-    <%%= link_to "All (#{@<%= model %>_scope_for_scope.count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => ""), :class => "btn #{((session[:scope][:<%= model %>].to_s == '') ? 'active' : '')}" %>
+    <%%= link_to "All (#{@<%= model %>_scope_for_scope.count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => ""), :class => "btn btn-default #{((session[:scope][:<%= model %>].to_s == '') ? 'active' : '')}" %>
     <%% for scope in scopes %>
-    <%%= link_to "#{scope} (#{@<%= model %>_scope_for_scope.send(scope).count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => scope), :class => "btn #{((session[:scope][:<%= model %>].to_s == scope) ? 'active' : '')}" %>
+    <%%= link_to "#{scope} (#{@<%= model %>_scope_for_scope.send(scope).count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => scope), :class => "btn btn-default #{((session[:scope][:<%= model %>].to_s == scope) ? 'active' : '')}" %>
     <%% end %>
   </div>
 </div>
@@ -33,7 +33,7 @@
           <%= render_partial 'app/views/partials/_index_batch.html.erb' %>
           <!-- Beautiful_scaffold - AddField - Batch - Do not remove -->
         </select>
-        <button class="btn" type="submit"><i class="icon-ok"></i> <%%= t(:process, :default => "Process") %></button>
+        <button class="btn btn-default" type="submit"><i class="icon-ok"></i> <%%= t(:process, :default => "Process") %></button>
       </div>
 
       <%%= render :partial => "layouts/modal_columns", :locals => { :model_name => "<%= singular_table_name %>", :model_columns => [<%= (attributes.map{ |e| "'#{e.name}'" }.to_a + ["'created_at'", "'updated_at'"]).join(',') %>] } %>
@@ -94,10 +94,10 @@
 
         </div>
         <div class="btn-group pull-right">
-          <%%= link_to '<i class="icon-download"></i> CSV'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :csv), :class => "btn" %>
-          <%%= link_to '<i class="icon-download"></i> XML'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :xml), :class => "btn" %>
-          <%%= link_to '<i class="icon-download"></i> JSON'.html_safe, <%= namespace_for_route %><%= plural_table_name %>_path(:format => :json), :class => "btn" %>
-          <%%= link_to '<i class="icon-download"></i> PDF'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :pdf), :class => "btn" %>
+          <%%= link_to '<i class="icon-download"></i> CSV'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :csv), :class => "btn btn-default" %>
+          <%%= link_to '<i class="icon-download"></i> XML'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :xml), :class => "btn btn-default" %>
+          <%%= link_to '<i class="icon-download"></i> JSON'.html_safe, <%= namespace_for_route %><%= plural_table_name %>_path(:format => :json), :class => "btn btn-default" %>
+          <%%= link_to '<i class="icon-download"></i> PDF'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :pdf), :class => "btn btn-default" %>
         </div>
       </div>
     <%% end %>
@@ -126,7 +126,7 @@
 
       <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
       <%%= f.submit t(:filter, :default => "Filter"), :class => "btn btn-primary" %>
-      <%%= link_to  t(:cancel, :default => "Cancel"), <%= namespace_for_route %><%= model_pluralize %>_path(:nosearch => "ok"), :class => "btn" %>
+      <%%= link_to  t(:cancel, :default => "Cancel"), <%= namespace_for_route %><%= model_pluralize %>_path(:nosearch => "ok"), :class => "btn btn-default" %>
     <%% end %>
   </div>
 </div>
