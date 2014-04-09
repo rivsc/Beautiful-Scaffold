@@ -2,13 +2,13 @@
   <%- if @beautiful_attributes.include?(attribute.name + ':richtext') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <div class="controls">
+      <div>
         <%%= f.text_area :<%= attribute.name %>, :class => "richtext-editor" %>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label" for="inlineCheckboxes"></label>
-      <div class="controls">
+      <div>
         <% for type in richtext_type %>
           <%% hashradio = {:id => "<%= attribute.name %>-<%= type %>", :class => "select-richtext", 'data-editor' => 'markItUp<%= singular_table_name.capitalize %>_<%= attribute.name.downcase %>', 'data-spleditor' => '<%= singular_table_name %>_<%= attribute.name %>' } %>
           <%% hashradio[:checked] = "checked" if @<%= singular_table_name %>.<%= attribute.name %>_typetext == "<%= type %>" %>
@@ -32,7 +32,7 @@
   <%- elsif @beautiful_attributes.include?(attribute.name + ':wysiwyg') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <div class="controls">
+      <div>
         <%%= f.text_area :<%= attribute.name %>, :class => "wysiwyg-editor" %>
       </div>
     </div>
@@ -40,14 +40,14 @@
   <%- elsif @beautiful_attributes.include?(attribute.name + ':references') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <div class="controls">
+      <div>
         <%%= f.collection_select :<%= attribute.name %>_id, <%= attribute.name.camelcase %>.all, :id, :caption, :include_blank => true %>
       </div>
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':price') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <div class="controls">
+      <div>
         <div class="input-group">
           <span class="input-group-addon">$</span><%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
         </div>
@@ -56,7 +56,7 @@
   <%- elsif @beautiful_attributes.include?(attribute.name + ':date') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <div class="controls">
+      <div>
         <div class="input-group">
           <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(3i)]" id="<%= singular_table_name %>_<%= attribute.name %>_3i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.day rescue "" end %>" />
           <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(2i)]" id="<%= singular_table_name %>_<%= attribute.name %>_2i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.mon rescue "" end %>" />
@@ -68,7 +68,7 @@
   <%- elsif @beautiful_attributes.include?(attribute.name + ':datetime') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <div class="controls">
+      <div>
         <div class="input-group">
           <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(3i)]" id="<%= singular_table_name %>_<%= attribute.name %>_3i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.day rescue "" end %>" />
           <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(2i)]" id="<%= singular_table_name %>_<%= attribute.name %>_2i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.mon rescue "" end %>" />
@@ -85,7 +85,7 @@
   <%- elsif @beautiful_attributes.include?(attribute.name + ':color') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <div class="controls">
+      <div>
         <div class="input-group color" data-color="<%%= (@<%= model %>.<%= attribute.name %> || "rgba(0, 0, 0)") %>" data-color-format="rgba">
           <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %><span class="input-group-addon"><i style="background-color: rgb(0, 0, 0)"></i></span>
         </div>
@@ -94,7 +94,7 @@
   <%- else -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <div class="controls">
+      <div>
         <%%= f.<%= attribute.field_type %> :<%= attribute.name %><%= ', :rows => 5' if attribute.field_type == :text_area %> %>
       </div>
     </div>

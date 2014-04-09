@@ -13,25 +13,25 @@
       <%% end %>
       <div class="form-group">
         <%%= f.label :email, t(:email, :default => "Email"), :class => "control-label" %>
-        <div class="controls">
+        <div>
           <%%= f.email_field :email %>
         </div>
       </div>
       <div class="form-group">
         <%%= f.label :password, t(:password, :default => "Password"), :class => "control-label" %>
-        <div class="controls">
+        <div>
           <%%= f.password_field :password %>
         </div>
       </div>
       <div class="form-group">
         <%%= f.label :password_confirmation, t(:password_confirmation, :default => "Password confirmation"), :class => "control-label" %>
-        <div class="controls">
+        <div>
           <%%= f.password_field :password_confirmation %>
         </div>
       </div>
 
       <div class="form-group">
-        <div class="controls">
+        <div>
           <%%= f.submit t(:sign_up, :default => "Sign up"), :class => 'btn btn-default' %>
         </div>
       </div>

@@ -85,7 +85,7 @@ module BeautifulHelper
     infostr   = ''
     response  = '' # See at end
     response += f.label name_field, t(cap, :default => default_caption).capitalize, :class => "control-label"
-    response += '<div class="controls">'
+    response += '<div>'
 
     type_of_column = ar_model.columns_hash[attribute_name].type unless ar_model.columns_hash[attribute_name].nil?
     type_of_column ||= :other

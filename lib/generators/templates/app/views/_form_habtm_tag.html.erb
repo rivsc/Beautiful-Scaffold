@@ -15,7 +15,7 @@
 
 <div class="form-group">
     <%= f.label plural_linked_model_name.to_sym, t(plural_linked_model_name.to_sym, :default => plural_linked_model_name.capitalize), :class => "control-label" %>
-    <div class="controls">
+    <div>
         <ul class="bs-tagit" id="<%= model_name %>_<%= linked_model_name %>_ids" name="<%= model_name %>[<%= linked_model_name %>_ids][]" data-url="<%= path_namespace %>/<%= plural_linked_model_name %>/search_and_filter.json" data-param="q[<%= field_to_search_for_linked_model %>_cont]" data-result="caption">
           <% begin %>
             <% for elt in model_class.send(plural_linked_model_name) %>
