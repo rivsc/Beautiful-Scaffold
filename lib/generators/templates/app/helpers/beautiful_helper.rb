@@ -85,7 +85,6 @@ module BeautifulHelper
     infostr   = ''
     response  = '' # See at end
     response += f.label name_field, t(cap, :default => default_caption).capitalize, :class => "control-label"
-    response += '<div>'
 
     type_of_column = ar_model.columns_hash[attribute_name].type unless ar_model.columns_hash[attribute_name].nil?
     type_of_column ||= :other
@@ -191,7 +190,6 @@ module BeautifulHelper
         infostr = info_input(model_name, (name_field + "_cont").to_sym)
     end
 
-    response += '</div>'
     response += '</div>'
 
     # Add info class
