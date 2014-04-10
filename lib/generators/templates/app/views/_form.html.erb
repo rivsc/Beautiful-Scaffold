@@ -5,7 +5,7 @@ if not namespace_alone.blank? then
 end
 -%>
 
-<%%= form_for(<%= strformfor %>, :html => { :class => "form-horizontal" }) do |f| %>
+<%%= form_for(<%= strformfor %>) do |f| %>
   <%% if @<%= singular_table_name %>.errors.any? %>
     <div id="error_explanation">
       <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
