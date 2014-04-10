@@ -91,7 +91,11 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     dir_image = "app/assets/images"
     directory dir_image, dir_image
 
-    generate("bootstrap:install","static")
+    # Old method
+    #generate("bootstrap:install","static")
+    # New method
+    copy_file "#{stylesheetspath}bootstrap_and_overrides.css.less",
+              "#{stylesheetspath}bootstrap_and_overrides.css.less"
   end
   
   def generate_layout
