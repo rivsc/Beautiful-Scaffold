@@ -15,43 +15,38 @@
     <%%= yield :head %>
   </head>
   <body style="display:none;">
-    <div class="navbar navbar-fixed-top">
-      <div>
-        <div class="container">
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <i class="fa fa-bars"></i>
+          </button>
           <a class="navbar-brand" href="#">
             Beautiful-Scaffold
           </a>
-          <ul class="nav">
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
             <li class="active">
               <a href="/">Home</a>
             </li>
-            <li class="hidden-md">
-              <!-- Mobile navbar -->
-              <a href="#" data-toggle="collapse" data-target=".navbar-collapse">
-                <i class="icon-th-list"></i>
-              </a>
-            </li>
           </ul>
-          <ul class="nav pull-right">
+          <ul class="nav navbar-nav pull-right">
             <li>
               <!-- Beautiful_scaffold - Signin - Do not remove -->
             </li>
           </ul>
-          <div class="navbar-collapse collapse">
-            <ul class="nav hidden-md">
-              <%%= render :partial => "layouts/beautiful_menu" %>
-            </ul>
-          </div>
+          <ul class="nav hidden-md">
+            <%%= render :partial => "layouts/beautiful_menu" %>
+          </ul>
         </div>
       </div>
     </div>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-2">
-          <ul class="list-group well">
-            <li class="list-group-item">
-              Menu
-            </li>
+          <ul class="nav nav-pills nav-stacked">
             <%%= render :partial => "layouts/beautiful_menu" %>
           </ul>
         </div>
