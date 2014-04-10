@@ -209,7 +209,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   end
 
   def install_willpaginate_renderer_for_bootstrap
-    copy_file  "app/initializers/link_renderer.rb", "config/initializers/beautiful_helper.rb"
+    copy_file  "app/initializers/link_renderer.rb", "config/initializers/link_renderer.rb"
   end
 
   def routes
