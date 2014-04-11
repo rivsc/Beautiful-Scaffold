@@ -30,7 +30,7 @@
 
         <select id="select01" name="actionprocess" class="form-control">
           <option value="destroy"><%%= t(:destroy, :default => "Destroy") %></option>
-          <%= render_partial 'app/views/partials/_index_batch.html.erb' %>
+<%= render_partial 'app/views/partials/_index_batch.html.erb' %>
           <!-- Beautiful_scaffold - AddField - Batch - Do not remove -->
         </select>
         <button class="btn btn-default" type="submit"><i class="fa fa-ok"></i> <%%= t(:process, :default => "Process") %></button>
@@ -47,12 +47,12 @@
             <th>
               <%%= check_box_tag :checkall, '' %>
             </th>
-            <%= render_partial 'app/views/partials/_index_header.html.erb' %>
+<%= render_partial 'app/views/partials/_index_header.html.erb' %>
             <!-- Beautiful_scaffold - AddField - Header - Do not remove -->
-            <th <%%= visible_column("<%= singular_table_name %>", "created_at") %> class="col-created_at">
+            <th <%%= visible_column("<%= singular_table_name %>", "created_at") %> class="bs-col-created_at">
               <%%= sorting_header("<%= singular_table_name %>", "created_at", "<%= namespace_alone %>") %>
             </th>
-            <th <%%= visible_column("<%= singular_table_name %>", "updated_at") %> class="col-updated_at">
+            <th <%%= visible_column("<%= singular_table_name %>", "updated_at") %> class="bs-col-updated_at">
               <%%= sorting_header("<%= singular_table_name %>", "updated_at", "<%= namespace_alone %>") %>
             </th>
             <th colspan="3">
@@ -68,11 +68,11 @@
           <tr class="line-<%%= cycle("1","2") %>">
             <td class="ar"><%%= <%= singular_table_name %>.id %></td>
             <td><%%= check_box_tag "ids[]",<%= singular_table_name %>.id, false, :class => 'cbbatch' %></td>
-            <%= render_partial 'app/views/partials/_index_column.html.erb' %><!-- Beautiful_scaffold - AddField - Column - Do not remove -->
-            <td <%%= visible_column("<%= singular_table_name %>", "created_at") %> class="col-created_at <%%= align_attribute("datetime") %>">
+<%= render_partial 'app/views/partials/_index_column.html.erb' %><!-- Beautiful_scaffold - AddField - Column - Do not remove -->
+            <td <%%= visible_column("<%= singular_table_name %>", "created_at") %> class="bs-col-created_at <%%= align_attribute("datetime") %>">
               <%%= l(<%= singular_table_name %>.created_at, :format => :long) %>
             </td>
-            <td <%%= visible_column("<%= singular_table_name %>", "updated_at") %> class="col-updated_at <%%= align_attribute("datetime") %>">
+            <td <%%= visible_column("<%= singular_table_name %>", "updated_at") %> class="bs-col-updated_at <%%= align_attribute("datetime") %>">
               <%%= l(<%= singular_table_name %>.updated_at, :format => :long) %>
             </td>
             <td class="ac am"><%%= link_to '<i class="fa fa-search"></i>'.html_safe, <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :title => t(:show, :default => "Show") %></td>
@@ -107,7 +107,7 @@
 
       <h3><%%= t("search_and_filter", :default => "Search & filter") %></h3>
 
-      <%= render_partial 'app/views/partials/_index_search.html.erb' %>
+<%= render_partial 'app/views/partials/_index_search.html.erb' %>
 
       <div class="panel-group">
         <div class="panel panel-default">
@@ -118,7 +118,7 @@
           </div>
           <div class="panel-collapse collapse">
             <div class="panel-body">
-              <%= render_partial 'app/views/partials/_index_search_default_fields.html.erb' %>
+<%= render_partial 'app/views/partials/_index_search_default_fields.html.erb' %>
             </div>
           </div>
         </div>

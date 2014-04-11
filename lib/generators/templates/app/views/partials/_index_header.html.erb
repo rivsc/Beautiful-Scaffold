@@ -1,9 +1,9 @@
 <%- attributes.each do |attribute| -%>
-<th <%%= visible_column("<%= singular_table_name %>", "<%= attribute.name %>") %> class="col-<%= attribute.name %>">
-  <%- id_or_not = "" -%>
-  <%- if @beautiful_attributes.include?(attribute.name + ':references') then -%>
-    <%- id_or_not = "_id" -%>
-  <%- end -%>
-  <%%= sorting_header("<%= singular_table_name %>", "<%= attribute.name %><%= id_or_not %>", "<%= namespace_alone %>") %>
-</th>
+            <th <%%= visible_column("<%= singular_table_name %>", "<%= attribute.name %>") %> class="bs-col-<%= attribute.name %>">
+              <%- id_or_not = "" -%>
+              <%- if @beautiful_attributes.include?(attribute.name + ':references') then -%>
+                <%- id_or_not = "_id" -%>
+              <%- end -%>
+              <%%= sorting_header("<%= singular_table_name %>", "<%= attribute.name %><%= id_or_not %>", "<%= namespace_alone %>") %>
+            </th>
 <%- end -%>

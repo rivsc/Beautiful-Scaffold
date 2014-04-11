@@ -7,5 +7,5 @@
   <%- elsif @beautiful_attributes.include?(a.name + ':richtext') then -%>
     <%- attribute = "_fulltext" -%>
   <%- end -%>
-  <%%= ransack_field("<%= singular_table_name %>", "<%= a.name %><%= attribute %>", f, "<%= caption %>") %>
+      <%%= ransack_field("<%= singular_table_name %>", "<%= a.name %><%= attribute %>", f, "<%= caption %>") %>
 <%- end -%>

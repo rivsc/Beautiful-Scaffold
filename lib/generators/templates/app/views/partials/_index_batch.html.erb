@@ -1,6 +1,6 @@
 <%- attributes.each{ |attribute| -%>
   <%- if attribute.type.to_s == "boolean" then -%>
-    <option value="<%= attribute.name %>.true"><%%= t(:settrueforattr, :attr => "'<%= attribute.name %>'", :default => "Set <%= attribute.name %> to true") %></option>
-    <option value="<%= attribute.name %>.false"><%%= t(:setfalseforattr, :attr => "'<%= attribute.name %>'", :default => "Set <%= attribute.name %> to false") %></option>
+          <option value="<%= attribute.name %>.true"><%%= t(:settrueforattr, :attr => "'<%= attribute.name %>'", :default => "Set <%= attribute.name %> to true") %></option>
+          <option value="<%= attribute.name %>.false"><%%= t(:setfalseforattr, :attr => "'<%= attribute.name %>'", :default => "Set <%= attribute.name %> to false") %></option>
   <%- end -%>
 <%- } -%>
