@@ -28,10 +28,7 @@
     position: absolute;
     top: -6px;
 }
-.bootstrap-timepicker.modal {
-    margin-left: -100px;
-    margin-top: 0;
-    top: 30%;
+.bootstrap-timepicker.modal .modal-dialog {
     width: 200px;
 }
 .bootstrap-timepicker.modal .modal-content {
