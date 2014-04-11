@@ -46,26 +46,26 @@
   <%- elsif @beautiful_attributes.include?(attribute.name + ':date') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
+      <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(3i)]" id="<%= singular_table_name %>_<%= attribute.name %>_3i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.day rescue "" end %>" />
+      <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(2i)]" id="<%= singular_table_name %>_<%= attribute.name %>_2i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.mon rescue "" end %>" />
+      <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(1i)]" id="<%= singular_table_name %>_<%= attribute.name %>_1i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.year rescue "" end %>" />
       <div class="input-group">
-        <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(3i)]" id="<%= singular_table_name %>_<%= attribute.name %>_3i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.day rescue "" end %>" />
-        <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(2i)]" id="<%= singular_table_name %>_<%= attribute.name %>_2i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.mon rescue "" end %>" />
-        <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(1i)]" id="<%= singular_table_name %>_<%= attribute.name %>_1i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.year rescue "" end %>" />
-        <%%= f.text_field :<%= attribute.name %>, :class => "dpicker" %><span class="input-group-addon"><i class="icon-calendar"></i></span>
+        <%%= f.text_field :<%= attribute.name %>, :class => "dpicker" %><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
       </div>
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':datetime') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
+      <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(3i)]" id="<%= singular_table_name %>_<%= attribute.name %>_3i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.day rescue "" end %>" />
+      <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(2i)]" id="<%= singular_table_name %>_<%= attribute.name %>_2i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.mon rescue "" end %>" />
+      <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(1i)]" id="<%= singular_table_name %>_<%= attribute.name %>_1i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.year rescue "" end %>" />
       <div class="input-group">
-        <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(3i)]" id="<%= singular_table_name %>_<%= attribute.name %>_3i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.day rescue "" end %>" />
-        <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(2i)]" id="<%= singular_table_name %>_<%= attribute.name %>_2i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.mon rescue "" end %>" />
-        <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(1i)]" id="<%= singular_table_name %>_<%= attribute.name %>_1i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.year rescue "" end %>" />
-        <%%= f.text_field :<%= attribute.name %>, :class => "dpicker" %><span class="input-group-addon"><i class="icon-calendar"></i></span>
+        <%%= f.text_field :<%= attribute.name %>, :class => "dpicker" %><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
       </div>
+      <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(4i)]" id="<%= singular_table_name %>_<%= attribute.name %>_4i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.min rescue "" end %>" />
+      <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(5i)]" id="<%= singular_table_name %>_<%= attribute.name %>_5i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.hour rescue "" end %>" />
       <div class="input-group">
-        <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(4i)]" id="<%= singular_table_name %>_<%= attribute.name %>_4i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.min rescue "" end %>" />
-        <input type="hidden" name="<%= singular_table_name %>[<%= attribute.name %>(5i)]" id="<%= singular_table_name %>_<%= attribute.name %>_5i" value="<%%= begin @<%= singular_table_name %>.<%= attribute.name %>.hour rescue "" end %>" />
-        <%%= f.text_field :<%= attribute.name %>, :class => "tpicker" %><span class="input-group-addon"><i class="icon-time"></i></span>
+        <%%= f.text_field :<%= attribute.name %>, :class => "tpicker" %><span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
       </div>
     </div>
   <%- elsif @beautiful_attributes.include?(attribute.name + ':color') then -%>
