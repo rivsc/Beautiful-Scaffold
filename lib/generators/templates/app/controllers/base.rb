@@ -8,9 +8,9 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
 
   def index
     session[:fields] ||= {}
-    session[:fields][:<%= model %>] ||= (<%= model_camelize %>.columns.map(&:name) - ["id"])[0..4]
-    do_select_fields(:<%= model %>)
-    do_sort_and_paginate(:<%= model %>)
+    session[:fields]["<%= model %>"] ||= (<%= model_camelize %>.columns.map(&:name) - ["id"])[0..4]
+    do_select_fields("<%= model %>")
+    do_sort_and_paginate("<%= model %>")
     
     @q = <%= model_camelize %>.search(
       params[:q]
