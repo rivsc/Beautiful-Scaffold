@@ -3,6 +3,9 @@
 * bugfix
   * Show number element in table (i18n bug)
   * Improve translation (keep manual translation and check previous translated string)
+  * alert-error -> alert-danger (bootstrap 3)
+  * Insert field to search-and-filter div before the accordion panel
+  * Columns and sort in table fixed (2 commits)
 
 == 0.3.3
 
