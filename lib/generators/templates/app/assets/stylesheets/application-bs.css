@@ -10,7 +10,7 @@
  *
  *= require_self
  *= require reset
- *= require jquery.ui.all
+ *= require jquery-ui
  *= require datepicker
  *= require timepicker
  *= require beautiful-scaffold
