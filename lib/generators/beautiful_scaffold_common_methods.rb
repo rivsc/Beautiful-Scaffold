@@ -156,12 +156,10 @@ module BeautifulScaffoldCommonMethods
   end
 
   def require_gems
-    # for jquery-ui add "2.3.0" version for jquery-rails
-    #say_status("Warning", "Set 2.0.1 version for jquery-rails (for a good compatibility with beautiful_scaffold)", :yellow)
 
     gem('less-rails', :github => "CQQL/less-rails", :branch => 'less-2.5')
     gem('will_paginate')
-    gem('ransack', :github => 'activerecord-hackery/ransack', :branch => 'rails-4.1')
+    gem('ransack', :github => 'activerecord-hackery/ransack', :branch => 'rails-4.2')
     gem('polyamorous', :github => 'activerecord-hackery/polyamorous')
     gem('jquery-ui-rails')
     gem('prawn', '1.0.0')
