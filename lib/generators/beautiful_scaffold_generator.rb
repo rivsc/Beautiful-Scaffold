@@ -17,9 +17,13 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   argument :myattributes, :type => :array, :default => [], :banner => "field:type field:type"
   
   class_option :namespace, :default => nil
+  class_option :donttouchgem, :default => nil
 
   def install_gems
-    require_gems
+    if options[:donttouchgem].blank? then
+      require_gems
+    end
+
     #inside Rails.root do # Bug ?!
     Bundler.with_clean_env do
       run "bundle install"

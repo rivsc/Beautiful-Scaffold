@@ -9,10 +9,14 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
 
   argument :name, :type => :string, :desc => "Name of the migration CamelCase AddXxxToYyy (Yyy must be plural)"
   argument :myattributes, :type => :array, :default => [], :banner => "field:type field:type (for bt relation model:references)"
+
   class_option :namespace, :default => nil
+  class_option :donttouchgem, :default => nil
 
   def install_gems
-    require_gems
+    if options[:donttouchgem].blank? then
+      require_gems
+    end
   end
 
   def add_field_for_fulltext
