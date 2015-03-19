@@ -214,7 +214,7 @@ root :to => 'beautiful#dashboard'
     collection do
       post :batch
       get  :treeview
-      get  :search_and_filter, :to => :index, :as => :search
+      match :search_and_filter, :to => :index, :as => :search, :via => [:get, :post]
     end
     member do
       post :treeview_update
