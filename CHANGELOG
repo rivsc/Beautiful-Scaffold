@@ -5,6 +5,10 @@
   * Add concern to models
   * Add concern for the routes
 
+* bugfix
+  * Change symbol into string (access session)
+  * Table Checkbox (All checkbox bugfix)
+
 == 0.3.4
 
 * bugfix
