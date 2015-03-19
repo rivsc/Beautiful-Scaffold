@@ -1,3 +1,10 @@
+== 0.3.5
+
+* enhancement
+  * Option to avoid to add bad gem for the rails app.
+  * Add concern to models
+  * Add concern for the routes
+
 == 0.3.4
 
 * bugfix

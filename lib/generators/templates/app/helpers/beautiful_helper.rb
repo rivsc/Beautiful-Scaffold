@@ -2,7 +2,7 @@
 module BeautifulHelper
 
   def visible_column(model_name, field_name, display_default = 'table-cell', other_css = "")
-    return ('style="display:' + ((session[:fields][model_name.to_sym].to_a.include?(field_name))  ? display_default : 'none') + ';' + other_css + '"').html_safe
+    return ('style="display:' + ((session[:fields][model_name].to_a.include?(field_name))  ? display_default : 'none') + ';' + other_css + '"').html_safe
   end
 
   def dropdown_submenu(link_caption, &block)

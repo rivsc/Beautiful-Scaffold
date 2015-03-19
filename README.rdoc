@@ -7,15 +7,15 @@ Demo : http://demo.beautiful-scaffold.com/
 
 == Install
 
-=== RubyOnRails 3.X
+=== RubyOnRails 4.1
 
 Add this in your Gemfile :
-gem 'beautiful_scaffold', '0.2.7'
+gem 'beautiful_scaffold', '0.3.4'
 
-=== RubyOnRails 4.X
+=== RubyOnRails 4.2
 
 Add this in your Gemfile :
-gem 'beautiful_scaffold', '~>0.3'
+gem 'beautiful_scaffold', '0.3.5'
 
 === Next
 
@@ -26,7 +26,7 @@ bundle install
 
 === Scaffold
 
-rails generate beautiful_scaffold model attr:type attr:type... [--namespace=name]
+rails generate beautiful_scaffold model attr:type attr:type... [--namespace=name] [--donttouchgem=name]
 
 type available :
 * integer
