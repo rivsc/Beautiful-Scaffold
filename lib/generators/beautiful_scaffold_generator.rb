@@ -131,38 +131,23 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
   def generate_model
     generate("model", "#{model} #{beautiful_attr_to_rails_attr.join(' ')} #{@fulltext_field.join(' ')}")
-    
+
+    directory  "app/models/concerns", "app/models/concerns"
+
     inject_into_file("app/models/#{model}.rb",'
-  scope :sorting, lambda{ |options|
-    attribute = options[:attribute]
-    direction = options[:sorting]
 
-    attribute ||= "id"
-    direction ||= "DESC"
+  include DefaultSortingConcern
+  include FulltextConcern
+  include CaptionConcern
 
-    order("#{attribute} #{direction}")
-  }
-
-  include BeautifulScaffoldModule
-  before_save :fulltext_field_processing
-
-  # You can OVERRIDE this method used in model form and search form (in belongs_to relation)
-  def caption
-    (self["name"] || self["label"] || self["description"] || "##{id}")
-  end
-
-  def fulltext_field_processing
-    # You can preparse with own things here
-    generate_fulltext_field([' + fulltext_attribute.map{ |e| ('"' + e + '"') }.join(",") + '])
+  cattr_accessor :fulltext_fields do
+    [' + fulltext_attribute.map{ |e| ('"' + e + '"') }.join(",") + ']
   end
 
   def self.permitted_attributes
     return ' + attributes_without_type.map{ |attr| ":#{attr}" }.join(",") + '
   end', :after => "class #{model_camelize} < ActiveRecord::Base")
 
-    inject_into_file("config/application.rb", '    config.autoload_paths += %W(#{config.root}/app/modules)' + "\n", :after => "< Rails::Application\n")
-
-    directory  "modules", "app/modules"
     copy_file  "app/models/pdf_report.rb", "app/models/pdf_report.rb"
   end
 
@@ -220,18 +205,36 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     routes_in_text = File.read("config/routes.rb")
 
     if not routes_in_text[/beautiful#dashboard/] and not routes_in_text[/beautiful#select_fields/] then
-      myroute = "root :to => 'beautiful#dashboard'\n"
-      myroute += "  match ':model_sym/select_fields' => 'beautiful#select_fields', :via => [:get, :post]\n"
+
+      myroute = <<EOF
+root :to => 'beautiful#dashboard'
+  match ':model_sym/select_fields' => 'beautiful#select_fields', :via => [:get, :post]
+
+  concern :bs_routes do
+    collection do
+      post :batch
+      get  :treeview
+      get  :search_and_filter, :to => :index, :as => :search
+    end
+    member do
+      post :treeview_update
+    end
+  end
+
+  # Add route with concerns: :bs_routes here # Do not remove
+EOF
+
       route(myroute)
     end
 
     search_namespace = namespace_alone + "/" if not namespace_alone.blank?
     search_namespace ||= ""
 
-    myroute = 'match "' + search_namespace + model_pluralize + '/search_and_filter" => "' + search_namespace + model_pluralize + '#index", :via => [:get, :post], :as => :' + namespace_for_route + 'search_' + model_pluralize + "\n  "
-    myroute += "namespace :#{namespace_alone} do\n  " if not namespace_alone.blank?
-    myroute += "resources :#{model_pluralize} do\n    collection do\n      post :batch\n      get  :treeview\n    end\n    member do\n      post :treeview_update\n    end\n  end\n"
-    myroute += "end\n"                                if not namespace_alone.blank?
-    route(myroute)
+    myroute =  "\n  "
+    myroute += "namespace :#{namespace_alone} do\n    " if not namespace_alone.blank?
+    myroute += "resources :#{model_pluralize}, concerns: :bs_routes\n  "
+    myroute += "end\n"                                  if not namespace_alone.blank?
+
+    inject_into_file("config/routes.rb", myroute, :after => ":bs_routes here # Do not remove")
   end
 end
