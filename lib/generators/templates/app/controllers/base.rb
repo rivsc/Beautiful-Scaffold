@@ -85,7 +85,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
   end
 
   def create
-    @<%= model %> = <%= model_camelize %>.create(params_for_model)
+    @<%= model %> = <%= model_camelize %>.new(params_for_model)
 
     respond_to do |format|
       if @<%= model %>.save
