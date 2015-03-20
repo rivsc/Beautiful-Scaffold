@@ -1,3 +1,9 @@
+== 0.3.6
+
+* enhancement
+  * Prevent dbclick on form. Thanks to @fazelmk, again.
+  * Replace "create" by "new" for validation. Thanks to @fazelmk
+
 == 0.3.5
 
 * enhancement
