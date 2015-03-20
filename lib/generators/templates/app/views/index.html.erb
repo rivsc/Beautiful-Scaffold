@@ -109,6 +109,8 @@
 
 <%= render_partial 'app/views/partials/_index_search.html.erb' %>
 
+      <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
+
       <div class="panel-group">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -124,7 +126,7 @@
         </div>
       </div>
 
-      <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
+
       <%%= f.submit t(:filter, :default => "Filter"), :class => "btn btn-primary" %>
       <%%= link_to  t(:cancel, :default => "Cancel"), <%= namespace_for_route %><%= model_pluralize %>_path(:nosearch => "ok"), :class => "btn btn-default" %>
     <%% end %>

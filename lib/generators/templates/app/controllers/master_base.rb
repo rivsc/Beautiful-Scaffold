@@ -9,7 +9,7 @@ class BeautifulController < ApplicationController
 
   # Call in AJAX
   def select_fields
-    model_sym = params[:model_sym].to_sym
+    model_sym = params[:model_sym]
 
     do_select_fields(model_sym)
 
