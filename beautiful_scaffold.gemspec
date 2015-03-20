@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.description = "Beautiful Scaffold generate a complete scaffold (sort, export, paginate and filter data) http://www.beautiful-scaffold.com"
   s.authors     = ['Sylvain Claudel']
   s.files       = `git ls-files`.split("\n")
+  s.licenses    = ['MIT']
 
   s.rubyforge_project = "beautiful_scaffold"
 
