@@ -17,7 +17,7 @@ end
   <%% end %>
   <%= render_partial 'app/views/partials/_form_field.html.erb' %><!-- Beautiful_scaffold - AddField - Do not remove -->
   <div>
-    <%%= f.submit :class => "btn btn-primary" %>
+    <%%= f.submit :class => "btn btn-primary", :data => { :disable_with => t(:saving, :default => "Saving...") } %>
   </div>
 <%% end %>
 
