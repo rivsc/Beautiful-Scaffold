@@ -2,8 +2,8 @@
 
 Beautiful Scaffold is a gem which propose generators for a complete scaffold with paginate, sort and filter.
 Fully customizable.
-More info : http://www.beautiful-scaffold.com/
-Demo : http://demo.beautiful-scaffold.com/
+More info : http://beautiful-scaffold.escarworld.com/
+Demo : http://demo.beautiful-scaffold.escarworld.com/
 
 == Install
 
