@@ -18,11 +18,5 @@
  *= require colorpicker
  *= require bootstrap-wysihtml5
  *= require bootstrap_and_overrides
- *= require markitup/skins/simple/style.css
- *= require markitup/sets/bbcode/style.css
- *= require markitup/sets/wiki/style.css
- *= require markitup/sets/markdown/style.css
- *= require markitup/sets/html/style.css
- *= require markitup/sets/textile/style.css
  *= require chardinjs
  */
