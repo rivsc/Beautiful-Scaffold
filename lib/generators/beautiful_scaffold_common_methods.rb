@@ -108,7 +108,7 @@ module BeautifulScaffoldCommonMethods
     myattributes.each{ |attr|
       a,t = attr.split(':')
       newt = t
-      if ['richtext', 'wysiwyg'].include?(t) then
+      if ['wysiwyg'].include?(t) then
         newt = 'text'
       elsif t == 'price' then
         newt = 'float'
@@ -144,7 +144,7 @@ module BeautifulScaffoldCommonMethods
     fulltext_field = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
-      if ['richtext', 'wysiwyg'].include?(t) then
+      if ['wysiwyg'].include?(t) then
         fulltext_field << a
       end
     }
@@ -152,7 +152,7 @@ module BeautifulScaffoldCommonMethods
   end
 
   def richtext_type
-    return ["bbcode","html","text","wiki","textile","markdown"]
+    return ["html","text"]
   end
 
   def require_gems
@@ -163,9 +163,9 @@ module BeautifulScaffoldCommonMethods
     gem('polyamorous', :github => 'activerecord-hackery/polyamorous')
     gem('jquery-ui-rails')
     gem('prawn', '1.0.0')
-    gem('RedCloth')
-    gem('bb-ruby')
-    gem('bluecloth')
+    #gem('RedCloth')
+    #gem('bb-ruby')
+    #gem('bluecloth')
     gem('rdiscount')
     gem('sanitize')
     gem('twitter-bootstrap-rails', :github => 'seyhunak/twitter-bootstrap-rails', :branch => 'bootstrap3')

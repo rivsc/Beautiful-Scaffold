@@ -226,6 +226,7 @@ module BeautifulHelper
            end
   end
 
+  # Encore utilisé avec wysihtml5 ?
   def exclude_richtext_field(array_of_attributes, only_fulltext = true)
     pattern = /$()_fulltext/
     richtext_attributes = []

@@ -35,8 +35,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     @fulltext_field = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
-      if ['richtext', 'wysiwyg'].include?(t) then
-        # _typetext = {bbcode|html|text|wiki|textile|markdown}
+      if ['wysiwyg'].include?(t) then
+        # _typetext = {html|text}
         # _fulltext = text without any code
         @fulltext_field << [a + '_typetext', 'string'].join(':')
         @fulltext_field << [a + '_fulltext', 'text'].join(':')
@@ -117,16 +117,6 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       <li class="<%= "active" if params[:controller] == "' + namespace_for_url + model.pluralize + '" %>">
         <%= link_to ' + i18n_t_m_p(model) + '.capitalize, ' + namespace_for_route + model.pluralize + '_path %>
       </li>', :after => "<!-- Beautiful Scaffold Menu Do Not Touch This -->")
-  end
-
-  def install_markitup
-    # CSS
-    directory "markitup/skins",              "app/assets/stylesheets/markitup/skins"
-    # JS
-    copy_file "markitup/jquery.markitup.js", "app/assets/javascripts/jquery.markitup.js"
-    # JS and CSS
-    directory "markitup/sets",               "app/assets/stylesheets/markitup/sets"
-    directory "markitup/sets",               "app/assets/javascripts/markitup/sets"
   end
 
   def generate_model

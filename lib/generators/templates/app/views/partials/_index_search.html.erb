@@ -4,8 +4,6 @@
   <%- caption = a.name.capitalize -%>
   <%- if @beautiful_attributes.include?(a.name + ':references') then -%>
     <%- attribute = "_id" -%>
-  <%- elsif @beautiful_attributes.include?(a.name + ':richtext') then -%>
-    <%- attribute = "_fulltext" -%>
   <%- end -%>
       <%%= ransack_field("<%= singular_table_name %>", "<%= a.name %><%= attribute %>", f, "<%= caption %>") %>
 <%- end -%>

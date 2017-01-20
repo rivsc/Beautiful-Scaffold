@@ -1,31 +1,5 @@
 <%- attributes.each do |attribute| -%>
-  <%- if @beautiful_attributes.include?(attribute.name + ':richtext') then -%>
-    <div class="form-group">
-      <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <%%= f.text_area :<%= attribute.name %>, :class => "richtext-editor" %>
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="inlineCheckboxes"></label>
-      <% for type in richtext_type %>
-        <%% hashradio = {:id => "<%= attribute.name %>-<%= type %>", :class => "select-richtext", 'data-editor' => 'markItUp<%= singular_table_name.capitalize %>_<%= attribute.name.downcase %>', 'data-spleditor' => '<%= singular_table_name %>_<%= attribute.name %>' } %>
-        <%% hashradio[:checked] = "checked" if @<%= singular_table_name %>.<%= attribute.name %>_typetext == "<%= type %>" %>
-        <label for="<%= attribute.name %>-<%= type %>" class="label-richtext-type checkbox inline">
-          <%%= f.radio_button :<%= attribute.name %>_typetext, "<%= type %>", hashradio  %>
-          <%= type.capitalize %>
-        </label>
-      <% end %>
-    </div>
-
-    <%% rttype = @<%= singular_table_name %>.<%= attribute.name %>_typetext.to_s %>
-    <%% if not rttype.blank? then %>
-    <script language="javascript">
-      $(document).ready(function(){
-        $('#<%= singular_table_name %>_<%= attribute.name %>').markItUp(my<%%= rttype.capitalize %>Settings);
-        $('#markItUp<%= singular_table_name.capitalize %>_<%= attribute.name.downcase %>').addClass('<%%= rttype.downcase %>');
-      });
-    </script>
-    <%% end %>
-  <%- elsif @beautiful_attributes.include?(attribute.name + ':wysiwyg') then -%>
+  <%- if @beautiful_attributes.include?(attribute.name + ':wysiwyg') then -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
       <%%= f.text_area :<%= attribute.name %>, :class => "wysiwyg-editor form-control" %>

@@ -30,18 +30,18 @@ module FulltextConcern
 
   def htmlize(text, type)
     case type
-      when 'bbcode' then
-        require 'bb-ruby'
-        html = text.bbcode_to_html
+      #when 'bbcode' then
+      #  require 'bb-ruby'
+      #  html = text.bbcode_to_html
       when 'html' then
         html = text
-      when 'textile' then
-        html = RedCloth.new(text).to_html
-      when 'markdown' then
-        require 'rdiscount'
-        html = RDiscount.new(text).to_html
-      when 'wiki' then
-        html = WikiCloth::Parser.new({:data => text}).to_html
+      #when 'textile' then
+      #  html = RedCloth.new(text).to_html
+      #when 'markdown' then
+      #  require 'rdiscount'
+      #  html = RDiscount.new(text).to_html
+      #when 'wiki' then
+      #  html = WikiCloth::Parser.new({:data => text}).to_html
       else
         html
     end
