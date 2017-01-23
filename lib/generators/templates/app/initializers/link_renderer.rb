@@ -1,3 +1,5 @@
+require 'will_paginate/view_helpers/link_renderer_base'
+
 module WillPaginate
   module ViewHelpers
     # This class does the heavy lifting of actually building the pagination
