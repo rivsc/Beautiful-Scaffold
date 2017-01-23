@@ -41,8 +41,8 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
     myattributes.each{ |attr|
       a,t = attr.split(':')
       if ['references', 'reference'].include?(t) then
-        inject_into_file("app/models/#{model}.rb", "\n  belongs_to :#{a}", :after => "ActiveRecord::Base")
-        inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ActiveRecord::Base")
+        inject_into_file("app/models/#{model}.rb", "\n  belongs_to :#{a}", :after => "ApplicationRecord")
+        inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ApplicationRecord")
         a += "_id"
       end
 

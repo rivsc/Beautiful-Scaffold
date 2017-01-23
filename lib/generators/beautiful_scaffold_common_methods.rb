@@ -156,19 +156,14 @@ module BeautifulScaffoldCommonMethods
   end
 
   def require_gems
-
-    gem('less-rails', :github => "CQQL/less-rails", :branch => 'less-2.5')
-    gem('will_paginate')
-    gem('ransack', :github => 'activerecord-hackery/ransack', :branch => 'rails-4.2')
-    gem('polyamorous', :github => 'activerecord-hackery/polyamorous')
+    gem('less-rails', '2.8.0')
+    gem('will_paginate') # v 3.1.5
+    gem('ransack', '1.8.2')
+    gem('polyamorous', '1.3.1')
     gem('jquery-ui-rails')
-    gem('prawn', '1.0.0')
-    #gem('RedCloth')
-    #gem('bb-ruby')
-    #gem('bluecloth')
-    gem('rdiscount')
+    gem('prawn', '2.1.0')
     gem('sanitize')
-    gem('twitter-bootstrap-rails', :github => 'seyhunak/twitter-bootstrap-rails', :branch => 'bootstrap3')
+    gem('twitter-bootstrap-rails', '3.2.2')
     gem('chardinjs-rails')
   end
 

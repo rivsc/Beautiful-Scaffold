@@ -100,6 +100,9 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     # New method
     copy_file "#{stylesheetspath}bootstrap_and_overrides.css.less",
               "#{stylesheetspath}bootstrap_and_overrides.css.less"
+
+    # Precompile BS assets
+    inject_into_file("config/initializers/assets.rb", "Rails.application.config.assets.precompile += ['application-bs.css','application-bs.js']", after: /\z/m)
   end
   
   def generate_layout
@@ -136,7 +139,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
   def self.permitted_attributes
     return ' + attributes_without_type.map{ |attr| ":#{attr}" }.join(",") + '
-  end', :after => "class #{model_camelize} < ActiveRecord::Base")
+  end', :after => "class #{model_camelize} < ApplicationRecord")
 
     copy_file  "app/models/pdf_report.rb", "app/models/pdf_report.rb"
   end
@@ -147,7 +150,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       a,t = attr.split(':')
       if ['references', 'reference'].include?(t) then
         begin
-          inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ActiveRecord::Base")
+          inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ApplicationRecord")
         rescue
         end
       end
