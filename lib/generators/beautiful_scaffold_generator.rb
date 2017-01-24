@@ -74,7 +74,6 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "#{javascriptspath}bootstrap-datepicker.js",
                         "#{javascriptspath}bootstrap-datetimepicker-for-beautiful-scaffold.js",
                         "#{javascriptspath}bootstrap-timepicker.js",
-                        "#{javascriptspath}jquery.livequery.js",
                         "#{javascriptspath}jquery.jstree.js",
                         "#{javascriptspath}jquery-barcode.js",
                         "#{javascriptspath}tagit.js",
