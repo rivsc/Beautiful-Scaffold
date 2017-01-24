@@ -2,7 +2,7 @@
 
 Beautiful Scaffold is a gem which propose generators for a complete scaffold with paginate, sort and filter.
 Fully customizable.
-More info : http://beautiful-scaffold.escarworld.com/
+Info : https://github.com/rivsc/Beautiful-Scaffold
 Demo : http://demo.beautiful-scaffold.escarworld.com/
 
 == Install
@@ -18,6 +18,12 @@ Add this in your Gemfile :
 Add this in your Gemfile :
 
     gem 'beautiful_scaffold', '0.3.5'
+
+=== RubyOnRails 5+
+
+Add this in your Gemfile :
+
+    gem 'beautiful_scaffold', '1.0.0.pre'
 
 === Next
 
@@ -38,16 +44,15 @@ Types available:
 * string
 * price
 * color
-* richtext
 * wysiwyg
 
 # Example : products
 
-    rails g beautiful_scaffold product name:string price:price tva:float description:richtext visible:boolean && rake db:migrate
+    rails g beautiful_scaffold product name:string price:price tva:float description:wysiwyg visible:boolean && rake db:migrate
 
 # Example : admin products
 
-    rails g beautiful_scaffold product name:string price:price tva:float description:richtext overview_description:richtext visible:boolean --namespace=admin && rake db:migrate
+    rails g beautiful_scaffold product name:string price:price tva:float description:wysiwyg overview_description:wysiwyg visible:boolean --namespace=admin && rake db:migrate
 
 === Migration (Use Add[Field]To[ModelPluralize] syntax)
 

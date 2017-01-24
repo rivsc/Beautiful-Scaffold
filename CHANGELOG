@@ -1,3 +1,11 @@
+== 1.0.0.pre
+
+* enhancement
+  * Remove Markitup
+  * Remove Livequery
+  * Compatibility Rails 5
+  * Update gem (prawn, ransack, willpaginate)
+
 == 0.3.6
 
 * enhancement
