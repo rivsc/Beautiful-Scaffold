@@ -1,0 +1,2 @@
+lib/generators/templates/app/assets/stylesheets/* linguist-vendored
+lib/generators/templates/app/assets/javascripts/* linguist-vendored
