@@ -162,6 +162,7 @@ module BeautifulScaffoldCommonMethods
     gem('polyamorous', '1.3.1')
     gem('jquery-ui-rails')
     gem('prawn', '2.1.0')
+    gem('prawn-table', '0.2.2')
     gem('sanitize')
     gem('twitter-bootstrap-rails', '3.2.2')
     gem('chardinjs-rails')
