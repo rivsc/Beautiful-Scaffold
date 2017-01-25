@@ -12,7 +12,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
     do_select_fields("<%= model %>")
     do_sort_and_paginate("<%= model %>")
     
-    @q = <%= model_camelize %>.search(
+    @q = <%= model_camelize %>.ransack(
       params[:q]
     )
 
@@ -142,7 +142,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
         # Selected with filter and search
         do_sort_and_paginate(:<%= model %>)
 
-        @<%= model_pluralize %> = <%= model_camelize %>.search(
+        @<%= model_pluralize %> = <%= model_camelize %>.ransack(
           params[:q]
         ).result(
           :distinct => true
