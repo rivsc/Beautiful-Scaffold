@@ -167,3 +167,14 @@ html, body {
 .search-and-filter h3{
   margin-top:0;
 }
+
+#modal-columns div.modal-body label{
+  display: inline-block;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 20px;
+}
+.search-and-filter .form-group label{
+  margin-bottom: 0;
+  margin-top: 5px;
+}
