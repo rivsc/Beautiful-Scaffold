@@ -3,8 +3,20 @@ class BeautifulController < ApplicationController
   
   layout "beautiful_layout"
 
+  # That clear cookie to avoid cookie overflow
+  # if you want to keep all in memory and you use ARCookieStore, just comment next line
+  before_action :delete_session_for_others_models_scaffold
+
   def dashboard
     render :layout => "beautiful_layout"
+  end
+
+  def delete_session_for_others_models_scaffold
+    current_model = params[:controller].split('/').last.singularize
+
+    [:fields,:sorting,:search,:scope,:paginate].each{ |k|
+      session[k] = session[k].delete_if {|key, v| key != current_model } if not session[k].blank?
+    }
   end
 
   # Call in AJAX
