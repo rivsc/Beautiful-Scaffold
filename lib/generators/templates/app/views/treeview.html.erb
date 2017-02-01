@@ -4,14 +4,14 @@
 namespace_for_url = "<%= namespace_for_url %>"
 plural_model_name = "<%= model_pluralize %>"
 model_name        = "<%= singular_table_name %>"
-opened_node       = <%= model_camelize %>.select(:id).all.map{ |g| "'treeelt_" + g.id.to_s + "'" }.join(',').html_safe
+opened_node       = <%= model_with_engine_camelize %>.select(:id).all.map{ |g| "'treeelt_" + g.id.to_s + "'" }.join(',').html_safe
 %>
 
 <div id="treeview" data-model="<%%= model_name %>" data-url="/<%%= namespace_for_url %><%%= plural_model_name %>/" data-opened="[<%%= opened_node %>]">
   <ul>
-    <%% <%= model_camelize %>.transaction do %>
-    <%% ar = <%= model_camelize %>.where(:<%= model %>_id => nil) %>
-    <%% ar = ar.order("position") if <%= model_camelize %>.column_names.include?("position") %>
+    <%% <%= model_with_engine_camelize %>.transaction do %>
+    <%% ar = <%= model_with_engine_camelize %>.where(:<%= model %>_id => nil) %>
+    <%% ar = ar.order("position") if <%= model_with_engine_camelize %>.column_names.include?("position") %>
       <%% for g in ar.all %>
         <%%= build_treeview(g, '<%= model_pluralize %>') %>
       <%% end %>

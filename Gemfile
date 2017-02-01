@@ -8,14 +8,6 @@ gem "will_paginate"
 # Search and filter
 gem "ransack"
 # Pdf
-gem 'prawn', '1.0.0.rc2'
-# Textile
-gem 'RedCloth'
-# BBCode
-gem 'bb-ruby'
-# Markdown
-gem 'bluecloth'
-# Markdown
-gem 'rdiscount'
+gem 'prawn'
 # Clear html tag
 gem 'sanitize'

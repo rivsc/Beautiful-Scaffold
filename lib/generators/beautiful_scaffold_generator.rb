@@ -18,6 +18,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   
   class_option :namespace, :default => nil
   class_option :donttouchgem, :default => nil
+  class_option :mountable_engine, :default => nil
 
   def install_gems
     if options[:donttouchgem].blank? then
@@ -46,7 +47,11 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
   def mimetype
     if not File.exist?("app/controllers/beautiful_controller.rb") then
-      inject_into_file("config/initializers/mime_types.rb", 'Mime::Type.register_alias "application/pdf", :pdf' + "\n", :before => "# Be sure to restart your server when you modify this file." )
+      if File.exist?("config/initializers/mime_types.rb") then # For mountable engine
+        inject_into_file("config/initializers/mime_types.rb", 'Mime::Type.register_alias "application/pdf", :pdf' + "\n", :before => "# Be sure to restart your server when you modify this file." )
+      else
+        puts "============> Engine : You must add `Mime::Type.register_alias \"application/pdf\", :pdf` to your config/initializers/mime_types.rb main app !"
+      end
     end
   end
   
@@ -101,7 +106,11 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
               "#{stylesheetspath}bootstrap_and_overrides.css.less"
 
     # Precompile BS assets
-    inject_into_file("config/initializers/assets.rb", "Rails.application.config.assets.precompile += ['application-bs.css','application-bs.js']", after: /\z/m)
+    if File.exist?("config/initializers/assets.rb") then # For mountable engine
+      inject_into_file("config/initializers/assets.rb", "Rails.application.config.assets.precompile += ['application-bs.css','application-bs.js']", after: /\z/m)
+    else
+      puts "============> Engine : You must add `Rails.application.config.assets.precompile += ['application-bs.css','application-bs.js']` to your config/initializers/assets.rb main app !"
+    end
   end
   
   def generate_layout
@@ -126,7 +135,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
     directory  "app/models/concerns", "app/models/concerns"
 
-    inject_into_file("app/models/#{model}.rb",'
+    inject_into_file("app/models/#{engine_name}#{model}.rb",'
 
   include DefaultSortingConcern
   include FulltextConcern
@@ -149,7 +158,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       a,t = attr.split(':')
       if ['references', 'reference'].include?(t) then
         begin
-          inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ApplicationRecord")
+          inject_into_file("app/models/#{engine_name}#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ApplicationRecord")
         rescue
         end
       end
@@ -157,22 +166,26 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   end
 
   def generate_controller
-    copy_file  "app/controllers/master_base.rb", "app/controllers/beautiful_controller.rb"
-    dirs = ['app', 'controllers', options[:namespace]].compact
+    copy_file  "app/controllers/master_base.rb", "app/controllers/#{engine_name}beautiful_controller.rb"
+    dirs = ['app', 'controllers', engine_name, options[:namespace]].compact
     # Avoid to remove app/controllers directory (https://github.com/rivsc/Beautiful-Scaffold/issues/6)
     empty_directory File.join(dirs) if not options[:namespace].blank?
-    template   "app/controllers/base.rb", File.join([dirs, "#{model_pluralize}_controller.rb"].flatten)
+    dest_ctrl_file = File.join([dirs, "#{model_pluralize}_controller.rb"].flatten)
+    template "app/controllers/base.rb", dest_ctrl_file
   end
   
   def generate_helper
-    copy_file  "app/helpers/beautiful_helper.rb", "app/helpers/beautiful_helper.rb"
-    dirs = ['app', 'helpers', options[:namespace]].compact
+    dest_bs_helper_file = "app/helpers/#{engine_name}beautiful_helper.rb"
+    template "app/helpers/beautiful_helper.rb", dest_bs_helper_file
+
+    dirs = ['app', 'helpers', engine_name, options[:namespace]].compact
     empty_directory File.join(dirs)
-    template   "app/helpers/model_helper.rb", File.join([dirs, "#{model_pluralize}_helper.rb"].flatten)
+    dest_helper_file = File.join([dirs, "#{model_pluralize}_helper.rb"].flatten)
+    template "app/helpers/model_helper.rb", dest_helper_file
   end
 
   def generate_views
-    namespacedirs = ["app", "views", options[:namespace]].compact
+    namespacedirs = ["app", "views", engine_name, options[:namespace]].compact
     empty_directory File.join(namespacedirs)
     
     dirs = [namespacedirs, model_pluralize]
@@ -187,6 +200,10 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     end
 
     copy_file  "app/views/_form_habtm_tag.html.erb", "app/views/layouts/_form_habtm_tag.html.erb"
+  end
+
+  def install_ransack_intializer
+    copy_file  "app/initializers/ransack.rb", "config/initializers/ransack.rb"
   end
 
   def install_willpaginate_renderer_for_bootstrap

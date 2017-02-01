@@ -1,3 +1,3 @@
 <%- { :created_at => "Created At", :updated_at => "Updated At", :id => "Id" }.each{ |k,v| -%>
-              <%%= ransack_field("<%= singular_table_name %>", "<%= k.to_s %>", f, "<%= v %>") %>
+              <%%= ransack_field("<%= singular_table_name %>", "<%= k.to_s %>", f, "<%= v %>"<%= (engine_name.blank? ? '' : ", \"#{engine_opt}\"") %>) %>
 <%- } -%>

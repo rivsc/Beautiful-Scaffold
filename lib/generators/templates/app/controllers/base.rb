@@ -1,4 +1,14 @@
 # encoding : utf-8
+<%
+if !engine_name.blank?
+b_module = "module #{engine_camel}"
+e_module = "end"
+else
+b_module = ""
+e_module = ""
+end
+%>
+<%= b_module %>
 class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < BeautifulController
 
   before_action :load_<%= model %>, :only => [:show, :edit, :update, :destroy]
@@ -192,4 +202,4 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
     params.require(:<%= model %>).permit(<%= model_camelize %>.permitted_attributes)
   end
 end
-
+<%= e_module %>

@@ -2,12 +2,12 @@
 
 <p>
   <%%= link_to '<i class="fa fa-plus"></i> '.html_safe + t(:new, :default => "New") + ' ' + <%= i18n_t_m(model) %>, new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn btn-default" %>
-  <%% if <%= model_camelize %>.columns.map(&:name).include?("<%= model %>_id") then %>
+  <%% if <%= model_with_engine_camelize %>.columns.map(&:name).include?("<%= model %>_id") then %>
     <%%= link_to '<i class="fa fa-folder-close"></i> '.html_safe + t(:treeview, :default => "Treeview") + ' ' + <%= i18n_t_m(model) %>, treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn btn-default" %>
   <%% end %>
 </p>
 
-<%%= render :partial => "layouts/mass_inserting", :locals => { :namespace => '<%= namespace_alone %>', :model_name => '<%= model %>', :model_columns => [<%= attributes.map{ |e| "'#{e.name}'" }.join(',') %>] } %>
+<%%= render :partial => "layouts/mass_inserting", :locals => { :engine => '<%= engine_opt %>', :namespace => '<%= namespace_alone %>', :model_name => '<%= model %>', :model_columns => [<%= attributes.map{ |e| "'#{e.name}'" }.join(',') %>] } %>
 
 <%%# Set your scopes below (string in array) %>
 <%% scopes = [] %>
@@ -36,7 +36,7 @@
         <button class="btn btn-default" type="submit"><i class="fa fa-ok"></i> <%%= t(:process, :default => "Process") %></button>
       </div>
 
-      <%%= render :partial => "layouts/modal_columns", :locals => { :model_name => "<%= singular_table_name %>", :model_columns => [<%= (attributes.map{ |e| "'#{e.name}'" }.to_a + ["'created_at'", "'updated_at'"]).join(',') %>] } %>
+      <%%= render :partial => "layouts/modal_columns", :locals => { :engine_name => '<%= engine_opt %>', :model_name => "<%= singular_table_name %>", :model_columns => [<%= (attributes.map{ |e| "'#{e.name}'" }.to_a + ["'created_at'", "'updated_at'"]).join(',') %>] } %>
 
       <table class="table table-striped table-bordered table-condensed">
         <thead>

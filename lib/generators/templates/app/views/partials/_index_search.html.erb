@@ -5,5 +5,5 @@
   <%- if @beautiful_attributes.include?(a.name + ':references') then -%>
     <%- attribute = "_id" -%>
   <%- end -%>
-      <%%= ransack_field("<%= singular_table_name %>", "<%= a.name %><%= attribute %>", f, "<%= caption %>") %>
+      <%%= ransack_field("<%= singular_table_name %>", "<%= a.name %><%= attribute %>", f, "<%= caption %>"<%= (engine_name.blank? ? '' : ", \"#{engine_opt}\"") %>) %>
 <%- end -%>

@@ -1,4 +1,14 @@
 # encoding : utf-8
+<%
+if !engine_name.blank?
+b_module = "module #{engine_camel}"
+e_module = "end"
+else
+b_module = ""
+e_module = ""
+end
+%>
+<%= b_module %>
 module BeautifulHelper
 
   def visible_column(model_name, field_name, display_default = 'table-cell', other_css = "")
@@ -54,13 +64,13 @@ module BeautifulHelper
     ).html_safe
   end
 
-  def ransack_field(path_of_model, attribute_name, f, caption = nil)
+  def ransack_field(path_of_model, attribute_name, f, caption = nil, engine = nil)
     model_path = path_of_model.split("/")
     model_name = model_path.last
     model_path.delete(model_path.first)
     model_name_for_ransack = model_path.join("_")
 
-    ar_model = model_name.camelize.constantize
+    ar_model = (engine.blank? ? model_name.camelize.constantize : "#{engine.camelize}::#{model_name.camelize}".constantize)
 
     default_caption = caption
     if default_caption.blank? then
@@ -165,7 +175,9 @@ module BeautifulHelper
         infostr = info_input(model_name, (name_field + "_cont").to_sym)
       when :integer, :float, :decimal then
         if is_belongs_to_column?(name_field_bk) then
-          btmodel = get_belongs_to_model(name_field_bk).camelize.constantize
+          bt_model_name = get_belongs_to_model(name_field_bk).camelize
+          bt_model_name = "#{engine.camelize}::#{bt_model_name}" if !engine.blank?
+          btmodel = bt_model_name.constantize
           response += f.collection_select((name_field + "_eq").to_sym, btmodel.all, :id, :caption, { :include_blank => t(:all, :default => "All") }, { :class => "col-md-12 form-control" })
 
           infostr = info_input(model_name, (name_field + "_eq").to_sym)
@@ -278,3 +290,4 @@ module BeautifulHelper
     "app.models.#{model}.bs_caption_plural"
   end
 end
+<%= e_module %>

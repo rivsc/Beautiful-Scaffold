@@ -4,6 +4,22 @@ module BeautifulScaffoldCommonMethods
   private
 
   #############
+  # Engine
+  #############
+
+  def engine_opt
+    options[:mountable_engine].to_s
+  end
+
+  def engine_name
+    engine_opt.blank? ? '' : "#{engine_opt}/"
+  end
+
+  def engine_camel
+    options[:mountable_engine].camelize
+  end
+
+  #############
   # Namespace
   #############
   
@@ -41,6 +57,10 @@ module BeautifulScaffoldCommonMethods
 
   def model_camelize
     model.camelize
+  end
+
+  def model_with_engine_camelize
+    (engine_name.blank? ? model.camelize : "#{engine_camel}::#{model_camelize}")
   end
 
   def model_pluralize
@@ -156,16 +176,26 @@ module BeautifulScaffoldCommonMethods
   end
 
   def require_gems
-    gem('less-rails', '2.8.0')
-    gem('will_paginate') # v 3.1.5
-    gem('ransack', '1.8.2')
-    gem('polyamorous', '1.3.1')
-    gem('jquery-ui-rails')
-    gem('prawn', '2.1.0')
-    gem('prawn-table', '0.2.2')
-    gem('sanitize')
-    gem('twitter-bootstrap-rails', '3.2.2')
-    gem('chardinjs-rails')
+    gems = {
+      'less-rails' => '2.8.0',
+      'will_paginate' => nil, # v 3.1.5
+      'ransack' => '1.8.2',
+      'polyamorous' => '1.3.1',
+      'jquery-ui-rails' => nil,
+      'prawn' => '2.1.0',
+      'prawn-table' => '0.2.2',
+      'sanitize' => nil,
+      'twitter-bootstrap-rails' => '3.2.2',
+      'chardinjs-rails' => nil
+    }
+
+    if !Dir.glob('./*.gemspec').empty?
+      puts "============> Engine : You must add gems to your main app \n #{gems.to_a.map{ |a| "gem '#{a[0]}'#{(a[1].nil? ? '' : ", '#{a[1]}'")} " }.join("\n")}"
+    end
+
+    gems.each{ |gem_to_add, version|
+      gem(gem_to_add, version)
+    }
   end
 
 end
