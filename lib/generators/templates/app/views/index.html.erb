@@ -23,6 +23,28 @@
 <%% end %>
 
 <div class="row">
+  <div class="col-md-12">
+    <a class="btn btn-xs btn-default" id="hide-menu-btn">
+      <i class="fa fa-caret-left"></i>
+      <i class="fa fa-caret-left"></i>
+    </a>
+    <a class="btn btn-xs btn-default" id="show-menu-btn">
+      <i class="fa fa-caret-right"></i>
+      <i class="fa fa-caret-right"></i>
+    </a>
+
+    <a class="btn btn-xs btn-default pull-right" id="hide-search-btn">
+      <i class="fa fa-caret-right"></i>
+      <i class="fa fa-caret-right"></i>
+    </a>
+    <a class="btn btn-xs btn-default pull-right" id="show-search-btn">
+      <i class="fa fa-caret-left"></i>
+      <i class="fa fa-caret-left"></i>
+    </a>
+  </div>
+</div>
+
+<div class="row">
   <div class="col-md-9">
     <%%= form_tag  batch_<%= namespace_for_route %><%= plural_table_name %>_path, :class => "form-inline" do %>
       <div class="well well-small">

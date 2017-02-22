@@ -178,3 +178,16 @@ html, body {
   margin-bottom: 0;
   margin-top: 5px;
 }
+
+div.filler.show-menu{
+  margin-left: 200px;
+}
+div.fixed.show-menu{
+  display: block;
+}
+div.filler.hide-menu{
+  margin-left: 0;
+}
+div.fixed.hide-menu{
+  display: none !important;
+}
