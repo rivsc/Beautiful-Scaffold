@@ -23,47 +23,47 @@ class BeautifulController < ApplicationController
   def select_fields
     model_sym = params[:model_sym]
 
-    do_select_fields(model_sym.to_sym) #TODO vérifier si nécessaire
+    do_select_fields(model_sym.to_s) #TODO vérifier si nécessaire
 
     render :nothing => true
   end
 
   # TODO session use key string because json serializer don't know the type of key.
 
-  def do_select_fields(model_sym)
+  def do_select_fields(model_str)
     # Fields
     session['fields'] ||= {}
-    session['fields'][model_sym.to_s] ||= nil
-    params[:fields] ||= session['fields'][model_sym.to_s]
-    session['fields'][model_sym.to_s] = params[:fields]
+    session['fields'][model_str] ||= nil
+    params[:fields] ||= session['fields'][model_str]
+    session['fields'][model_str] = params[:fields]
   end
 
-  def do_sort_and_paginate(model_sym)
+  def do_sort_and_paginate(model_str)
     # Sort
     session['sorting'] ||= {}
-    session['sorting'][model_sym.to_s] ||= { 'attribute' => "id", 'sorting' => "DESC" }
-    params[:sorting] ||= session['sorting'][model_sym.to_s]
-    session['sorting'][model_sym.to_s] = params[:sorting]
+    session['sorting'][model_str] ||= { 'attribute' => "id", 'sorting' => "DESC" }
+    params[:sorting] ||= session['sorting'][model_str]
+    session['sorting'][model_str] = params[:sorting]
 
     # Search and Filter
     session['search'] ||= {}
-    session['search'][model_sym.to_s] = nil if not params[:nosearch].blank?
+    session['search'][model_str] = nil if not params[:nosearch].blank?
     params[:page] = 1 if not params[:q].nil?
-    params[:q] ||= session['search'][model_sym.to_s]
-    session['search'][model_sym.to_s] = params[:q] if params[:skip_save_search].blank?
+    params[:q] ||= session['search'][model_str]
+    session['search'][model_str] = params[:q] if params[:skip_save_search].blank?
 
     # Scope
     session['scope'] ||= {}
-    session['scope'][model_sym.to_s] ||= nil
+    session['scope'][model_str] ||= nil
     params[:page] = 1 if not params[:scope].nil?
-    params[:scope] ||= session['scope'][model_sym.to_s]
-    session['scope'][model_sym.to_s] = params[:scope]
+    params[:scope] ||= session['scope'][model_str]
+    session['scope'][model_str] = params[:scope]
 
     # Paginate
     session['paginate'] ||= {}
-    session['paginate'][model_sym.to_s] ||= nil
-    params[:page] ||= session['paginate'][model_sym.to_s]
-    session['paginate'][model_sym.to_s] = params[:page]
+    session['paginate'][model_str] ||= nil
+    params[:page] ||= session['paginate'][model_str]
+    session['paginate'][model_str] = params[:page]
   end
   
   def boolean(string)
