@@ -12,7 +12,7 @@ end
 module BeautifulHelper
 
   def visible_column(model_name, field_name, display_default = 'table-cell', other_css = "")
-    return ('style="display:' + ((session[:fields][model_name].to_a.include?(field_name))  ? display_default : 'none') + ';' + other_css + '"').html_safe
+    return ('style="display:' + ((session['fields'][model_name].to_a.include?(field_name))  ? display_default : 'none') + ';' + other_css + '"').html_safe
   end
 
   def dropdown_submenu(link_caption, &block)
@@ -168,7 +168,7 @@ module BeautifulHelper
         response += f.label name_field + "_eq_false",  raw(f.radio_button((name_field + "_eq").to_sym, false))  + " " + h(t(:no, :default => "No")),   :class => "checkbox inline"
         response += f.label name_field + "_eq",        raw(f.radio_button((name_field + "_eq").to_sym, nil))    + " " + h(t(:all, :default => "All")), :class => "checkbox inline"
 
-        infostr = (begin session[:search][model_name.to_sym][(name_field + "_eq").to_sym] == "on" ? "" : "info" rescue "" end)
+        infostr = (begin session['search'][model_name][(name_field + "_eq").to_sym] == "on" ? "" : "info" rescue "" end)
       when :string then
         response += f.text_field((name_field + "_cont").to_sym, :class => "filter col-md-12 form-control")
 
@@ -211,13 +211,13 @@ module BeautifulHelper
   end
 
   def info_input(modname, attr)
-    model_name = modname.to_sym
+    model_name = modname
     rep = false
-    if not session[:search].blank? and not session[:search][model_name].blank? then
+    if not session['search'].blank? and not session['search'][model_name].blank? then
       if attr.kind_of?(Array) then
-        rep = (attr.any? { |elt| (not session[:search][model_name][elt].blank?) })
+        rep = (attr.any? { |elt| (not session['search'][model_name][elt].blank?) })
       else
-        rep = (not session[:search][model_name][attr].blank?)
+        rep = (not session['search'][model_name][attr].blank?)
       end
     end
     return (rep ? "info" : "")
@@ -276,6 +276,7 @@ module BeautifulHelper
   def clean_params
     params.delete :q
     params.delete :fields
+    params.delete :scope
   end
 
   def i18n_translate_path(model, attr)

@@ -14,7 +14,7 @@ class BeautifulController < ApplicationController
   def delete_session_for_others_models_scaffold
     current_model = params[:controller].split('/').last.singularize
 
-    [:fields,:sorting,:search,:scope,:paginate].each{ |k|
+    ['fields','sorting','search','scope','paginate'].each{ |k|
       session[k] = session[k].delete_if {|key, v| key != current_model } if not session[k].blank?
     }
   end
@@ -23,45 +23,47 @@ class BeautifulController < ApplicationController
   def select_fields
     model_sym = params[:model_sym]
 
-    do_select_fields(model_sym)
+    do_select_fields(model_sym.to_sym) #TODO vérifier si nécessaire
 
     render :nothing => true
   end
 
+  # TODO session use key string because json serializer don't know the type of key.
+
   def do_select_fields(model_sym)
     # Fields
-    session[:fields] ||= {}
-    session[:fields][model_sym] ||= nil
-    params[:fields] ||= session[:fields][model_sym]
-    session[:fields][model_sym] = params[:fields]
+    session['fields'] ||= {}
+    session['fields'][model_sym.to_s] ||= nil
+    params[:fields] ||= session['fields'][model_sym.to_s]
+    session['fields'][model_sym.to_s] = params[:fields]
   end
 
   def do_sort_and_paginate(model_sym)
     # Sort
-    session[:sorting] ||= {}
-    session[:sorting][model_sym] ||= { :attribute => "id", :sorting => "DESC" }
-    params[:sorting] ||= session[:sorting][model_sym]
-    session[:sorting][model_sym] = params[:sorting]
-    
+    session['sorting'] ||= {}
+    session['sorting'][model_sym.to_s] ||= { 'attribute' => "id", 'sorting' => "DESC" }
+    params[:sorting] ||= session['sorting'][model_sym.to_s]
+    session['sorting'][model_sym.to_s] = params[:sorting]
+
     # Search and Filter
-    session[:search] ||= {}
-    session[:search][model_sym] = nil if not params[:nosearch].blank?
+    session['search'] ||= {}
+    session['search'][model_sym.to_s] = nil if not params[:nosearch].blank?
     params[:page] = 1 if not params[:q].nil?
-    params[:q] ||= session[:search][model_sym]
-    session[:search][model_sym] = params[:q] if params[:skip_save_search].blank?
-        
+    params[:q] ||= session['search'][model_sym.to_s]
+    session['search'][model_sym.to_s] = params[:q] if params[:skip_save_search].blank?
+
     # Scope
-    session[:scope] ||= {}
-    session[:scope][model_sym] ||= nil
+    session['scope'] ||= {}
+    session['scope'][model_sym.to_s] ||= nil
     params[:page] = 1 if not params[:scope].nil?
-    params[:scope] ||= session[:scope][model_sym]
-    session[:scope][model_sym] = params[:scope]
+    params[:scope] ||= session['scope'][model_sym.to_s]
+    session['scope'][model_sym.to_s] = params[:scope]
 
     # Paginate
-    session[:paginate] ||= {}
-    session[:paginate][model_sym] ||= nil
-    params[:page] ||= session[:paginate][model_sym]
-    session[:paginate][model_sym] = params[:page]
+    session['paginate'] ||= {}
+    session['paginate'][model_sym.to_s] ||= nil
+    params[:page] ||= session['paginate'][model_sym.to_s]
+    session['paginate'][model_sym.to_s] = params[:page]
   end
   
   def boolean(string)
