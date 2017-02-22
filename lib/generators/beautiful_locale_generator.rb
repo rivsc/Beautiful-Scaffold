@@ -6,6 +6,8 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
   argument :name, :type => :string, :desc => "type of locale : fr OR en OR de OR ja all..."
+
+  class_option :mountable_engine, :default => nil
   
   def install_locale
     availablelocale = ["fr", "en", "ja"]
@@ -56,7 +58,15 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
 
     already_processed = { name.downcase => {}}
 
-    filepath = File.join(Rails.root, 'config', 'locales', "#{Rails.application.class.parent_name.downcase}.#{name.downcase}.yml")
+    app_name = (Rails.root || Rails::Engine.root)
+    engine_or_apps = (Rails.application.class.parent_name || engine_opt).downcase
+
+    puts "===>"
+    puts app_name
+    puts "=======>"
+    puts engine_or_apps
+
+    filepath = File.join(app_name, 'config', 'locales', "#{engine_or_apps}.#{name.downcase}.yml")
     begin
       hi18n                                   = YAML.load_file(filepath)
     rescue

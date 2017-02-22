@@ -57,59 +57,66 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   
   def generate_assets
     stylesheetspath = "app/assets/stylesheets/"
+    stylesheetspath_dest = "#{stylesheetspath}#{engine_name}"
     
     # Css
-    reset            = "#{stylesheetspath}reset.css"
+    reset            = "reset.css"
     bc_css           = [
-                        "#{stylesheetspath}application-bs.css",
-                        "#{stylesheetspath}datepicker.css",
-                        "#{stylesheetspath}timepicker.css",
-                        "#{stylesheetspath}beautiful-scaffold.css.scss",
-                        "#{stylesheetspath}tagit-dark-grey.css",
-                        "#{stylesheetspath}colorpicker.css",
-                        "#{stylesheetspath}bootstrap-wysihtml5.css"
+                        "application-bs.css",
+                        "datepicker.css",
+                        "timepicker.css",
+                        "beautiful-scaffold.css.scss",
+                        "tagit-dark-grey.css",
+                        "colorpicker.css",
+                        "bootstrap-wysihtml5.css"
                        ]
-        
-    javascriptspath = "app/assets/javascripts/"
+
+    javascriptspath = "app/assets/javascripts/#{engine_name}"
+    javascriptspath_dest = "#{javascriptspath}#{engine_name}"
+
+    [reset, bc_css].flatten.each{ |path|
+      copy_file "#{stylesheetspath}#{path}", "#{stylesheetspath_dest}#{path}"
+    }
     
     # Js
     bc_js            = [
-                        "#{javascriptspath}application-bs.js",
-                        "#{javascriptspath}beautiful_scaffold.js",
-                        "#{javascriptspath}bootstrap-datepicker.js",
-                        "#{javascriptspath}bootstrap-datetimepicker-for-beautiful-scaffold.js",
-                        "#{javascriptspath}bootstrap-timepicker.js",
-                        "#{javascriptspath}jquery.jstree.js",
-                        "#{javascriptspath}jquery-barcode.js",
-                        "#{javascriptspath}tagit.js",
-                        "#{javascriptspath}bootstrap-colorpicker.js",
-                        "#{javascriptspath}a-wysihtml5-0.3.0.min.js",
-                        "#{javascriptspath}bootstrap-wysihtml5.js",
-                        "#{javascriptspath}fixed_menu.js"
+                        "application-bs.js",
+                        "beautiful_scaffold.js",
+                        "bootstrap-datepicker.js",
+                        "bootstrap-datetimepicker-for-beautiful-scaffold.js",
+                        "bootstrap-timepicker.js",
+                        "jquery.jstree.js",
+                        "jquery-barcode.js",
+                        "tagit.js",
+                        "bootstrap-colorpicker.js",
+                        "a-wysihtml5-0.3.0.min.js",
+                        "bootstrap-wysihtml5.js",
+                        "fixed_menu.js"
                        ]
 
-    [reset, bc_css, bc_js].flatten.each{ |path|
-      copy_file path, path
+    [bc_js].flatten.each{ |path|
+      copy_file "#{javascriptspath}#{path}", "#{javascriptspath_dest}#{path}"
     }
 
     # Jstree theme
-    directory "app/assets/stylesheets/themes", "app/assets/stylesheets/themes"
+    directory "#{stylesheetspath}themes", "#{stylesheetspath}themes"
 
     # Images
     dir_image = "app/assets/images"
-    directory dir_image, dir_image
+    dir_image_dest = "app/assets/images/#{engine_opt}"
+    directory dir_image, dir_image_dest
 
     # Old method
     #generate("bootstrap:install","static")
     # New method
     copy_file "#{stylesheetspath}bootstrap_and_overrides.css.less",
-              "#{stylesheetspath}bootstrap_and_overrides.css.less"
+              "#{stylesheetspath_dest}bootstrap_and_overrides.css.less"
 
     # Precompile BS assets
     if File.exist?("config/initializers/assets.rb") then # For mountable engine
-      inject_into_file("config/initializers/assets.rb", "Rails.application.config.assets.precompile += ['application-bs.css','application-bs.js']", after: /\z/m)
+      inject_into_file("config/initializers/assets.rb", "Rails.application.config.assets.precompile += ['#{engine_name}application-bs.css','#{engine_name}application-bs.js']", after: /\z/m)
     else
-      puts "============> Engine : You must add `Rails.application.config.assets.precompile += ['application-bs.css','application-bs.js']` to your config/initializers/assets.rb main app !"
+      puts "============> Engine : You must add `Rails.application.config.assets.precompile += ['#{engine_name}application-bs.css','#{engine_name}application-bs.js']` to your config/initializers/assets.rb main app !"
     end
   end
   
@@ -119,8 +126,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       template  "app/views/_beautiful_menu.html.erb", "app/views/layouts/_beautiful_menu.html.erb"
     end
 
-    empty_directory "app/views/beautiful"
-    template  "app/views/dashboard.html.erb", "app/views/beautiful/dashboard.html.erb"
+    empty_directory "app/views/#{engine_name}beautiful"
+    template  "app/views/dashboard.html.erb", "app/views/#{engine_name}beautiful/dashboard.html.erb"
     copy_file "app/views/_modal_columns.html.erb",  "app/views/layouts/_modal_columns.html.erb"
     copy_file "app/views/_mass_inserting.html.erb", "app/views/layouts/_mass_inserting.html.erb"
     
