@@ -71,7 +71,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "bootstrap-wysihtml5.css"
                        ]
 
-    javascriptspath = "app/assets/javascripts/#{engine_name}"
+    javascriptspath = "app/assets/javascripts/"
     javascriptspath_dest = "#{javascriptspath}#{engine_name}"
 
     [reset, bc_css].flatten.each{ |path|
