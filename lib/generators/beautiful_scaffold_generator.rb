@@ -142,6 +142,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
     directory  "app/models/concerns", "app/models/concerns"
 
+    gsub_file "app/models/#{engine_name}#{model}.rb", 'ActiveRecord::Base', 'ApplicationRecord' # Rails 4 -> 5
     inject_into_file("app/models/#{engine_name}#{model}.rb",'
 
   include DefaultSortingConcern
