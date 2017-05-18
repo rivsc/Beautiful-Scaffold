@@ -23,7 +23,7 @@ Add this in your Gemfile :
 
 Add this in your Gemfile :
 
-    gem 'beautiful_scaffold', '1.0.0.pre'
+    gem 'beautiful_scaffold', '1.0.1'
 
 === Next
 
