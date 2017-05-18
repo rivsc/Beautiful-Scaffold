@@ -8,7 +8,7 @@
       <div class="modal-body">
         <% for field in model_columns %>
           <label class="checkbox">
-            <input type="checkbox" name="field[]" value="<%= field %>" <%= "checked" if session[:fields][model_name.to_sym].include?(field) %>> <%= t("app.models.#{model_name}.bs_attributes.#{field}", :default => field.capitalize) %>
+            <input type="checkbox" name="field[]" value="<%= field %>" <%= "checked" if session['fields'][model_name.to_s].include?(field) %>> <%= t("app.models.#{model_name}.bs_attributes.#{field}", :default => field.capitalize) %>
           </label><br />
         <% end %>
       </div>
