@@ -190,9 +190,12 @@ module BeautifulScaffoldCommonMethods
       'prawn-table' => '0.2.2',
       'sanitize' => nil,
       'twitter-bootstrap-rails' => '3.2.2',
-      'chardinjs-rails' => nil
+      'chardinjs-rails' => nil,
+      'momentjs-rails' => '>= 2.9.0',
+      'bootstrap3-datetimepicker-rails' => '~> 4.17.47'
     }
 
+    # Si engine il faut mettre les gems dans le gemspec et faire le require
     if !Dir.glob('./*.gemspec').empty?
       puts "============> Engine : You must add gems to your main app \n #{gems.to_a.map{ |a| "gem '#{a[0]}'#{(a[1].nil? ? '' : ", '#{a[1]}'")} " }.join("\n")}"
     end

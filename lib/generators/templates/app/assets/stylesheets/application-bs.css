@@ -11,8 +11,7 @@
  *= require_self
  *= require reset
  *= require jquery-ui
- *= require datepicker
- *= require timepicker
+ *= require bootstrap-datetimepicker
  *= require beautiful-scaffold
  *= require tagit-dark-grey
  *= require colorpicker

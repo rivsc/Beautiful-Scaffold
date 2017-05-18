@@ -63,8 +63,6 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     reset            = "reset.css"
     bc_css           = [
                         "application-bs.css",
-                        "datepicker.css",
-                        "timepicker.css",
                         "beautiful-scaffold.css.scss",
                         "tagit-dark-grey.css",
                         "colorpicker.css",
@@ -82,9 +80,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     bc_js            = [
                         "application-bs.js",
                         "beautiful_scaffold.js",
-                        "bootstrap-datepicker.js",
                         "bootstrap-datetimepicker-for-beautiful-scaffold.js",
-                        "bootstrap-timepicker.js",
                         "jquery.jstree.js",
                         "jquery-barcode.js",
                         "tagit.js",
