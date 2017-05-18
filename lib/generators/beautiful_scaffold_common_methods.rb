@@ -55,6 +55,10 @@ module BeautifulScaffoldCommonMethods
   # Models
   ############
 
+  def model
+    model_opt.underscore
+  end
+
   def model_camelize
     model.camelize
   end

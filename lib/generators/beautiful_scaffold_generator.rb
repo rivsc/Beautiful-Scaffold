@@ -13,7 +13,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
   source_root File.expand_path('../templates', __FILE__)
 
-  argument :model, :type => :string, :desc => "Name of model (downcase singular)"
+  argument :model_opt, :type => :string, :desc => "Name of model (singular)"
   argument :myattributes, :type => :array, :default => [], :banner => "field:type field:type"
   
   class_option :namespace, :default => nil
