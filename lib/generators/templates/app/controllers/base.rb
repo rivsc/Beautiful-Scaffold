@@ -58,7 +58,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
             csv << <%= model_camelize %>.attribute_names.map{ |a| o[a] }
           }
         end 
-        render :text => csvstr
+        render :plain => csvstr
       }
       format.xml{ 
         render :xml => @<%= model %>_scope.to_a
