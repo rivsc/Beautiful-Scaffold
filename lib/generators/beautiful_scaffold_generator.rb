@@ -102,12 +102,6 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     dir_image_dest = "app/assets/images/#{engine_opt}"
     directory dir_image, dir_image_dest
 
-    # Old method
-    #generate("bootstrap:install","static")
-    # New method
-    copy_file "#{stylesheetspath}bootstrap_and_overrides.css.less",
-              "#{stylesheetspath_dest}bootstrap_and_overrides.css.less"
-
     # Precompile BS assets
     if File.exist?("config/initializers/assets.rb") then # For mountable engine
       inject_into_file("config/initializers/assets.rb", "Rails.application.config.assets.precompile += ['#{engine_name}application-bs.css','#{engine_name}application-bs.js']", after: /\z/m)
