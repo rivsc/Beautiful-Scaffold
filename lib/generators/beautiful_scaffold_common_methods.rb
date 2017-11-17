@@ -181,7 +181,6 @@ module BeautifulScaffoldCommonMethods
 
   def require_gems
     gems = {
-      'less-rails' => '2.8.0',
       'will_paginate' => nil, # v 3.1.5
       'ransack' => '1.8.2',
       'polyamorous' => '1.3.1',
@@ -190,6 +189,7 @@ module BeautifulScaffoldCommonMethods
       'prawn-table' => '0.2.2',
       'sanitize' => nil,
       'twitter-bootstrap-rails' => '3.2.2',
+      'font-awesome-rails' => '4.7.0.2',
       'chardinjs-rails' => nil,
       'momentjs-rails' => '>= 2.9.0',
       'bootstrap3-datetimepicker-rails' => '~> 4.17.47'

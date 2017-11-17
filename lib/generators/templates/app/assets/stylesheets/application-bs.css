@@ -11,11 +11,12 @@
  *= require_self
  *= require reset
  *= require jquery-ui
+ *= require twitter-bootstrap-static/bootstrap
+ *= require font-awesome
  *= require bootstrap-datetimepicker
  *= require beautiful-scaffold
  *= require tagit-dark-grey
  *= require colorpicker
  *= require bootstrap-wysihtml5
- *= require bootstrap_and_overrides
  *= require chardinjs
  */
