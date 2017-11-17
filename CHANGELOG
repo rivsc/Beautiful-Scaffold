@@ -1,3 +1,12 @@
+== github
+
+* enhancement
+  * Using static twitter bootstrap files
+
+* bugfix
+  * Fix #18 : Responsive Theme Navbar Overlaps Content When Resizing Below ~979px
+  * Fix generator locales
+
 == 1.0.1
 
 * enhancement
