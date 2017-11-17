@@ -192,7 +192,8 @@ module BeautifulScaffoldCommonMethods
       'font-awesome-rails' => '4.7.0.2',
       'chardinjs-rails' => nil,
       'momentjs-rails' => '>= 2.9.0',
-      'bootstrap3-datetimepicker-rails' => '~> 4.17.47'
+      'bootstrap3-datetimepicker-rails' => '~> 4.17.47',
+      'jquery-rails' => '4.3.1'
     }
 
     # Si engine il faut mettre les gems dans le gemspec et faire le require
