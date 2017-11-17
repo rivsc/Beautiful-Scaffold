@@ -8,21 +8,16 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
   argument :name, :type => :string, :desc => "type of locale : fr OR en OR de OR ja all..."
 
   class_option :mountable_engine, :default => nil
+
+  def list_locales
+    availablelocale = ["fr", "en", "ja"]
+
+    localestr = name.downcase
+    (localestr == 'all' ? availablelocale : [localestr])
+  end
   
   def install_locale
-    availablelocale = ["fr", "en", "ja"]
-    
-    localestr = name.downcase
-    
-    locale_to_process = []
-
-    if localestr == 'all' then
-      locale_to_process = availablelocale
-    else
-      locale_to_process << localestr
-    end
-    
-    locale_to_process.each{ |temp_locale|
+    list_locales.each{ |temp_locale|
       filename = "beautiful_scaffold.#{temp_locale}.yml"
       gem_localepath = "app/locales/#{filename}"
       app_localepath = "config/locales/#{filename}"
@@ -56,94 +51,112 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
   def regenerate_app_locale
     require 'net/http'
 
-    already_processed = { name.downcase => {}}
-
-    app_name = (Rails.root || Rails::Engine.root)
+    app_name = (Rails.root || engine_opt)
     engine_or_apps = (Rails.application.class.parent_name || engine_opt).downcase
+    prefix = engine_opt.blank? ? '' : "#{engine_opt.camelize}::"
 
-    puts "===>"
-    puts app_name
-    puts "=======>"
-    puts engine_or_apps
+    already_processed = {}
+    hi18n = {}
 
-    filepath = File.join(app_name, 'config', 'locales', "#{engine_or_apps}.#{name.downcase}.yml")
-    begin
-      hi18n                                   = YAML.load_file(filepath)
-    rescue
-      puts "Error loading locale file : #{filepath}"
-    end
+    list_locales.each do |locale_str|
+      locale = locale_str.downcase
 
-    hi18n                                 ||= { name.downcase => {} }
-    hi18n[name.downcase]                  ||= { 'app' => {} }
-    hi18n[name.downcase]['app']           ||= { 'models' => {} }
-    hi18n[name.downcase]['app']['models'] ||= {}
+      already_processed[locale] ||= {}
 
-    # Feed data already translated
-    hi18n[name.downcase]['app']['models'].each{ |modelname,hshtranslations|
-      hshtranslations['bs_attributes'].each{ |attr, translated_attr|
-        already_processed[name.downcase][attr] = translated_attr
-      }
-    }
-
-    Dir.glob("app/models/**/*").each { |model_file|
-      puts model_file
-      next if File.directory?(model_file) or File.basename(model_file).first == '.'
-      model = File.basename(model_file, File.extname(model_file))
-      klass = model.camelize.constantize
-
+      filepath = File.join(app_name, 'config', 'locales', "#{engine_or_apps}.#{locale}.yml")
       begin
-        sorted_attr = klass.attribute_names.sort
+        if File.exist?(filepath)
+          hi18n = YAML.load_file(filepath)
+        end
       rescue
-        next
+        puts "Error loading locale file (YAML invalid?) : #{filepath}"
       end
 
-      newmodel = !hi18n[name.downcase]['app']['models'].has_key?(model)
+      hi18n[locale]                  ||= { 'app' => {} }
+      hi18n[locale]['app']           ||= { 'models' => {} }
+      hi18n[locale]['app']['models'] ||= {}
 
-      hi18n[name.downcase]['app']['models'][model] ||= {
+      # Feed data already translated
+      hi18n[locale]['app']['models'].each do |modelname, hshtranslations|
+        hshtranslations['bs_attributes'].each do |attr, translated_attr|
+          already_processed[locale][attr] = translated_attr
+        end
+      end
+
+      Dir.glob("app/models/**/*").each do |model_file|
+        puts model_file
+
+        next if File.directory?(model_file) or
+          File.basename(model_file).first == '.' or
+          model_file.include?('/concerns/') or
+          model_file.include?('pdf_report.rb') or
+          model_file.include?('application_record.rb')
+
+        model = File.basename(model_file, File.extname(model_file))
+
+        klass = "#{prefix}#{model}".camelize.constantize
+        sorted_attr = klass.attribute_names.sort
+
+        newmodel = !hi18n[locale]['app']['models'].has_key?(model)
+
+        hi18n[locale]['app']['models'][model] ||= {
           'bs_caption'            => model,
           'bs_caption_plural'     => model.pluralize,
           'bs_attributes'         => {},
-      }
+        }
 
-      if newmodel then
-        bs_caption          = (begin translate_string(name.downcase, model) rescue model end)
-        bs_caption_plural   = (begin translate_string(name.downcase, model.pluralize) rescue model.pluralize end)
-
-        hi18n[name.downcase]['app']['models'][model]['bs_caption'] = bs_caption
-        hi18n[name.downcase]['app']['models'][model]['bs_caption_plural'] = bs_caption_plural
-      end
-
-      hi18n[name.downcase]['app']['models'][model]['bs_attributes'] ||= {}
-
-      sorted_attr.each { |k|
-        # Si pas déjà renseigné
-        if hi18n[name.downcase]['app']['models'][model]['bs_attributes'][k].blank? then
-          # Si pas déjà traduit
-          if already_processed[name.downcase][k].nil? then
-            begin
-              attr_translate = translate_string(name.downcase, k)
-              already_processed[name.downcase][k] = attr_translate
-            rescue
-              puts "Plantage translate API"
-              attr_translate = k
-            end
-          else
-            attr_translate = already_processed[name.downcase][k]
+        if newmodel then
+          bs_caption = ""
+          begin
+            bs_caption = translate_string(locale, model)
+          rescue Exception => e
+            puts "Erreur traduction #{e.backtrace}"
+            bs_caption = model
           end
-        else
-          # Récupère l'attribut traduit
-          attr_translate = hi18n[name.downcase]['app']['models'][model]['bs_attributes'][k]
+          bs_caption_plural = ""
+          begin
+            bs_caption_plural = translate_string(locale, model.pluralize)
+          rescue Exception => e
+            puts "Erreur traduction #{e.backtrace}"
+            bs_caption_plural = model.pluralize
+          end
+
+          hi18n[locale]['app']['models'][model]['bs_caption'] = bs_caption
+          hi18n[locale]['app']['models'][model]['bs_caption_plural'] = bs_caption_plural
         end
 
-        hi18n[name.downcase]['app']['models'][model]['bs_attributes'][k] = attr_translate
-      }
-    }
+        hi18n[locale]['app']['models'][model]['bs_attributes'] ||= {}
 
-    File.unlink(filepath) if File.exist?(filepath)
+        sorted_attr.each do |k|
+          # Si pas déjà renseigné
+          if hi18n[locale]['app']['models'][model]['bs_attributes'][k].blank?
+            # Si pas déjà traduit
+            if already_processed[locale][k].blank?
+              begin
+                attr_translate = translate_string(locale, k)
+                already_processed[locale][k] = attr_translate
+              rescue
+                puts "Plantage translate API"
+                attr_translate = k
+              end
+            else
+              attr_translate = already_processed[locale][k]
+            end
+          else
+            # Récupère l'attribut traduit
+            attr_translate = hi18n[locale]['app']['models'][model]['bs_attributes'][k]
+          end
 
-    file = File.open(filepath, "w")
-    file.write(hi18n.to_yaml)
-    file.close
+          hi18n[locale]['app']['models'][model]['bs_attributes'][k] = attr_translate
+        end
+      end
+
+      File.unlink(filepath) if File.exist?(filepath)
+
+      file = File.open(filepath, "w")
+      file.write(hi18n.to_yaml)
+      file.close
+    end
   end
 
   private
@@ -151,14 +164,13 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
   def translate_string(locale, str)
     # See http://www.microsofttranslator.com/dev/
     #
-    if locale == "en" then
+    if locale == "en"
       attr_translate = "#{str.gsub(/_/, " ")}"
     else
-      url_domain    = "mymemory.translated.net"
-      url_translate = "/api/get?q=to_translate&langpair=en%7C#{locale}"
+      url_domain = "api.mymemory.translated.net"
+      url_query = "/get?q=#{str.gsub(/_/, "%20")}&langpair=en%7C#{locale}"
 
-      urlstr = url_translate.gsub(/to_translate/, str.gsub(/_/, "%20"))
-      json = JSON.parse(Net::HTTP.get(url_domain, urlstr))
+      json = JSON.parse(Net::HTTP.get(url_domain, url_query))
       attr_translate = json["responseData"]["translatedText"].strip.downcase
     end
     raise 'Free Limit' if attr_translate =~ /mymemory/
