@@ -2,10 +2,12 @@
 
 * enhancement
   * Using static twitter bootstrap files
+  * UI : button back & submit on the same line
 
 * bugfix
   * Fix #18 : Responsive Theme Navbar Overlaps Content When Resizing Below ~979px
   * Fix generator locales
+  * Fix icon datetimepicker
 
 == 1.0.1
 

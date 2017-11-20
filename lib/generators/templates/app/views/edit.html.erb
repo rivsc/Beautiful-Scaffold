@@ -1,5 +1,3 @@
 <h2><%%= t(:editing, :default => 'Editing') %> <%%= <%= i18n_t_m(singular_table_name) %> %></h2>
 
 <%%= render 'form' %>
-
-<%%= link_to t(:back, :default => "Back"), <%= namespace_for_route %><%= plural_table_name %>_path, :class => "btn btn-default" %>
