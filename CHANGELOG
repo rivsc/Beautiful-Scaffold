@@ -3,6 +3,7 @@
 * enhancement
   * Using static twitter bootstrap files
   * UI : button back & submit on the same line
+  * Add tests (better late than never :/)
 
 * bugfix
   * Fix #18 : Responsive Theme Navbar Overlaps Content When Resizing Below ~979px

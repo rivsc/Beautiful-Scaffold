@@ -15,5 +15,5 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "beautiful_scaffold"
 
-  s.require_paths = ["lib","lib/generators"]
+  s.require_paths = ["lib","lib/generators","test/*"]
 end
