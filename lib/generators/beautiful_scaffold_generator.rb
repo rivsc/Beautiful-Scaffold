@@ -1,6 +1,6 @@
 # encoding : utf-8
 class BeautifulScaffoldGenerator < Rails::Generators::Base
-  require 'beautiful_scaffold_common_methods'
+  require_relative 'beautiful_scaffold_common_methods'
   include BeautifulScaffoldCommonMethods
 
   # Resources
@@ -13,12 +13,12 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
   source_root File.expand_path('../templates', __FILE__)
 
-  argument :model_opt, :type => :string, :desc => "Name of model (singular)"
-  argument :myattributes, :type => :array, :default => [], :banner => "field:type field:type"
-  
-  class_option :namespace, :default => nil
-  class_option :donttouchgem, :default => nil
-  class_option :mountable_engine, :default => nil
+  argument :model_opt, type: :string, desc: "Name of model (singular)"
+  argument :myattributes, type: :array, default: [], banner: "field:type field:type"
+
+  class_option :namespace, default: nil
+  class_option :donttouchgem, default: nil
+  class_option :mountable_engine, default: nil
 
   def install_gems
     if options[:donttouchgem].blank? then
@@ -54,11 +54,11 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       end
     end
   end
-  
+
   def generate_assets
     stylesheetspath = "app/assets/stylesheets/"
     stylesheetspath_dest = "#{stylesheetspath}#{engine_name}"
-    
+
     # Css
     reset            = "reset.css"
     bc_css           = [
@@ -75,7 +75,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     [reset, bc_css].flatten.each{ |path|
       copy_file "#{stylesheetspath}#{path}", "#{stylesheetspath_dest}#{path}"
     }
-    
+
     # Js
     bc_js            = [
                         "application-bs.js",
@@ -109,7 +109,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       puts "============> Engine : You must add `Rails.application.config.assets.precompile += ['#{engine_name}application-bs.css','#{engine_name}application-bs.js']` to your config/initializers/assets.rb main app !"
     end
   end
-  
+
   def generate_layout
     template  "app/views/layout.html.erb", "app/views/layouts/beautiful_layout.html.erb"
     if not File.exist?("app/views/layouts/_beautiful_menu.html.erb") then
@@ -120,7 +120,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     template  "app/views/dashboard.html.erb", "app/views/#{engine_name}beautiful/dashboard.html.erb"
     copy_file "app/views/_modal_columns.html.erb",  "app/views/layouts/_modal_columns.html.erb"
     copy_file "app/views/_mass_inserting.html.erb", "app/views/layouts/_mass_inserting.html.erb"
-    
+
     inject_into_file("app/views/layouts/_beautiful_menu.html.erb",'
       <li class="<%= "active" if params[:controller] == "' + namespace_for_url + model.pluralize + '" %>">
         <%= link_to ' + i18n_t_m_p(model) + '.capitalize, ' + namespace_for_route + model.pluralize + '_path %>
@@ -171,7 +171,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     dest_ctrl_file = File.join([dirs, "#{model_pluralize}_controller.rb"].flatten)
     template "app/controllers/base.rb", dest_ctrl_file
   end
-  
+
   def generate_helper
     dest_bs_helper_file = "app/helpers/#{engine_name}beautiful_helper.rb"
     template "app/helpers/beautiful_helper.rb", dest_bs_helper_file
@@ -185,15 +185,14 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   def generate_views
     namespacedirs = ["app", "views", engine_name, options[:namespace]].compact
     empty_directory File.join(namespacedirs)
-    
+
     dirs = [namespacedirs, model_pluralize]
     empty_directory File.join(dirs)
-    
+
     [available_views, 'treeview'].flatten.each do |view|
       filename = view + ".html.erb"
       current_template_path = File.join([dirs, filename].flatten)
       empty_template_path   = File.join(["app", "views", filename].flatten)
-      
       template empty_template_path, current_template_path
     end
 
@@ -209,12 +208,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   end
 
   def routes
-    routes_in_text = File.read("config/routes.rb")
-
-    if not routes_in_text[/beautiful#dashboard/] and not routes_in_text[/beautiful#select_fields/] then
-
-      myroute = <<EOF
-root :to => 'beautiful#dashboard'
+    myroute = <<EOF
+  root :to => 'beautiful#dashboard'
   match ':model_sym/select_fields' => 'beautiful#select_fields', :via => [:get, :post]
 
   concern :bs_routes do
@@ -231,11 +226,7 @@ root :to => 'beautiful#dashboard'
   # Add route with concerns: :bs_routes here # Do not remove
 EOF
 
-      route(myroute)
-    end
-
-    search_namespace = namespace_alone + "/" if not namespace_alone.blank?
-    search_namespace ||= ""
+    inject_into_file("config/routes.rb", myroute, :after => "routes.draw do\n")
 
     myroute =  "\n  "
     myroute += "namespace :#{namespace_alone} do\n    " if not namespace_alone.blank?

@@ -1,6 +1,6 @@
 # encoding : utf-8
 class BeautifulLocaleGenerator < Rails::Generators::Base
-  require 'beautiful_scaffold_common_methods'
+  require_relative 'beautiful_scaffold_common_methods'
   include BeautifulScaffoldCommonMethods
 
   source_root File.expand_path('../templates', __FILE__)
