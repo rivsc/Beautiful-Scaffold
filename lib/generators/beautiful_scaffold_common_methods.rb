@@ -182,7 +182,7 @@ module BeautifulScaffoldCommonMethods
   def require_gems
     gems = {
       'will_paginate' => nil, # v 3.1.5
-      'ransack' => '1.8.2',
+      'ransack' => '1.8.4',
       'polyamorous' => '1.3.1',
       'jquery-ui-rails' => nil,
       'prawn' => '2.1.0',
