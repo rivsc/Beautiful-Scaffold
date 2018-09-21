@@ -9,6 +9,7 @@
   * Fix #18 : Responsive Theme Navbar Overlaps Content When Resizing Below ~979px
   * Fix generator locales
   * Fix icon datetimepicker
+  * render nothing: true replace with head :ok
 
 == 1.0.1
 
