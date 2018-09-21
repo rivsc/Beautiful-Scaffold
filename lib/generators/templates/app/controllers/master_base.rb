@@ -25,7 +25,7 @@ class BeautifulController < ApplicationController
 
     do_select_fields(model_sym.to_s) #TODO vérifier si nécessaire
 
-    render :nothing => true
+    head :ok
   end
 
   # TODO session use key string because json serializer don't know the type of key.

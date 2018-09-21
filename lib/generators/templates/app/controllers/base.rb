@@ -189,7 +189,12 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
     modelclass = <%= model_camelize %>
     foreignkey = :<%= model %>_id
 
-    render :nothing => true, :status => (update_treeview(modelclass, foreignkey) ? 200 : 500)
+
+    if update_treeview(modelclass, foreignkey)
+      head :ok
+    else
+      head :internal_server_error
+    end
   end
   
   private 
