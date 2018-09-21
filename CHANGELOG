@@ -1,6 +1,12 @@
 == master
 
 * enhancement
+
+* bugfix
+
+== 1.0.2
+
+* enhancement
   * Using static twitter bootstrap files
   * UI : button back & submit on the same line
   * Add tests (better late than never :/)
