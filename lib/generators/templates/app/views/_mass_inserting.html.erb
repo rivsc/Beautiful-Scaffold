@@ -16,14 +16,14 @@
             if col =~ /.*_id/ then
               f.collection_select((col).to_sym, col.camelize.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_eq"].to_i rescue '' end) }, {:class => "form-control"})
             else
-              f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col)).capitalize, :class => "form-control")
+              f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col), default: "#{model_name}.#{col}").capitalize, :class => "form-control")
             end
           when :boolean then
             (
-            "<label class='bs-label-ib'>#{f.check_box(col.to_sym, {}, true, false)}#{t(i18n_translate_path(model_name, col)).capitalize}</label>".html_safe
+            "<label class='bs-label-ib'>#{f.check_box(col.to_sym, {}, true, false)}#{t(i18n_translate_path(model_name, col), default: "#{model_name}.#{col}").capitalize}</label>".html_safe
             )
           else
-            f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col)).capitalize, :class => "form-control")
+            f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col), default: "#{model_name}.#{col}").capitalize, :class => "form-control")
           end
         else
           f.collection_select((col + '_id').to_sym, col.camelize.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_id_eq"].to_i rescue '' end) }, {:class => "form-control"})
