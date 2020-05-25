@@ -76,6 +76,16 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       copy_file "#{stylesheetspath}#{path}", "#{stylesheetspath_dest}#{path}"
     }
 
+    if !engine_name.blank?
+      ['reset',
+      'beautiful-scaffold',
+      'tagit-dark-grey',
+      'colorpicker',
+      'bootstrap-wysihtml5'].each do |fileassets|
+        inject_into_file File.join(stylesheetspath_dest, "application-bs.css"), "#{engine_name}/", before: fileassets
+      end
+    end
+
     # Js
     bc_js            = [
                         "application-bs.js",
@@ -94,6 +104,20 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       copy_file "#{javascriptspath}#{path}", "#{javascriptspath_dest}#{path}"
     }
 
+    if !engine_name.blank?
+      ['a-wysihtml5-0.3.0.min',
+      'bootstrap-colorpicker',
+      'bootstrap-datetimepicker-for-beautiful-scaffold',
+      'bootstrap-wysihtml5',
+      'jquery.jstree',
+      'tagit.js',
+      'jquery-barcode',
+      'beautiful_scaffold',
+      'fixed_menu'].each do |fileassets|
+        inject_into_file File.join(javascriptspath_dest, "application-bs.js"), "#{engine_name}/", before: fileassets
+      end
+    end
+
     # Jstree theme
     directory "#{stylesheetspath}themes", "#{stylesheetspath}themes"
 
@@ -103,11 +127,12 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     directory dir_image, dir_image_dest
 
     # Precompile BS assets
-    if File.exist?("config/initializers/assets.rb") then # For mountable engine
-      inject_into_file("config/initializers/assets.rb", "Rails.application.config.assets.precompile += ['#{engine_name}application-bs.css','#{engine_name}application-bs.js']", after: /\z/m)
-    else
-      puts "============> Engine : You must add `Rails.application.config.assets.precompile += ['#{engine_name}application-bs.css','#{engine_name}application-bs.js']` to your config/initializers/assets.rb main app !"
+    path_to_assets_rb = "config/initializers/assets.rb"
+    if !File.exist?(path_to_assets_rb) && !engine_name.blank? # Engine
+      path_to_assets_rb = File.join("test", "dummy", "config/initializers/assets.rb")
     end
+
+    append_to_file(path_to_assets_rb, "Rails.application.config.assets.precompile += ['#{engine_name}application-bs.css','#{engine_name}application-bs.js']")
   end
 
   def generate_layout
@@ -164,7 +189,14 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   end
 
   def generate_controller
-    copy_file  "app/controllers/master_base.rb", "app/controllers/#{engine_name}beautiful_controller.rb"
+    beautiful_ctrl_path = "app/controllers/#{engine_name}beautiful_controller.rb"
+    copy_file  "app/controllers/master_base.rb", beautiful_ctrl_path
+    # beautiful_controller in the context of engine
+    if !engine_name.empty?
+      inject_into_file beautiful_ctrl_path, "module #{engine_camel}\n", before: "class BeautifulController"
+      #gsub_file beautiful_ctrl_path, '< ApplicationController', "< ::#{engine_camel}::ApplicationController" # Rails 4 -> 5 'BeautifulController < ApplicationController'
+      append_to_file beautiful_ctrl_path, "end #endofmodule \n"
+    end
     dirs = ['app', 'controllers', engine_name, options[:namespace]].compact
     # Avoid to remove app/controllers directory (https://github.com/rivsc/Beautiful-Scaffold/issues/6)
     empty_directory File.join(dirs) if not options[:namespace].blank?

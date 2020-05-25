@@ -3,12 +3,12 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "beautiful_scaffold"
-  s.version     = "1.0.2"
+  s.version     = "1.0.3"
   s.platform    = Gem::Platform::RUBY  
   s.summary     = "Beautiful Scaffold generate fully customizable scaffold"
   s.email       = "claudel.sylvain@gmail.com"
-  s.homepage    = "http://beautiful-scaffold.com"
-  s.description = "Beautiful Scaffold generate a complete scaffold (sort, export, paginate and filter data) http://www.beautiful-scaffold.com"
+  s.homepage    = "https://blog.rivsc.ovh"
+  s.description = "Beautiful Scaffold generate a complete scaffold (sort, export, paginate and filter data) http://beautiful-scaffold.rivsc.ovh"
   s.authors     = ['Sylvain Claudel']
   s.files       = `git ls-files`.split("\n")
   s.licenses    = ['MIT']

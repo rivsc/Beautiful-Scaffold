@@ -23,6 +23,11 @@ class ScaffoldGeneratorTest < ::Rails::Generators::TestCase
       test_params = "User email:string birthday:datetime children:integer biography:text"
 
       run_generator test_params.split(' ')
+
+      # rake db:create
+      # rake db:migrate
+      # rails s
+      # curl http://localhost:3000/ et vérifier le contenu html...
     end
   end
 

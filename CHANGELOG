@@ -4,6 +4,14 @@
 
 * bugfix
 
+== 1.0.3
+
+* enhancement
+  * You can generate scaffold in a mountable engine, now. (see README for syntax)
+
+* Bugfix
+  * I18n translation default value (model.column).
+
 == 1.0.2
 
 * enhancement

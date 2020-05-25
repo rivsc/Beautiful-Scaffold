@@ -22,25 +22,25 @@ module BeautifulScaffoldCommonMethods
   #############
   # Namespace
   #############
-  
+
   def namespace_for_class
     str = namespace_alone
     str = str.camelcase + '::' if not str.blank?
     return str
   end
-  
+
   def namespace_for_route
     str = namespace_alone
     str = str.downcase + '_' if not str.blank?
     return str
   end
-  
+
   def namespace_for_url
     str = namespace_alone
     str = str.downcase + '/' if not str.blank?
     return str
   end
-  
+
   def namespace_alone
     return options[:namespace].to_s.downcase
   end
@@ -74,7 +74,7 @@ module BeautifulScaffoldCommonMethods
   def model_class
     model.camelize
   end
-  
+
   ############
   # Table
   ############
@@ -117,7 +117,7 @@ module BeautifulScaffoldCommonMethods
   def available_views
     %w(index edit show new _form)
   end
-  
+
   def attributes
     # https://raw.github.com/rails/rails/master/railties/lib/rails/generators/generated_attribute.rb
     require 'rails/generators/generated_attribute'
@@ -182,14 +182,14 @@ module BeautifulScaffoldCommonMethods
   def require_gems
     gems = {
       'will_paginate' => nil, # v 3.1.5
-      'ransack' => '1.8.4',
-      'polyamorous' => '1.3.1',
+      'ransack' => '2.3.2',
+      #'polyamorous' => '1.3.1',
       'jquery-ui-rails' => nil,
       'prawn' => '2.1.0',
       'prawn-table' => '0.2.2',
       'sanitize' => nil,
       'twitter-bootstrap-rails' => '3.2.2',
-      'font-awesome-rails' => '4.7.0.2',
+      'font-awesome-rails' => '4.7.0.5',
       'chardinjs-rails' => nil,
       'momentjs-rails' => '>= 2.9.0',
       'bootstrap3-datetimepicker-rails' => '~> 4.17.47',

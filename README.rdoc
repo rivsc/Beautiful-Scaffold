@@ -23,7 +23,7 @@ Add this in your Gemfile :
 
 Add this in your Gemfile :
 
-    gem 'beautiful_scaffold', '1.0.1'
+    gem 'beautiful_scaffold'
 
 === Next
 
@@ -35,7 +35,10 @@ And run
 
 === Scaffold
 
-    rails generate beautiful_scaffold model attr:type attr:type... [--namespace=name] [--donttouchgem=name]
+    # model : underscore and singular
+    # mountable_engine : underscore
+    # namespace : underscore
+    rails generate beautiful_scaffold model attr:type attr:type... [--namespace=name] [--donttouchgem=yes] [--mountable_engine=name]
 
 Types available:
 * integer
@@ -53,6 +56,13 @@ Types available:
 # Example : admin products
 
     rails g beautiful_scaffold product name:string price:price tva:float description:wysiwyg overview_description:wysiwyg visible:boolean --namespace=admin && rake db:migrate
+
+# Example (for an engine) :
+    # You need to add beautiful-scaffold to the gemfile of the engine (not the gemspec !).
+
+    rails g beautiful_scaffold user code:string --mountable-engine=faq
+    rails g beautiful_scaffold question title:string description:wysiwyg user:references resolved:boolean --mountable-engine=faq
+    rails g beautiful_scaffold answer description:wysiwyg user:references up:integer down:integer --mountable-engine=faq
 
 === Migration (Use Add[Field]To[ModelPluralize] syntax)
 
