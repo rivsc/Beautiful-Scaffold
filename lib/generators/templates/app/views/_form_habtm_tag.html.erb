@@ -6,17 +6,21 @@
     :linked_model_name => "tag",
     :plural_linked_model_name => "tags",
     :namespace_bs => "admin",
+    :engine_bs => "YOUR_ENGINE_OR_EMPTY_STRING",
     :field_to_search_for_linked_model => "name",
+    :attr_to_show => "caption",
     :f => f
   }
   # Example to put in a _form.html.erb
 %>
-<% path_namespace = '/' + namespace_bs if not namespace_bs.blank? %>
+<% path_namespace = "/" %>
+<% path_namespace += "#{engine_bs}/" if engine_bs.present? %>
+<% path_namespace += "/#{namespace_bs}/" if namespace_bs.present? %>
 
 <div class="form-group">
     <%= f.label plural_linked_model_name.to_sym, t(plural_linked_model_name.to_sym, :default => plural_linked_model_name.capitalize), :class => "control-label" %>
     <div>
-        <ul class="bs-tagit" id="<%= model_name %>_<%= linked_model_name %>_ids" name="<%= model_name %>[<%= linked_model_name %>_ids][]" data-url="<%= path_namespace %>/<%= plural_linked_model_name %>/search_and_filter.json" data-param="q[<%= field_to_search_for_linked_model %>_cont]" data-result="caption">
+        <ul class="bs-tagit" id="<%= model_name %>_<%= linked_model_name %>_ids" name="<%= model_name %>[<%= linked_model_name %>_ids][]" data-url="<%= path_namespace %><%= plural_linked_model_name %>/search_and_filter.json" data-param="q[<%= field_to_search_for_linked_model %>_cont]" data-result="<%= attr_to_show %>">
           <% begin %>
             <% for elt in model_class.send(plural_linked_model_name) %>
             <li data-value="<%= elt.id %>"><%= elt.caption %></li>

@@ -7,14 +7,15 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
 
   source_root File.expand_path('../templates', __FILE__)
 
-  argument :name, :type => :string, :desc => "Name of the migration CamelCase AddXxxToYyy (Yyy must be plural)"
-  argument :myattributes, :type => :array, :default => [], :banner => "field:type field:type (for bt relation model:references)"
+  argument :name, type: :string, desc: "Name of the migration (in CamelCase) AddXxxTo[Engine]Yyy (Yyy must be plural)"
+  argument :myattributes, type: :array, default: [], banner: "field:type field:type (for bt relation model:references)"
 
-  class_option :namespace, :default => nil
-  class_option :donttouchgem, :default => nil
+  class_option :namespace, default: nil
+  class_option :donttouchgem, default: nil
+  class_option :mountable_engine, default: nil
 
   def install_gems
-    if options[:donttouchgem].blank? then
+    if options[:donttouchgem].blank?
       require_gems
     end
   end
@@ -24,7 +25,7 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
     @fulltext_field = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
-      if ['richtext', 'wysiwyg'].include?(t) then
+      if ['richtext', 'wysiwyg'].include?(t)
         # _typetext = {bbcode|html|text|wiki|textile|markdown}
         # _fulltext = text without any code
         @fulltext_field << [a + '_typetext', 'string'].join(':')
@@ -34,24 +35,15 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
   end
 
   def generate_model
-    generate("migration", "#{name} #{beautiful_attr_to_rails_attr(true).join(' ')} #{@fulltext_field.join(' ')}")
+    generate("migration", "#{name} #{beautiful_attr_to_rails_attr.join(' ')} #{@fulltext_field.join(' ')}")
   end
 
   def add_to_model
-    myattributes.each{ |attr|
-      a,t = attr.split(':')
-      if ['references', 'reference'].include?(t) then
-        inject_into_file("app/models/#{model}.rb", "\n  belongs_to :#{a}", :after => "ApplicationRecord")
-        inject_into_file("app/models/#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ApplicationRecord")
-        a += "_id"
-      end
-
-      inject_into_file("app/models/#{model}.rb", ":#{a},", :after => "def self.permitted_attributes\n    return ")
-    }
+    add_relation
   end
 
   def generate_views
-    commonpath = "app/views/#{namespace_for_url}#{model_pluralize}/"
+    commonpath = "app/views/#{engine_name}#{namespace_for_url}#{model_pluralize}/"
     
     # Form
     inject_into_file("#{commonpath}_form.html.erb", render_partial("app/views/partials/_form_field.html.erb"), :before => "<!-- Beautiful_scaffold - AddField - Do not remove -->\n" )
@@ -68,7 +60,7 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
   private
 
   def model
-    return name.scan(/^Add(.*)To(.*)$/).flatten[1].underscore.singularize
+    return name.scan(/^Add(.*)To(.*)$/).flatten[1].underscore.singularize.gsub("#{options[:mountable_engine].underscore}_",'')
   end
 
 end

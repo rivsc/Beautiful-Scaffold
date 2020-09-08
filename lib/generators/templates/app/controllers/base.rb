@@ -48,7 +48,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
         render
       }
       format.json{
-        render :json => @<%= model %>_scope.to_a
+        render :json => @<%= model %>_scope.to_json(methods: :caption)
       }
       format.csv{
         require 'csv'
@@ -110,7 +110,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
       else
         format.html {
           if params[:mass_inserting] then
-            redirect_to <%= namespace_for_route %><%= model_pluralize %>_path(:mass_inserting => true), :flash => { :error => t(:error, "Error") }
+            redirect_to <%= namespace_for_route %><%= model_pluralize %>_path(:mass_inserting => true), :flash => { :error => "#{t(:error, default: "Error")} : #{@<%= model %>.errors.full_messages.join(", ")}" }
           else
             render :action => "new"
           end
@@ -123,7 +123,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
   def update
 
     respond_to do |format|
-      if @<%= model %>.update_attributes(params_for_model)
+      if @<%= model %>.update(params_for_model)
         format.html { redirect_to <%= namespace_for_route %><%= singular_table_name %>_path(@<%= model %>), :flash => { :notice => t(:update_success, :model => "<%= model %>") }}
         format.json { head :ok }
       else
@@ -153,7 +153,7 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
         do_sort_and_paginate(:<%= model %>)
 
         @<%= model_pluralize %> = <%= model_camelize %>.ransack(
-          params[:q]
+          session['search']['<%= model %>']
         ).result(
           :distinct => true
         )
@@ -173,12 +173,14 @@ class <%= namespace_for_class %><%= model_camelize.pluralize %>Controller < Beau
           # <%= model %>.save
           when "destroy" then
             <%= model %>.destroy
+          when "touch" then
+            <%= model %>.touch
           end
         end
       }
     end
     
-    redirect_to :back
+    redirect_to <%= namespace_for_route %><%= model_pluralize %>_url
   end
 
   def treeview

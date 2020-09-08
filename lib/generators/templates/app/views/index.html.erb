@@ -1,72 +1,75 @@
-<h2><%%= t(:listing, :default => "Listing") %> <%%= <%= i18n_t_m_p(singular_table_name) %> %></h2>
-
-<p>
-  <%%= link_to '<i class="fa fa-plus"></i> '.html_safe + t(:new, :default => "New") + ' ' + <%= i18n_t_m(model) %>, new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn btn-default" %>
-  <%% if <%= model_with_engine_camelize %>.columns.map(&:name).include?("<%= model %>_id") then %>
-    <%%= link_to '<i class="fa fa-folder-close"></i> '.html_safe + t(:treeview, :default => "Treeview") + ' ' + <%= i18n_t_m(model) %>, treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn btn-default" %>
-  <%% end %>
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md">
+      <h2 class="title-index"><%%= t(:listing, :default => "Listing") %> <%%= <%= i18n_t_m_p(singular_table_name) %> %></h2>
+      <p>
+        <%%= link_to '<i class="fa fa-plus"></i> '.html_safe + t(:new, :default => "New") + ' ' + <%= i18n_t_m(model) %>, new_<%= namespace_for_route %><%= singular_table_name %>_path, :class => "btn btn-outline-secondary" %>
+        <%% if <%= model_with_engine_camelize %>.columns.map(&:name).include?("<%= model %>_id") %>
+          <%%= link_to '<i class="fa fa-folder-close"></i> '.html_safe + t(:treeview, :default => "Treeview") + ' ' + <%= i18n_t_m(model) %>, treeview_<%= namespace_for_route %><%= model_pluralize %>_path, :class => "btn btn-outline-secondary" %>
+        <%% end %>
+      </p>
+    </div>
+  </div>
+</div>
 
 <%%= render :partial => "layouts/mass_inserting", :locals => { :engine => '<%= engine_opt %>', :namespace => '<%= namespace_alone %>', :model_name => '<%= model %>', :model_columns => [<%= attributes.map{ |e| "'#{e.name}'" }.join(',') %>] } %>
 
 <%%# Set your scopes below (string in array) %>
 <%% scopes = [] %>
-<%% if not scopes.blank? then %>
-<div class="btn-toolbar">
-  <div class="btn-group">
-    <%%= link_to "All (#{@<%= model %>_scope_for_scope.count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => ""), :class => "btn btn-default #{((session[:scope][:<%= model %>].to_s == '') ? 'active' : '')}" %>
-    <%% for scope in scopes %>
-    <%%= link_to "#{scope} (#{@<%= model %>_scope_for_scope.send(scope).count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => scope), :class => "btn btn-default #{((session[:scope][:<%= model %>].to_s == scope) ? 'active' : '')}" %>
-    <%% end %>
+<%% if !scopes.blank? %>
+<div class="container-fluid mb-3" id="scopes-div" data-present-title="<%%= t(:help_scope, :default => "Filter by scope") %>" data-present-description="<%%= t(:help_scope_description, :default => "Filter by scope") %>" data-present-order="1">
+  <div class="row">
+    <div class="col-md btn-toolbar">
+      <div class="btn-group">
+        <%%= link_to "All (#{@<%= model %>_scope_for_scope.count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => ""), :class => "btn btn-outline-secondary #{((session[:scope][:<%= model %>].to_s == '') ? 'active' : '')}" %>
+        <%% for scope in scopes %>
+        <%%= link_to "#{scope} (#{@<%= model %>_scope_for_scope.send(scope).count})", <%= namespace_for_route %><%= plural_table_name %>_path(:scope => scope), :class => "btn btn-outline-secondary #{((session[:scope][:<%= model %>].to_s == scope) ? 'active' : '')}" %>
+        <%% end %>
+      </div>
+    </div>
   </div>
 </div>
 <%% end %>
 
-<div class="row">
-  <div class="col-md-12">
-    <a class="btn btn-xs btn-default" id="hide-menu-btn">
-      <i class="fa fa-caret-left"></i>
-      <i class="fa fa-caret-left"></i>
-    </a>
-    <a class="btn btn-xs btn-default" id="show-menu-btn">
-      <i class="fa fa-caret-right"></i>
-      <i class="fa fa-caret-right"></i>
-    </a>
-
-    <a class="btn btn-xs btn-default pull-right" id="hide-search-btn">
-      <i class="fa fa-caret-right"></i>
-      <i class="fa fa-caret-right"></i>
-    </a>
-    <a class="btn btn-xs btn-default pull-right" id="show-search-btn">
-      <i class="fa fa-caret-left"></i>
-      <i class="fa fa-caret-left"></i>
-    </a>
-  </div>
-</div>
-
+<div class="container-fluid">
 <div class="row">
   <div class="col-md-9">
-    <%%= form_tag  batch_<%= namespace_for_route %><%= plural_table_name %>_path, :class => "form-inline" do %>
-      <div class="well well-small">
-        <label class="control-label" for="select01"><%%= t(:batch, :default => "Batch") %></label>
+    <%%= form_tag  batch_<%= namespace_for_route %><%= plural_table_name %>_path do %>
+      <div class="card card-body bg-light mb-3">
+        <div class="row">
+          <div class="form-inline col-md" id="batch-div" data-present-title="<%%= t(:help_batch, :default => "Batch processing") %>" data-present-description="<%%= t(:help_batch_description, :default => "Batch processing description") %>" data-present-order="2">
+            <label class="control-label mb-2 mr-sm-2" for="select01"><%%= t(:batch, :default => "Batch") %></label>
 
-        <select id="select01" name="actionprocess" class="form-control">
-          <option value="destroy"><%%= t(:destroy, :default => "Destroy") %></option>
-<%= render_partial 'app/views/partials/_index_batch.html.erb' %>
-          <!-- Beautiful_scaffold - AddField - Batch - Do not remove -->
-        </select>
-        <button class="btn btn-default" type="submit"><i class="fa fa-ok"></i> <%%= t(:process, :default => "Process") %></button>
+            <select id="select01" name="actionprocess" class="custom-select mb-2 mr-sm-2">
+              <option value="destroy"><%%= t(:destroy, :default => "Destroy") %></option>
+              <option value="touch"><%%= t(:touch, :default => "Touch") %></option>
+              <%= render_partial 'app/views/partials/_index_batch.html.erb' %>
+              <!-- Beautiful_scaffold - AddField - Batch - Do not remove -->
+            </select>
+            <button class="btn btn-outline-secondary mb-2 mr-sm-2" type="submit"><i class="fa fa-ok"></i> <%%= t(:process, :default => "Process") %></button>
+          </div>
+          <div class="col-md">
+            <a class="btn btn-xs btn-light float-right" id="hide-search-btn">
+              <i class="fa fa-caret-right"></i>
+              <i class="fa fa-caret-right"></i>
+            </a>
+            <a class="btn btn-xs btn-light float-right" id="show-search-btn">
+              <i class="fa fa-caret-left"></i>
+              <i class="fa fa-caret-left"></i>
+            </a>
+          </div>
+        </div>
       </div>
 
       <%%= render :partial => "layouts/modal_columns", :locals => { :engine_name => '<%= engine_opt %>', :model_name => "<%= singular_table_name %>", :model_columns => [<%= (attributes.map{ |e| "'#{e.name}'" }.to_a + ["'created_at'", "'updated_at'"]).join(',') %>] } %>
 
-      <table class="table table-striped table-bordered table-condensed">
+      <table class="table table-striped table-bordered table-sm">
         <thead>
           <tr>
             <th class="ac">
               <a class="" data-toggle="modal" href="#modal-columns" title="<%%= t(:select_columns, :default => "Select Columns") %>" ><i class="fa fa-th-list"></i></a>
             </th>
-            <th>
+            <th id="checkall-div" data-present-title="<%%= t(:help_checkall, :default => "Check all elements") %>" data-present-description="<%%= t(:help_checkall_description, :default => "Check all elements visible on the page") %>" data-present-order="3">
               <%%= check_box_tag :checkall, '' %>
             </th>
 <%= render_partial 'app/views/partials/_index_header.html.erb' %>
@@ -78,7 +81,7 @@
               <%%= sorting_header("<%= singular_table_name %>", "updated_at", "<%= namespace_alone %>") %>
             </th>
             <th colspan="3">
-              <label class="checkbox">
+              <label class="checkbox mb-0" id="checkallall-div" data-present-title="<%%= t(:help_checkallall, :default => "Check all elements") %>" data-present-description="<%%= t(:help_checkallall_description, :default => "Check all elements, that match current filter even if they are not visible on the page") %>" data-present-order="4">
                 <%%= check_box_tag :checkallelt, 'all' %>
                 <%%= pluralize(@<%= singular_table_name %>_scope.count, <%= i18n_t_m(singular_table_name) %>, <%= i18n_t_m_p(singular_table_name) %>) %>
               </label>
@@ -98,7 +101,7 @@
               <%%= l(<%= singular_table_name %>.updated_at, :format => :long) %>
             </td>
             <td class="ac am"><%%= link_to '<i class="fa fa-search"></i>'.html_safe, <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :title => t(:show, :default => "Show") %></td>
-            <td class="ac am"><%%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_<%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :title => t(:edit, :default => "Edit") %></td>
+            <td class="ac am"><%%= link_to '<i class="fa fa-edit"></i>'.html_safe, edit_<%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :title => t(:edit, :default => "Edit") %></td>
             <td class="ac am"><%%= link_to '<i class="fa fa-times"></i>'.html_safe, <%= namespace_for_route %><%= singular_table_name %>_path(<%= singular_table_name %>), :data => { :confirm => t(:are_you_sure, :default => "Are you sure?") }, :method => :delete, :title => t(:destroy, :default => "Destroy") %></td>
           </tr>
           <%% end %>
@@ -112,45 +115,46 @@
                   :inner_window => 0,
                   :outer_window => 0,
                   :previous_label => t(:prev, :default => "Previous"),
-                  :next_label => t(:next, :default => "Next") %>
+                  :next_label => t(:next, :default => "Next"),
+                  :renderer => WillPaginate::ActionView::BootstrapLinkRenderer
+          %>
 
         </div>
-        <div class="btn-group pull-right">
-          <%%= link_to '<i class="fa fa-download"></i> CSV'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :csv), :class => "btn btn-default" %>
-          <%%= link_to '<i class="fa fa-download"></i> XML'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :xml), :class => "btn btn-default" %>
-          <%%= link_to '<i class="fa fa-download"></i> JSON'.html_safe, <%= namespace_for_route %><%= plural_table_name %>_path(:format => :json), :class => "btn btn-default" %>
-          <%%= link_to '<i class="fa fa-download"></i> PDF'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :pdf), :class => "btn btn-default" %>
+        <div class="btn-group btn-group-sm float-right">
+          <%%= link_to '<i class="fa fa-download"></i> CSV'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :csv), :class => "btn btn-outline-secondary" %>
+          <%%= link_to '<i class="fa fa-download"></i> XML'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :xml), :class => "btn btn-outline-secondary" %>
+          <%%= link_to '<i class="fa fa-download"></i> JSON'.html_safe, <%= namespace_for_route %><%= plural_table_name %>_path(:format => :json), :class => "btn btn-outline-secondary" %>
+          <%%= link_to '<i class="fa fa-download"></i> PDF'.html_safe,  <%= namespace_for_route %><%= plural_table_name %>_path(:format => :pdf), :class => "btn btn-outline-secondary" %>
         </div>
       </div>
     <%% end %>
   </div>
   <div class="col-md-3">
-    <%%= search_form_for @q, :url => <%= namespace_for_route + 'search_' + model_pluralize + '_path' %>, :html => { :class => "well well-small search-and-filter" }, :method => :post do |f| %>
-
-      <h3><%%= t("search_and_filter", :default => "Search & filter") %></h3>
-
-<%= render_partial 'app/views/partials/_index_search.html.erb' %>
-
-      <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
-
-      <div class="panel-group">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <a class="accordion-toggle" data-toggle="collapse-next">
-              <%%= t(:more_options, :default => "More options...") %>
-            </a>
-          </div>
-          <div class="panel-collapse collapse">
-            <div class="panel-body">
-<%= render_partial 'app/views/partials/_index_search_default_fields.html.erb' %>
+    <%%= search_form_for @q, :url => <%= namespace_for_route + 'search_' + model_pluralize + '_path' %>, :html => { :class => "card bg-light mb-3 search-and-filter" }, :method => :post do |f| %>
+      <div class="card-header"><%%= t("search_and_filter", :default => "Search & filter") %></div>
+      <div class="card-body">
+        <div class="card-text">
+          <%= render_partial 'app/views/partials/_index_search.html.erb' %>
+          <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <a class="badge badge-light accordion-toggle" data-toggle="collapse-next">
+                  <%%= t(:more_options, :default => "More options...") %>
+                </a>
+              </div>
+              <div class="panel-collapse collapse">
+                <div class="panel-body">
+                  <%= render_partial 'app/views/partials/_index_search_default_fields.html.erb' %>
+                </div>
+              </div>
             </div>
           </div>
+          <%%= f.submit t(:filter, :default => "Filter"), :class => "btn btn-primary btn-sm btn-block" %>
+          <%%= link_to  t(:cancel, :default => "Cancel"), <%= namespace_for_route %><%= model_pluralize %>_path(:nosearch => "ok"), :class => "btn btn-light btn-sm btn-block" %>
         </div>
       </div>
-
-
-      <%%= f.submit t(:filter, :default => "Filter"), :class => "btn btn-primary" %>
-      <%%= link_to  t(:cancel, :default => "Cancel"), <%= namespace_for_route %><%= model_pluralize %>_path(:nosearch => "ok"), :class => "btn btn-default" %>
     <%% end %>
   </div>
+</div>
 </div>

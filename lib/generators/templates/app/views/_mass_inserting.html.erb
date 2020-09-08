@@ -1,37 +1,45 @@
 <% model = ("#{(engine.blank? ? '' : "#{engine.camelize}::")}#{model_name.camelize}").constantize %>
 <% formparams = [] %>
-<% if not namespace.blank? then %>
+<% if !namespace.blank? %>
   <% formparams << namespace %>
 <% end %>
 <% formparams << model.new %>
-<%= form_for formparams, :method => :post, :html => { :class => "well well-small form-inline mass-inserting #{(params[:mass_inserting] ? 'setfocus' : '')}" } do |f| %>
-  <%= hidden_field_tag :mass_inserting, true %>
-  <% for col in model_columns %>
-    <div <%= visible_column(model_name, col, 'inline') %> class="col-<%= col %>">
-      <%=
-        ar = model.columns_hash[col]
-        if not ar.nil? then
-          case ar.type
-          when :integer then
-            if col =~ /.*_id/ then
-              f.collection_select((col).to_sym, col.camelize.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_eq"].to_i rescue '' end) }, {:class => "form-control"})
-            else
-              f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col), default: "#{model_name}.#{col}").capitalize, :class => "form-control")
-            end
-          when :boolean then
-            (
-            "<label class='bs-label-ib'>#{f.check_box(col.to_sym, {}, true, false)}#{t(i18n_translate_path(model_name, col), default: "#{model_name}.#{col}").capitalize}</label>".html_safe
-            )
-          else
-            f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col), default: "#{model_name}.#{col}").capitalize, :class => "form-control")
-          end
-        else
-          f.collection_select((col + '_id').to_sym, col.camelize.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q][col + "_id_eq"].to_i rescue '' end) }, {:class => "form-control"})
-        end
-      %>
+<div class="container-fluid mb-3">
+  <div class="row">
+    <div class="col-md">
+      <div class="card card-body bg-light">
+        <%= form_for formparams, :method => :post, :html => { :class => "form-inline mass-inserting #{(params[:mass_inserting] ? 'setfocus' : '')}" } do |f| %>
+          <%= hidden_field_tag :mass_inserting, true %>
+          <% for col in model_columns %>
+            <div <%= visible_column(model_name, col, 'inline') %> class="form-group mr-sm-2 col-<%= col %>">
+              <%=
+                ar = model.columns_hash[col]
+                if !ar.nil?
+                  case ar.type
+                  when :integer then
+                    if col =~ /.*_id/
+                      f.collection_select((col).to_sym, col.camelize.constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q]["#{col}_eq"].to_i rescue '' end) }, {:class => "form-control"})
+                    else
+                      f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col), default: "#{model_name}.#{col}").capitalize, :class => "form-control")
+                    end
+                  when :boolean then
+                    (
+                    "<label class='bs-label-ib'>#{f.check_box(col.to_sym, {}, true, false)}#{t(i18n_translate_path(model_name, col), default: "#{model_name}.#{col}").capitalize}</label>".html_safe
+                    )
+                  else
+                    f.text_field(col.to_sym, :placeholder => t(i18n_translate_path(model_name, col), default: "#{model_name}.#{col}").capitalize, :class => "form-control")
+                  end
+                else
+                  f.collection_select(("#{false ? "#{engine}_" : ''}#{col}_id").to_sym, ("#{(engine.blank? ? '' : "#{engine.camelize}::")}#{col.camelize}").constantize.all, :id, :caption, { :include_blank => true, :selected => (begin params[:q]["#{col}_id_eq"].to_i rescue '' end) }, {:class => "form-control"})
+                end
+              %>
+            </div>
+          <% end %>
+          <div class="form-group">
+            <%= f.submit t(:create, :default => "Create"), :class => "btn btn-outline-secondary", :data => { :disable_with => t(:saving, :default => "Saving...") } %>
+          </div>
+        <% end %>
+      </div>
     </div>
-  <% end %>
-  <div style="display:inline;">
-    <%= f.submit t(:create, :default => "Create"), :class => "btn btn-default", :data => { :disable_with => t(:saving, :default => "Saving...") } %>
   </div>
-<% end %>
+</div>

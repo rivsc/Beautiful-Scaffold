@@ -2,8 +2,8 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
+        <h5 class="modal-title"><%= t(:select_columns, :default => "Select Columns") %></h5>
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3><%= t(:select_columns, :default => "Select Columns") %></h3>
       </div>
       <div class="modal-body">
         <% for field in model_columns %>
@@ -13,8 +13,8 @@
         <% end %>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="filter-columns" data-url="/<%= engine_name %><%= model_name %>/select_fields">Ok</button>
-        <button type="button" class="btn btn-default" id="cancel-filter-columns"><%= t(:cancel, :default => "Cancel") %></button>
+        <button type="button" class="btn btn-primary" id="filter-columns" data-url="<%= select_fields_url(model_name) %>">Ok</button>
+        <button type="button" class="btn btn-light" id="cancel-filter-columns"><%= t(:cancel, :default => "Cancel") %></button>
       </div>
     </div>
   </div>

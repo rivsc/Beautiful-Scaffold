@@ -3,26 +3,11 @@
 Beautiful Scaffold is a gem which propose generators for a complete scaffold with paginate, sort and filter.
 Fully customizable.
 Info : https://github.com/rivsc/Beautiful-Scaffold
-Demo : http://demo.beautiful-scaffold.escarworld.com/
+Demo : http://beautiful-scaffold.rivsc.ovh/
 
 == Install
 
-=== RubyOnRails 4.1
-
-Add this in your Gemfile :
-
-    gem 'beautiful_scaffold', '0.3.4'
-
-=== RubyOnRails 4.2
-
-Add this in your Gemfile :
-
-    gem 'beautiful_scaffold', '0.3.5'
-
-=== RubyOnRails 5+
-
-Add this in your Gemfile :
-
+Add this in the Gemfile of your rails app or engine :
     gem 'beautiful_scaffold'
 
 === Next
@@ -49,6 +34,8 @@ Types available:
 * color
 * wysiwyg
 
+(See below #label-Barcodes)
+
 # Example : products
 
     rails g beautiful_scaffold product name:string price:price tva:float description:wysiwyg visible:boolean && rake db:migrate
@@ -63,6 +50,8 @@ Types available:
     rails g beautiful_scaffold user code:string --mountable-engine=faq
     rails g beautiful_scaffold question title:string description:wysiwyg user:references resolved:boolean --mountable-engine=faq
     rails g beautiful_scaffold answer description:wysiwyg user:references up:integer down:integer --mountable-engine=faq
+    rails g beautiful_migration AddPositionToFaqAnswers position:integer --mountable-engine=faq
+    rails g beautiful_jointable answer tag --mountable-engine=faq
 
 === Migration (Use Add[Field]To[ModelPluralize] syntax)
 
@@ -81,6 +70,7 @@ Run `rake db:migrate` before `rails g beautiful_locale` (to get lastest attribut
 
     rails g beautiful_jointable model1 model2
 
+TODO replace Devise by Sorcery & Cancan by Cancancan
 === Install et Configure Devise (authentification) and Cancan (authorization)
 
     rails g beautiful_devisecancan model
@@ -107,16 +97,15 @@ data-type-barcode can be :
     msi
     datamatrix (ASCII + extended)
 
-==== Chardinjs (overlay instructions)
+==== Driverjs (overlay instructions)
 
-Example : This button triggers chardinjs on element with 'menu' id.
+Example : when you click on the #bs-help tag presentation tour display on screen !
 
-    <a href="#" class="bs-chardinjs" data-selector="#menu">Help Menu</a>
+If you want to add 'slide' :
 
-If you want display all chardinjs :
+For add instruction to element, add this to your markup :
 
-    <a href="#" class="bs-chardinjs" data-selector="body">Help</a>
+id="myunique-id-in-the-page" data-present-title="Title for the slide" data-present-description="Short description" data-present-order="1"
 
-Just add `class="bs-chardinjs"` in a button / link for trigger chardinjs. Beautiful-Scaffold does the job !
+And Beautiful-Scaffold does the job !
 
-For add instruction to element, read official documentation : https://github.com/heelhook/chardin.js#adding-data-for-the-instructions

@@ -8,7 +8,7 @@ module BeautifulScaffoldCommonMethods
   #############
 
   def engine_opt
-    options[:mountable_engine].to_s
+    options[:mountable_engine].to_s.downcase
   end
 
   def engine_name
@@ -16,7 +16,7 @@ module BeautifulScaffoldCommonMethods
   end
 
   def engine_camel
-    options[:mountable_engine].camelize
+    options[:mountable_engine].to_s.camelize
   end
 
   #############
@@ -47,7 +47,7 @@ module BeautifulScaffoldCommonMethods
 
   def render_partial(path)
     source  = File.expand_path(find_in_source_paths(path.to_s))
-    result = ERB.new(::File.binread(source), nil, '-').result(binding)
+    result = ERB.new(::File.binread(source), trim_mode: '-').result(binding)
     return result
   end
 
@@ -127,19 +127,21 @@ module BeautifulScaffoldCommonMethods
     }
   end
 
-  def beautiful_attr_to_rails_attr(for_migration = false)
+  def beautiful_attr_to_rails_attr #(for_migration = false)
     newmyattributes = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
       newt = t
-      if ['wysiwyg'].include?(t) then
+
+      # Special columns
+      if ['wysiwyg'].include?(t)
         newt = 'text'
-      elsif t == 'price' then
+      elsif t == 'price'
         newt = 'float'
-      elsif ['references', 'reference'].include?(t) and for_migration then
-        a = a + '_id'
+      elsif ['references', 'reference'].include?(t) # Because Rails generate corrupted files (migrations)
+        a = "#{a}_id"
         newt = 'integer:index'
-      elsif t == 'color' then
+      elsif t == 'color'
         newt = 'string'
       end
 
@@ -154,8 +156,13 @@ module BeautifulScaffoldCommonMethods
     myattributes.each{ |attr|
       a,t = attr.split(':')
 
-      if ['references', 'reference'].include?(t) then
+      if ['references', 'reference'].include?(t)
         a = a + '_id'
+      end
+
+      # Add the typetext to permitted_attr
+      if t == 'wysiwyg'
+        newmyattributes << "#{a}_typetext"
       end
 
       newmyattributes << a
@@ -168,7 +175,7 @@ module BeautifulScaffoldCommonMethods
     fulltext_field = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
-      if ['wysiwyg'].include?(t) then
+      if ['wysiwyg'].include?(t)
         fulltext_field << a
       end
     }
@@ -182,18 +189,18 @@ module BeautifulScaffoldCommonMethods
   def require_gems
     gems = {
       'will_paginate' => nil, # v 3.1.5
-      'ransack' => '2.3.2',
-      #'polyamorous' => '1.3.1',
+      'ransack' => nil, #'2.3.2',
       'jquery-ui-rails' => nil,
-      'prawn' => '2.1.0',
-      'prawn-table' => '0.2.2',
+      'prawn' => nil, #'2.1.0',
+      'prawn-table' => nil, #'0.2.2',
       'sanitize' => nil,
-      'twitter-bootstrap-rails' => '3.2.2',
-      'font-awesome-rails' => '4.7.0.5',
-      'chardinjs-rails' => nil,
+      #'twitter-bootstrap-rails' => '3.2.2', # Bootstrap 3 for Rails 6+
+      'bootstrap' => '~> 4.3.1', # Bootstrap 4 for Rails 6+
+      'font-awesome-sass' => '~> 5.13.0',
       'momentjs-rails' => '>= 2.9.0',
-      'bootstrap3-datetimepicker-rails' => '~> 4.17.47',
-      'jquery-rails' => '4.3.1'
+      'bootstrap4-datetime-picker-rails' => nil,
+      'jquery-rails' => '4.3.1',
+      'jstree-rails-4' => '3.3.8'
     }
 
     # Si engine il faut mettre les gems dans le gemspec et faire le require
@@ -203,6 +210,24 @@ module BeautifulScaffoldCommonMethods
 
     gems.each{ |gem_to_add, version|
       gem(gem_to_add, version)
+    }
+  end
+
+  def add_relation
+    myattributes.each{ |attr|
+      a,t = attr.split(':')
+
+      foreign_key = a
+
+      if ['references', 'reference'].include?(t)
+        foreign_key = "#{a}_id"
+
+        # question (model) belongs_to user (a)
+        inject_into_file("app/models/#{engine_name}#{model}.rb", "\n  belongs_to :#{a}, optional: true", :after => "ApplicationRecord")
+        inject_into_file("app/models/#{engine_name}#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ApplicationRecord")
+      end
+
+      inject_into_file("app/models/#{engine_name}#{model}.rb", ":#{foreign_key},", :after => "def self.permitted_attributes\n    return ")
     }
   end
 

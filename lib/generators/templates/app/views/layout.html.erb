@@ -5,8 +5,12 @@
     <title>Beautiful Scaffold</title>
 
     <meta name="description" content="Beautiful Scaffold">
-    <meta name="author" content="You or me Sylvain Claudel (http://blog.escarworld.com)">
+    <meta name="author" content="You or me Sylvain Claudel (https://blog.rivsc.ovh)">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--TODO remove cdn-->
+    <script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
 
     <%%= stylesheet_link_tag "<%= engine_name %>application-bs" %>
     <%%= javascript_include_tag "<%= engine_name %>application-bs" %>
@@ -14,54 +18,43 @@
     <%%= csrf_meta_tags %>
     <%%= yield :head %>
   </head>
-  <body style="display:none;">
-    <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <i class="fa fa-bars"></i>
-          </button>
-          <a class="navbar-brand" href="#">
-            Beautiful-Scaffold
-          </a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <%%= render :partial => "layouts/beautiful_menu" %>
-          </ul>
-          <ul class="nav navbar-nav pull-right">
-            <li>
-              <!-- Beautiful_scaffold - Signin - Do not remove -->
-            </li>
-          </ul>
-        </div>
+  <body>
+    <div class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          Beautiful-Scaffold
+        </a>
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="navbar-collapse collapse">
+        <nav class="nav navbar-nav">
+          <a href="/" class="nav-link">Home</a>-
+          <%%= render :partial => "layouts/beautiful_menu" %>
+        </nav>
+        <i class="fa fa-question-circle text-white float-right" id="bs-help"></i>
+        <!-- Beautiful_scaffold - Signin - Do not remove -->
       </div>
     </div>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-2">
-          <ul class="nav nav-pills nav-stacked">
-            <%%= render :partial => "layouts/beautiful_menu" %>
-          </ul>
-        </div>
-        <div class="col-md-10">
-          <%% if not flash[:notice].blank? then %>
+        <div class="col-md filler">
+          <%% if !flash[:notice].blank? %>
             <div class="alert alert-info">
               <a class="close" data-dismiss="alert" href="#">×</a>
               <h4 class="alert-heading">Info : </h4>
               <%%= flash[:notice] %>
             </div>
           <%% end %>
-          <%% if not flash[:error].blank? then %>
+          <%% if !flash[:error].blank? %>
             <div class="alert alert-danger">
               <a class="close" data-dismiss="alert" href="#">×</a>
               <h4 class="alert-heading">Error : </h4>
               <%%= flash[:error] %>
             </div>
           <%% end %>
-          <div>
+          <div class="mt-2">
             <%%= yield %>
           </div>
         </div>
@@ -76,7 +69,7 @@
     <!-- Beautiful_scaffold - Modal - Do not remove -->
 
     <script type="text/javascript">
-      <%% if not @opened_modal.blank? then %>
+      <%% if !@opened_modal.blank? %>
       $('<%%= @opened_modal %>').modal('show');
       <%% end %>
     </script>

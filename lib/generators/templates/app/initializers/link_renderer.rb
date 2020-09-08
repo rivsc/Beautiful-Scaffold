@@ -1,39 +1,44 @@
-require 'will_paginate/view_helpers/link_renderer_base'
+require 'will_paginate/view_helpers/action_view'
 
 module WillPaginate
-  module ViewHelpers
-    # This class does the heavy lifting of actually building the pagination
-    # links. It is used by +will_paginate+ helper internally.
-    class LinkRenderer < LinkRendererBase
+  module ActionView
+    class BootstrapLinkRenderer < LinkRenderer
 
-    protected
-    
+      protected
+
       def page_number(page)
-        unless page == current_page
-          link(page, page, :rel => rel_value(page), :class => "btn btn-default")
+        is_current_page = (page == current_page)
+        temphtml = '<li class="page-item ' + (is_current_page ? 'active' : '') + '">'
+        unless is_current_page
+          temphtml += link(page, page, :rel => rel_value(page), :class => 'page-link')
         else
-          tag(:a, page, :class => 'current active btn btn-default')
+          temphtml += tag(:a, page, :class => 'current active page-link')
         end
+        temphtml += '</li>'
+        temphtml
       end
-      
+
       def gap
         text = @template.will_paginate_translate(:page_gap) { '&hellip;' }
         %(<a class="gap btn btn-default disabled">#{text}</a>)
       end
-      
+
       def previous_or_next_page(page, text, classname)
+        temphtml = '<li class="page-item">'
         if page
-          link(text, page, :class => classname + ' btn btn-default')
+          temphtml += link(text, page, :class => classname + ' page-link')
         else
-          tag(:a, text, :class => classname + ' disabled btn btn-default')
+          temphtml += tag(:a, text, :class => classname + ' page-link')
         end
+        temphtml += '</li>'
+        temphtml
       end
-      
+
       def html_container(html)
-        html
+        '<ul class="pagination pagination-sm justify-content-end mb-0">' + html + '</ul>'
       end
-      
-    private
+
+      private
 
       def param_name
         @options[:param_name].to_s

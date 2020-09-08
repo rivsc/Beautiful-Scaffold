@@ -1,11 +1,11 @@
-<%% if <%= model %>_signed_in? then %>
+<%% if <%= model %>_signed_in? %>
   <a class="dropdown-toggle" data-toggle="dropdown" href="#">
     <i class="icon-user"></i> <%%= current_<%= model %>.caption %>
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu">
     <li><a href="#"><%%= t(:profile, :default => "Profile") %></a></li>
-    <li class="divider"></li>
+    <li class="dropdown-divider"></li>
     <li><%%= link_to t(:sign_out, :default => "Sign Out"), destroy_<%= model %>_session_path, :method => :delete %></li>
   </ul>
 <%% else %>

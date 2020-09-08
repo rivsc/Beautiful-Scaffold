@@ -9,14 +9,22 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require reset
  *= require jquery-ui
- *= require twitter-bootstrap-static/bootstrap
- *= require font-awesome
- *= require bootstrap-datetimepicker
  *= require beautiful-scaffold
  *= require tagit-dark-grey
  *= require colorpicker
  *= require bootstrap-wysihtml5
- *= require chardinjs
+ *= require themes/default/style
  */
+
+/* Bootstrap 4 */
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import "tempusdominus-bootstrap-4.css";
+
+/* Fix bug driverJS position:fixed */
+div#driver-highlighted-element-stage, div#driver-page-overlay {
+    background: transparent !important;
+    outline: 5000px solid rgba(0, 0, 0, .75)
+}

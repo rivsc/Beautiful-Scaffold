@@ -3,8 +3,8 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
+        <h5 class="modal-title"><%%= t(:register, :default => "Register") %></h5>
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3><%%= t(:register, :default => "Register") %></h3>
       </div>
       <div class="modal-body">
         <%% resource ||= <%= model.camelize %>.new %>
@@ -34,7 +34,7 @@
 
           <div class="form-group">
             <div>
-              <%%= f.submit t(:sign_up, :default => "Sign up"), :class => 'btn btn-default' %>
+              <%%= f.submit t(:sign_up, :default => "Sign up"), :class => 'btn btn-light' %>
             </div>
           </div>
         <%% end %>

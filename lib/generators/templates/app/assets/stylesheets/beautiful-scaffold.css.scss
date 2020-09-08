@@ -106,7 +106,7 @@ label.bs-label-ib input{
 }
 
 /* Fixed left menu */
-
+/*
 .fixed {
   width: 200px;
   float: left;
@@ -130,9 +130,11 @@ body {
     padding-top: 35px;
   }
 }
+*/
 html, body {
   height: 100%;
 }
+/*
 .filler:after{
   background-color:inherit;
   bottom: 0;
@@ -147,6 +149,7 @@ html, body {
   width: inherit;
   z-index: -1;
 }
+*/
 
 #jstree-marker-line {pointer-events: none;}
 
@@ -179,6 +182,7 @@ html, body {
   margin-top: 5px;
 }
 
+/*
 div.filler.show-menu{
   margin-left: 200px;
 }
@@ -190,4 +194,9 @@ div.filler.hide-menu{
 }
 div.fixed.hide-menu{
   display: none !important;
+}
+*/
+
+.title-index{
+  font-size: 30px;
 }

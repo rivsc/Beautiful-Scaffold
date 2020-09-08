@@ -25,7 +25,7 @@ module BeautifulHelper
     attr    = nil
     sort    = nil
 
-    if not params[:sorting].blank? then
+    if !params[:sorting].blank?
       attr = params[:sorting][:attribute]
       sort = params[:sorting][:sorting]
     end
@@ -34,11 +34,11 @@ module BeautifulHelper
     sortstr = sort.to_s.downcase
     opposite_sortstr = ""
     csort = '' # <i class="fa fa-stop"></i>
-    if attribute_name == attr then
-      if sortstr == "asc" then
+    if attribute_name == attr
+      if sortstr == "asc"
         csort = '<i class="fa fa-chevron-up"></i>'
         opposite_sortstr = "desc"
-      elsif sortstr == "desc" then
+      elsif sortstr == "desc"
         csort = '<i class="fa fa-chevron-down"></i>'
         opposite_sortstr = "asc"
       end
@@ -47,7 +47,7 @@ module BeautifulHelper
     end
 
     default_caption = attribute_name.capitalize
-    if is_belongs_to_column?(default_caption) then
+    if is_belongs_to_column?(default_caption)
       default_caption = get_belongs_to_model(default_caption)
     end
 
@@ -55,7 +55,7 @@ module BeautifulHelper
 
     caption = t(cap, :default => default_caption).capitalize
     strpath = model_name.pluralize + "_url"
-    strpath = namespace + '_' + strpath if not namespace.blank?
+    strpath = namespace + '_' + strpath if !namespace.blank?
 
     return link_to(
         "#{csort} #{caption}".html_safe,
@@ -73,9 +73,9 @@ module BeautifulHelper
     ar_model = (engine.blank? ? model_name.camelize.constantize : "#{engine.camelize}::#{model_name.camelize}".constantize)
 
     default_caption = caption
-    if default_caption.blank? then
+    if default_caption.blank?
       default_caption = attribute_name.capitalize
-      if is_belongs_to_column?(default_caption) then
+      if is_belongs_to_column?(default_caption)
         default_caption = get_belongs_to_model(default_caption)
       end
     end
@@ -84,7 +84,7 @@ module BeautifulHelper
     name_field_bk = attribute_name
     label_field   = attribute_name
 
-    if is_belongs_to_column?(name_field_bk) then
+    if is_belongs_to_column?(name_field_bk)
       label_field = get_belongs_to_model(attribute_name)
     end
 
@@ -99,100 +99,122 @@ module BeautifulHelper
     type_of_column = ar_model.columns_hash[attribute_name].type unless ar_model.columns_hash[attribute_name].nil?
     type_of_column ||= :other
     case type_of_column
-      when :date, :datetime then
+      when :date, :datetime
         dt = (type_of_column == :datetime)
         interval = (dt ? (1..5) : (1..3))
 
+        html_id = "#{name_field}_dp_gt"
+        filter = session['search'][model_name]
+        filter ||= {}
+
         # Greater than
-        response += '<div class="input-group input-' + type_of_column.to_s + '">'
-        response += '<span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>'
+        response += '<div class="dpicker input-group input-' + type_of_column.to_s + ' mb-2" data-field="q_' + name_field + '_gteq" id="' + html_id + '_id" data-target-input="nearest">'
+        response += '<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-chevron-right"></i></span></div>'
         response += f.text_field(
-            (name_field + "_dp_gt").to_sym,
-            :value => (begin params[:q][(name_field + "_dp_gt").to_sym] rescue '' end),
-            :class => "col-md-9 dpicker form-control",
+            (html_id).to_sym,
+            :value => ("#{filter["#{name_field}_gteq(3i)"]}/#{filter["#{name_field}_gteq(2i)"]}/#{filter["#{name_field}_gteq(1i)"]}"),
+            :class => " form-control datetimepicker-input",
+            "data-target" => "##{html_id}_id",
             "data-id" => ("q_" + name_field + "_gteq"))
-        response += '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'
+        response += '<div class="input-group-append" data-target="' + html_id + '_id" data-toggle="datetimepicker"><span class="input-group-text"><i class="fa fa-calendar"></i></span></div>'
         response += '</div>'
 
-        if dt then
-          response += '<div class="input-group input-' + type_of_column.to_s + '">'
-          response += '<span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>'
+        html_id = "#{name_field}_tp_gt"
+
+        if dt
+          response += '<div class="tpicker input-group input-' + type_of_column.to_s + ' mb-2" data-field="q_' + name_field + '_gteq" id="' + html_id + '_id" data-target-input="nearest">'
+          response += '<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-chevron-right"></i></span></div>'
           response += f.text_field(
               (name_field + "_tp_gt").to_sym,
-              :value => (begin params[:q][(name_field + "_tp_gt").to_sym] rescue '' end),
-              :class => "col-md-9 tpicker form-control",
+              :value => ("#{filter["#{name_field}_gteq(4i)"]}/#{filter["#{name_field}_gteq(5i)"]}"),
+              :class => " form-control datetimepicker-input",
+              "data-target" => "##{html_id}_id",
               "data-id" => ("q_" + name_field + "_gteq"))
-          response += '<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>'
+          response += '<div class="input-group-append" data-target="' + html_id + '_id" data-toggle="datetimepicker"><span class="input-group-text"><i class="fa fa-clock"></i></span></div>'
           response += '</div>'
         end
 
         for i in interval
           response += f.hidden_field(name_field + "_gteq(#{i}i)",
-                                     :value => (begin params[:q][(name_field + "_gteq(#{i}i)").to_sym] rescue '' end),
+                                     :value => (filter["#{name_field}_gteq(#{i}i)"]),
                                      :id => ('q_' + name_field + "_gteq_#{i}i"))
         end
 
+        html_id = "#{name_field}_dp_lt"
+
         # Less than
-        response += '<div class="input-group input-' + type_of_column.to_s + '">'
-        response += '<span class="input-group-addon"><i class="fa fa-chevron-left"></i></span>'
+        response += '<div class="dpicker input-group input-' + type_of_column.to_s + ' mb-2" data-field="q_' + name_field + '_lteq" id="' + html_id + '_id" data-target-input="nearest">'
+        response += '<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-chevron-left"></i></span></div>'
         response += f.text_field(
             (name_field + "_dp_lt").to_sym,
-            :value => (begin params[:q][(name_field + "_dp_lt").to_sym] rescue '' end),
-            :class => "col-md-9 dpicker form-control",
+            :value => ("#{filter["#{name_field}_lteq(3i)"]}/#{filter["#{name_field}_lteq(2i)"]}/#{filter["#{name_field}_lteq(1i)"]}"),
+            :class => " form-control datetimepicker-input",
+            "data-target" => "##{html_id}_id",
             "data-id" => ("q_" + name_field + "_lteq"))
-        response += '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'
+        response += '<div class="input-group-append" data-target="' + html_id + '_id" data-toggle="datetimepicker"><span class="input-group-text"><i class="fa fa-calendar"></i></span></div>'
         response += '</div>'
 
-        if dt then
-          response += '<div class="input-group input-' + type_of_column.to_s + '">'
-          response += '<span class="input-group-addon"><i class="fa fa-chevron-left"></i></span>'
+        html_id = "#{name_field}_tp_lt"
+
+        if dt
+          response += '<div class="tpicker input-group input-' + type_of_column.to_s + ' mb-2" data-field="q_' + name_field + '_lteq" id="' + html_id + '_id" data-target-input="nearest">'
+          response += '<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-chevron-left"></i></span></div>'
           response += f.text_field(
               (name_field + "_tp_lt").to_sym,
-              :value => (begin params[:q][(name_field + "_tp_lt").to_sym] rescue '' end),
-              :class => "col-md-9 tpicker form-control",
+              :value => ("#{filter["#{name_field}_lteq(4i)"]}/#{filter["#{name_field}_lteq(5i)"]}"),
+              :class => " form-control datetimepicker-input",
+              "data-target" => "##{html_id}_id",
               "data-id" => ("q_" + name_field + "_lteq"))
-          response += '<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>'
+          response += '<div class="input-group-append" data-target="' + html_id + '_id" data-toggle="datetimepicker"><span class="input-group-text"><i class="fa fa-clock"></i></span></div>'
           response += '</div>'
         end
 
         for i in interval
           response += f.hidden_field(name_field + "_lteq(#{i}i)",
-                                     :value => (begin params[:q][(name_field + "_lteq(#{i}i)").to_sym] rescue '' end),
+                                     :value => (filter["#{name_field}_lteq(#{i}i)"]),
                                      :id => ('q_' + name_field + "_lteq_#{i}i"))
         end
 
         infostr = info_input(model_name, [(name_field + "_dp_lt").to_sym, (name_field + "_tp_lt").to_sym, (name_field + "_dp_gt").to_sym, (name_field + "_tp_gt").to_sym])
-      when :boolean then
+      when :boolean
         # Specify a default value (false) in rails migration
         response += f.label name_field + "_eq_true",   raw(f.radio_button((name_field + "_eq").to_sym, true))   + " " + h(t(:yes, :default => "Yes")), :class => "checkbox inline"
         response += f.label name_field + "_eq_false",  raw(f.radio_button((name_field + "_eq").to_sym, false))  + " " + h(t(:no, :default => "No")),   :class => "checkbox inline"
         response += f.label name_field + "_eq",        raw(f.radio_button((name_field + "_eq").to_sym, nil))    + " " + h(t(:all, :default => "All")), :class => "checkbox inline"
 
         infostr = (begin session['search'][model_name][(name_field + "_eq").to_sym] == "on" ? "" : "info" rescue "" end)
-      when :string then
+      when :string
         response += f.text_field((name_field + "_cont").to_sym, :class => "filter col-md-12 form-control")
 
         infostr = info_input(model_name, (name_field + "_cont").to_sym)
-      when :integer, :float, :decimal then
-        if is_belongs_to_column?(name_field_bk) then
+      when :integer, :float, :decimal #, :other
+        if is_belongs_to_column?(name_field_bk)
           bt_model_name = get_belongs_to_model(name_field_bk).camelize
-          bt_model_name = "#{engine.camelize}::#{bt_model_name}" if !engine.blank?
-          btmodel = bt_model_name.constantize
-          response += f.collection_select((name_field + "_eq").to_sym, btmodel.all, :id, :caption, { :include_blank => t(:all, :default => "All") }, { :class => "col-md-12 form-control" })
+          field = name_field + "_eq"
 
-          infostr = info_input(model_name, (name_field + "_eq").to_sym)
-        elsif name_field == "id" then
+          if !engine.blank?
+            bt_model_name = "#{engine.camelize}::#{bt_model_name}"
+            #field = "#{engine.downcase}_#{field}"
+          end
+
+          btmodel = bt_model_name.constantize
+          field = field.to_sym
+
+          response += f.collection_select(field, btmodel.all, :id, :caption, { :include_blank => t(:all, :default => "All") }, { :class => "col-md-12 form-control" })
+
+          infostr = info_input(model_name, field)
+        elsif name_field == "id"
           response += f.text_field((name_field + "_eq").to_sym, :class => "filter col-md-12 form-control")
 
           infostr = info_input(model_name, (name_field + "_eq").to_sym)
         else
           response += '<div class="input-group">'
-          response += '<span class="input-group-addon" rel="tooltip" title="' + t(:greater_than, :default => "Greater than") + '"><i class="fa fa-chevron-right"></i></span>'
-          response += f.text_field((name_field + "_gteq").to_sym, :class => "#{align_attribute("integer")} filter-min col-md-10 form-control")
+          response += '<div class="input-group-prepend" rel="tooltip" title="' + t(:greater_than, :default => "Greater than") + '"><span class="input-group-text"><i class="fa fa-chevron-right"></i></span></div>'
+          response += f.text_field((name_field + "_gteq").to_sym, :class => "#{align_attribute("integer")} filter-min form-control")
           response += '</div>'
           response += '<div class="input-group">'
-          response += '<span class="input-group-addon" rel="tooltip" title="' + t(:smaller_than, :default => "Smaller than") + '"><i class="fa fa-chevron-left"></i></span>'
-          response += f.text_field((name_field + "_lteq").to_sym, :class => "#{align_attribute("integer")} filter-max col-md-10 form-control")
+          response += '<div class="input-group-append" rel="tooltip" title="' + t(:smaller_than, :default => "Smaller than") + '"><span class="input-group-text"><i class="fa fa-chevron-left"></i></span></div>'
+          response += f.text_field((name_field + "_lteq").to_sym, :class => "#{align_attribute("integer")} filter-max form-control")
           response += '</div>'
 
           infostr = info_input(model_name, [(name_field + "_lteq").to_sym, (name_field + "_gteq").to_sym])
@@ -213,11 +235,11 @@ module BeautifulHelper
   def info_input(modname, attr)
     model_name = modname
     rep = false
-    if not session['search'].blank? and not session['search'][model_name].blank? then
-      if attr.kind_of?(Array) then
+    if !session['search'].blank? and !session['search'][model_name].blank?
+      if attr.kind_of?(Array)
         rep = (attr.any? { |elt| (not session['search'][model_name][elt].blank?) })
       else
-        rep = (not session['search'][model_name][attr].blank?)
+        rep = (!session['search'][model_name][attr].blank?)
       end
     end
     return (rep ? "info" : "")
@@ -225,17 +247,17 @@ module BeautifulHelper
 
   def align_attribute(attribute_type)
     return case attribute_type
-             when "string" then
-               "al"
-             when "integer", "float", "numeric", "decimal" then
-               "ar"
-             when "boolean" then
-               "ac"
-             when "date", "datetime", "timestamp" then
-               "ac"
-             else
-               "al"
-           end
+    when "string"
+      "al"
+    when "integer", "float", "numeric", "decimal"
+      "ar"
+    when "boolean"
+      "ac"
+    when "date", "datetime", "timestamp"
+      "ac"
+    else
+      "al"
+    end
   end
 
   # Encore utilisé avec wysihtml5 ?

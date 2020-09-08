@@ -4,6 +4,21 @@
 
 * bugfix
 
+== 2.0.0.pre
+
+* enhancement
+  * replace chardinjs by driverjs : https://github.com/kamranahmedse/driver.js
+  * replace bootstrapdatetimepicker by https://tempusdominus.github.io/bootstrap-4/Usage/
+  * Update JStreeview
+  * Update Bootstrap 4.2
+  * Update FontAwesome 5
+  * Generate beautiful scaffold for mountable engine
+  * Tests generators works !
+  * Refactoring ruby code.
+
+* bugfix
+  * Bugfix for engine
+
 == 1.0.3
 
 * enhancement

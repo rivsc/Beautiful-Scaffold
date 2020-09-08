@@ -21,12 +21,12 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   class_option :mountable_engine, default: nil
 
   def install_gems
-    if options[:donttouchgem].blank? then
+    if options[:donttouchgem].blank?
       require_gems
     end
 
     #inside Rails.root do # Bug ?!
-    Bundler.with_clean_env do
+    Bundler.with_unbundled_env do
       run "bundle install"
     end
   end
@@ -36,7 +36,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     @fulltext_field = []
     myattributes.each{ |attr|
       a,t = attr.split(':')
-      if ['wysiwyg'].include?(t) then
+      if ['wysiwyg'].include?(t)
         # _typetext = {html|text}
         # _fulltext = text without any code
         @fulltext_field << [a + '_typetext', 'string'].join(':')
@@ -46,8 +46,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   end
 
   def mimetype
-    if not File.exist?("app/controllers/beautiful_controller.rb") then
-      if File.exist?("config/initializers/mime_types.rb") then # For mountable engine
+    if !File.exist?("app/controllers/beautiful_controller.rb")
+      if File.exist?("config/initializers/mime_types.rb") # For mountable engine
         inject_into_file("config/initializers/mime_types.rb", 'Mime::Type.register_alias "application/pdf", :pdf' + "\n", :before => "# Be sure to restart your server when you modify this file." )
       else
         puts "============> Engine : You must add `Mime::Type.register_alias \"application/pdf\", :pdf` to your config/initializers/mime_types.rb main app !"
@@ -60,9 +60,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     stylesheetspath_dest = "#{stylesheetspath}#{engine_name}"
 
     # Css
-    reset            = "reset.css"
     bc_css           = [
-                        "application-bs.css",
                         "beautiful-scaffold.css.scss",
                         "tagit-dark-grey.css",
                         "colorpicker.css",
@@ -72,18 +70,29 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     javascriptspath = "app/assets/javascripts/"
     javascriptspath_dest = "#{javascriptspath}#{engine_name}"
 
-    [reset, bc_css].flatten.each{ |path|
+    bc_css.each do |path|
       copy_file "#{stylesheetspath}#{path}", "#{stylesheetspath_dest}#{path}"
-    }
+    end
+    copy_file "#{stylesheetspath}application-bs.css", "#{stylesheetspath_dest}application-bs.scss"
+
+    # Jstree theme
+    directory "#{stylesheetspath}themes", "#{stylesheetspath}#{engine_name}themes"
 
     if !engine_name.blank?
-      ['reset',
-      'beautiful-scaffold',
+      ['beautiful-scaffold',
       'tagit-dark-grey',
       'colorpicker',
       'bootstrap-wysihtml5'].each do |fileassets|
-        inject_into_file File.join(stylesheetspath_dest, "application-bs.css"), "#{engine_name}/", before: fileassets
+        gsub_file File.join(stylesheetspath_dest, "application-bs.scss"), " *= require #{fileassets}", " *= require #{engine_name}#{fileassets}"
       end
+
+      # Issue otherwise
+      gsub_file File.join(stylesheetspath_dest, "application-bs.scss"), '@import "tempusdominus-bootstrap-4.css";', '@import "../tempusdominus-bootstrap-4.css";'
+      gsub_file File.join(stylesheetspath_dest, "application-bs.scss"), 'require themes/default/style', "require #{engine_name}themes/default/style"
+
+      # treeview
+      gsub_file File.join(stylesheetspath_dest, 'themes', 'default', 'style.scss'), 'asset-url("themes', "asset-url(\"#{engine_name}themes"
+      gsub_file File.join(stylesheetspath_dest, 'themes', 'default-dark', 'style.scss'), 'asset-url("themes', "asset-url(\"#{engine_name}themes"
     end
 
     # Js
@@ -91,8 +100,8 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "application-bs.js",
                         "beautiful_scaffold.js",
                         "bootstrap-datetimepicker-for-beautiful-scaffold.js",
-                        "jquery.jstree.js",
                         "jquery-barcode.js",
+                        "jstree.min.js",
                         "tagit.js",
                         "bootstrap-colorpicker.js",
                         "a-wysihtml5-0.3.0.min.js",
@@ -109,17 +118,14 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       'bootstrap-colorpicker',
       'bootstrap-datetimepicker-for-beautiful-scaffold',
       'bootstrap-wysihtml5',
-      'jquery.jstree',
       'tagit.js',
+      'jstree.min.js',
       'jquery-barcode',
       'beautiful_scaffold',
       'fixed_menu'].each do |fileassets|
-        inject_into_file File.join(javascriptspath_dest, "application-bs.js"), "#{engine_name}/", before: fileassets
+        gsub_file File.join(javascriptspath_dest, "application-bs.js"), "//= require #{fileassets}", "//= require #{engine_name}#{fileassets}"
       end
     end
-
-    # Jstree theme
-    directory "#{stylesheetspath}themes", "#{stylesheetspath}themes"
 
     # Images
     dir_image = "app/assets/images"
@@ -133,29 +139,53 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     end
 
     append_to_file(path_to_assets_rb, "Rails.application.config.assets.precompile += ['#{engine_name}application-bs.css','#{engine_name}application-bs.js']")
+    if !engine_name.blank?
+      manifest_prefix = "#{engine_opt}_"
+    else
+      manifest_prefix = ""
+    end
+    #append_to_file("app/assets/config/#{manifest_prefix}manifest.js", '//= link_directory ../stylesheets/faq .css')
+    append_to_file("app/assets/config/#{manifest_prefix}manifest.js", '//= link_directory ../javascripts/faq .js')
   end
 
   def generate_layout
-    template  "app/views/layout.html.erb", "app/views/layouts/beautiful_layout.html.erb"
-    if not File.exist?("app/views/layouts/_beautiful_menu.html.erb") then
-      template  "app/views/_beautiful_menu.html.erb", "app/views/layouts/_beautiful_menu.html.erb"
+    template  "app/views/layout.html.erb", "app/views/layouts/#{engine_name}beautiful_layout.html.erb"
+
+    gsub_file "app/views/layouts/#{engine_name}beautiful_layout.html.erb", '"layouts/beautiful_menu"', "\"layouts/#{engine_name}beautiful_menu\""
+
+    if !File.exist?("app/views/layouts/#{engine_name}_beautiful_menu.html.erb")
+      template  "app/views/_beautiful_menu.html.erb", "app/views/layouts/#{engine_name}_beautiful_menu.html.erb"
     end
 
     empty_directory "app/views/#{engine_name}beautiful"
     template  "app/views/dashboard.html.erb", "app/views/#{engine_name}beautiful/dashboard.html.erb"
-    copy_file "app/views/_modal_columns.html.erb",  "app/views/layouts/_modal_columns.html.erb"
-    copy_file "app/views/_mass_inserting.html.erb", "app/views/layouts/_mass_inserting.html.erb"
+    copy_file "app/views/_modal_columns.html.erb",  "app/views/layouts/#{engine_name}_modal_columns.html.erb"
+    copy_file "app/views/_mass_inserting.html.erb", "app/views/layouts/#{engine_name}_mass_inserting.html.erb"
 
-    inject_into_file("app/views/layouts/_beautiful_menu.html.erb",'
-      <li class="<%= "active" if params[:controller] == "' + namespace_for_url + model.pluralize + '" %>">
-        <%= link_to ' + i18n_t_m_p(model) + '.capitalize, ' + namespace_for_route + model.pluralize + '_path %>
-      </li>', :after => "<!-- Beautiful Scaffold Menu Do Not Touch This -->")
+    action_ctrl = "#{namespace_for_url}#{model.pluralize}"
+
+    inject_into_file("app/views/layouts/#{engine_name}_beautiful_menu.html.erb",
+                     "\n" + '<%= link_to ' + i18n_t_m_p(model) + '.capitalize, ' + namespace_for_route + model.pluralize + '_path, class: "nav-link #{(params[:controller] == "' + action_ctrl + '" ? "active" : "")}" %>',
+                     :after => "<!-- Beautiful Scaffold Menu Do Not Touch This -->")
   end
 
   def generate_model
     generate("model", "#{model} #{beautiful_attr_to_rails_attr.join(' ')} #{@fulltext_field.join(' ')}")
+    directory  "app/models/concerns", "app/models/concerns/#{engine_name}"
 
-    directory  "app/models/concerns", "app/models/concerns"
+    copy_file  "app/models/pdf_report.rb", "app/models/#{engine_name}pdf_report.rb"
+
+    if !engine_name.blank?
+      ['caption_concern', 'default_sorting_concern','fulltext_concern'].each do |f|
+        path_to_the_concern = "app/models/concerns/#{engine_name}#{f}.rb"
+        inject_into_file path_to_the_concern, "module #{engine_camel}\n", before: "module #{f.camelcase}"
+        append_to_file path_to_the_concern, "\nend #endofmodule \n"
+      end
+
+      path_to_the_pdf_report = "app/models/#{engine_name}pdf_report.rb"
+      inject_into_file path_to_the_pdf_report, "module #{engine_camel}\n", before: "class PdfReport"
+      append_to_file path_to_the_pdf_report, "\nend #endofmodule \n"
+    end
 
     gsub_file "app/models/#{engine_name}#{model}.rb", 'ActiveRecord::Base', 'ApplicationRecord' # Rails 4 -> 5
     inject_into_file("app/models/#{engine_name}#{model}.rb",'
@@ -172,20 +202,10 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     return ' + attributes_without_type.map{ |attr| ":#{attr}" }.join(",") + '
   end', :after => "class #{model_camelize} < ApplicationRecord")
 
-    copy_file  "app/models/pdf_report.rb", "app/models/pdf_report.rb"
   end
 
   def add_to_model
-    # Add relation
-    myattributes.each{ |attr|
-      a,t = attr.split(':')
-      if ['references', 'reference'].include?(t) then
-        begin
-          inject_into_file("app/models/#{engine_name}#{a}.rb", "\n  has_many :#{model_pluralize}, :dependent => :nullify", :after => "ApplicationRecord")
-        rescue
-        end
-      end
-    }
+    add_relation
   end
 
   def generate_controller
@@ -196,10 +216,12 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       inject_into_file beautiful_ctrl_path, "module #{engine_camel}\n", before: "class BeautifulController"
       #gsub_file beautiful_ctrl_path, '< ApplicationController', "< ::#{engine_camel}::ApplicationController" # Rails 4 -> 5 'BeautifulController < ApplicationController'
       append_to_file beautiful_ctrl_path, "end #endofmodule \n"
+
+      gsub_file beautiful_ctrl_path, 'layout "beautiful_layout"', "layout \"#{engine_name}beautiful_layout\""
     end
     dirs = ['app', 'controllers', engine_name, options[:namespace]].compact
     # Avoid to remove app/controllers directory (https://github.com/rivsc/Beautiful-Scaffold/issues/6)
-    empty_directory File.join(dirs) if not options[:namespace].blank?
+    empty_directory File.join(dirs) if !options[:namespace].blank?
     dest_ctrl_file = File.join([dirs, "#{model_pluralize}_controller.rb"].flatten)
     template "app/controllers/base.rb", dest_ctrl_file
   end
@@ -226,9 +248,12 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       current_template_path = File.join([dirs, filename].flatten)
       empty_template_path   = File.join(["app", "views", filename].flatten)
       template empty_template_path, current_template_path
+
+      gsub_file current_template_path, '"layouts/modal_columns"', "\"layouts/#{engine_name}modal_columns\""
+      gsub_file current_template_path, '"layouts/mass_inserting"', "\"layouts/#{engine_name}mass_inserting\""
     end
 
-    copy_file  "app/views/_form_habtm_tag.html.erb", "app/views/layouts/_form_habtm_tag.html.erb"
+    copy_file  "app/views/_form_habtm_tag.html.erb", "app/views/layouts/#{engine_name}_form_habtm_tag.html.erb"
   end
 
   def install_ransack_intializer
@@ -242,13 +267,13 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
   def routes
     myroute = <<EOF
   root :to => 'beautiful#dashboard'
-  match ':model_sym/select_fields' => 'beautiful#select_fields', :via => [:get, :post]
+  match ':model_sym/select_fields' => 'beautiful#select_fields', as: :select_fields, via: [:get, :post]
 
   concern :bs_routes do
     collection do
       post :batch
       get  :treeview
-      match :search_and_filter, :action => :index, :as => :search, :via => [:get, :post]
+      match :search_and_filter, action: :index, as: :search, via: [:get, :post]
     end
     member do
       post :treeview_update
@@ -261,9 +286,9 @@ EOF
     inject_into_file("config/routes.rb", myroute, :after => "routes.draw do\n")
 
     myroute =  "\n  "
-    myroute += "namespace :#{namespace_alone} do\n    " if not namespace_alone.blank?
+    myroute += "namespace :#{namespace_alone} do\n    " if !namespace_alone.blank?
     myroute += "resources :#{model_pluralize}, concerns: :bs_routes\n  "
-    myroute += "end\n"                                  if not namespace_alone.blank?
+    myroute += "end\n"                                  if !namespace_alone.blank?
 
     inject_into_file("config/routes.rb", myroute, :after => ":bs_routes here # Do not remove")
   end

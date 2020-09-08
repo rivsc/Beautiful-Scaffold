@@ -23,12 +23,10 @@ class BeautifulController < ApplicationController
   def select_fields
     model_sym = params[:model_sym]
 
-    do_select_fields(model_sym.to_s) #TODO vérifier si nécessaire
+    do_select_fields(model_sym.to_s)
 
     head :ok
   end
-
-  # TODO session use key string because json serializer don't know the type of key.
 
   def do_select_fields(model_str)
     # Fields
@@ -79,32 +77,28 @@ class BeautifulController < ApplicationController
     elt          = modelclass.find(params[:id])
     elt.attributes = { foreignkey => parent_id }
 
-    if modelclass.column_names.include?("position") then
+    if modelclass.column_names.include?("position")
       new_pos = 0
       modelclass.transaction do
         all_elt = modelclass.where(foreignkey => parent_id).order("position ASC").to_a
 
-        #begin
-          if index == 0 then
-            new_pos = (begin (all_elt.first.position - 1) rescue 1 end)
-          elsif index == all_elt.length then
-            new_pos = (begin (all_elt.last.position + 1) rescue 1 end)
-          else
-            new_pos = all_elt[index].position
+        if index == 0
+          new_pos = (begin (all_elt.first.position - 1) rescue 1 end)
+        elsif index == (all_elt.length - 1)
+          new_pos = (begin (all_elt.last.position + 1) rescue 1 end)
+        else
+          new_pos = all_elt[index].position
 
-            end_of_array = all_elt[index..-1]
-            end_of_array.each{ |g|
-              next if g == elt
-              g.position = g.position.to_i + 1
-              g.save!
+          end_of_array = all_elt[index..-1]
+          end_of_array.each do |g|
+            next if g == elt
+            g.position = g.position.to_i + 1
+            g.save!
 
-              next_elt = end_of_array[end_of_array.index(g) + 1]
-              break if not next_elt.nil? and next_elt.position > g.position
-            }
+            next_elt = end_of_array[end_of_array.index(g) + 1]
+            break if !next_elt.nil? && next_elt.position > g.position
           end
-        #rescue
-        #  new_pos = 0
-        #end
+        end
       end
       elt.position = new_pos
     end

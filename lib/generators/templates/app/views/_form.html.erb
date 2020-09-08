@@ -1,6 +1,6 @@
 <%-
 strformfor = "@#{singular_table_name}"
-if not namespace_alone.blank? then
+if !namespace_alone.blank?
   strformfor = "[:#{namespace_alone}, @#{singular_table_name} ]"
 end
 -%>
@@ -17,7 +17,7 @@ end
   <%% end %>
   <%= render_partial 'app/views/partials/_form_field.html.erb' %><!-- Beautiful_scaffold - AddField - Do not remove -->
   <div>
-    <%%= link_to <%= namespace_for_route %><%= plural_table_name %>_path, :class => "btn btn-default" do %>
+    <%%= link_to <%= namespace_for_route %><%= plural_table_name %>_path, :class => "btn btn-light" do %>
       <i class="fa fa-chevron-left"></i> <%%= t(:back, :default => "Back") %>
     <%% end %>
     <%%= f.submit :class => "btn btn-primary", :data => { :disable_with => t(:saving, :default => "Saving...") } %>

@@ -2,7 +2,7 @@
   <%- next if @beautiful_attributes.include?(a.name + ':color') -%>
   <%- attribute = "" -%>
   <%- caption = a.name.capitalize -%>
-  <%- if @beautiful_attributes.include?(a.name + ':references') then -%>
+  <%- if @beautiful_attributes.include?(a.name + ':references') -%>
     <%- attribute = "_id" -%>
   <%- end -%>
       <%%= ransack_field("<%= singular_table_name %>", "<%= a.name %><%= attribute %>", f, "<%= caption %>"<%= (engine_name.blank? ? '' : ", \"#{engine_opt}\"") %>) %>
