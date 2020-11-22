@@ -145,7 +145,7 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       manifest_prefix = ""
     end
     #append_to_file("app/assets/config/#{manifest_prefix}manifest.js", '//= link_directory ../stylesheets/faq .css')
-    append_to_file("app/assets/config/#{manifest_prefix}manifest.js", '//= link_directory ../javascripts/faq .js')
+    append_to_file("app/assets/config/#{manifest_prefix}manifest.js", '//= link_directory ../javascripts .js')
   end
 
   def generate_layout
