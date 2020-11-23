@@ -92,12 +92,15 @@ module BeautifulHelper
 
     cap = i18n_translate_path(model_name, attribute_name)
 
-    infostr   = ''
-    response  = '' # See at end
-    response += f.label name_field, t(cap, :default => default_caption).capitalize, :class => "control-label"
-
     type_of_column = ar_model.columns_hash[attribute_name].type unless ar_model.columns_hash[attribute_name].nil?
     type_of_column ||= :other
+
+    infostr   = ''
+    response  = '' # See at end
+    response += '<div class="form-check form-check-inline">' if type_of_column == :boolean
+    response += f.label name_field, t(cap, :default => default_caption).capitalize, :class => "control-label"
+    response += '</div>' if type_of_column == :boolean
+
     case type_of_column
       when :date, :datetime
         dt = (type_of_column == :datetime)
@@ -178,9 +181,20 @@ module BeautifulHelper
         infostr = info_input(model_name, [(name_field + "_dp_lt").to_sym, (name_field + "_tp_lt").to_sym, (name_field + "_dp_gt").to_sym, (name_field + "_tp_gt").to_sym])
       when :boolean
         # Specify a default value (false) in rails migration
-        response += f.label name_field + "_eq_true",   raw(f.radio_button((name_field + "_eq").to_sym, true))   + " " + h(t(:yes, :default => "Yes")), :class => "checkbox inline"
-        response += f.label name_field + "_eq_false",  raw(f.radio_button((name_field + "_eq").to_sym, false))  + " " + h(t(:no, :default => "No")),   :class => "checkbox inline"
-        response += f.label name_field + "_eq",        raw(f.radio_button((name_field + "_eq").to_sym, nil))    + " " + h(t(:all, :default => "All")), :class => "checkbox inline"
+        response += '<div class="form-check form-check-inline">'
+        response += f.radio_button((name_field + "_eq").to_sym, true, { class: 'form-check-input'})
+        response += f.label name_field + "_eq_true", h(t(:yes, default: "Yes")), class: "form-check-label"
+        response += '</div>'
+
+        response += '<div class="form-check form-check-inline">'
+        response += f.radio_button((name_field + "_eq").to_sym, false, { class: 'form-check-input'})
+        response += f.label name_field + "_eq_false", h(t(:no, default: "No")), class: "form-check-label"
+        response += '</div>'
+
+        response += '<div class="form-check form-check-inline">'
+        response += f.radio_button((name_field + "_eq").to_sym, nil, { class: 'form-check-input'})
+        response += f.label name_field + "_eq", h(t(:all, default: "All")), class: "form-check-label"
+        response += '</div>'
 
         infostr = (begin session['search'][model_name][(name_field + "_eq").to_sym] == "on" ? "" : "info" rescue "" end)
       when :string
