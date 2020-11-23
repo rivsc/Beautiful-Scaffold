@@ -15,7 +15,5 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split("\n").reject{ |filepath| filepath.start_with? 'test/' }
   s.licenses    = ['MIT']
 
-  s.rubyforge_project = "beautiful_scaffold"
-
   s.require_paths = ["lib","lib/generators","test/*"]
 end
