@@ -60,7 +60,9 @@ class BeautifulMigrationGenerator < Rails::Generators::Base
   private
 
   def model
-    return name.scan(/^Add(.*)To(.*)$/).flatten[1].underscore.singularize.gsub("#{options[:mountable_engine].underscore}_",'')
+    model_extracted = name.scan(/^Add(.*)To(.*)$/).flatten[1].underscore.singularize
+    model_extracted = model_extracted.gsub("#{options[:mountable_engine].underscore}_",'') if !options[:mountable_engine].blank?
+    return model_extracted
   end
 
 end

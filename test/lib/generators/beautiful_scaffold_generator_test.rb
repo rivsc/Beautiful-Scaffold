@@ -1,8 +1,11 @@
 require 'test_helper'
 require 'generators/beautiful_scaffold_generator'
+require 'generators/beautiful_migration_generator'
 
-# rake test in Beautiful-Scaffold
+# In order to run test : in Beautiful-Scaffold dir just run :
+# rake test
 #
+# Source :
 # https://fossies.org/linux/rails/railties/test/generators/shared_generator_tests.rb
 # https://rossta.net/blog/testing-rails-generators.html
 
