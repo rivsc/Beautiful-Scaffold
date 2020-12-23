@@ -4,6 +4,14 @@
 
 * bugfix
 
+== 2.0.0
+
+* enhancement
+  * Bootstrap 4.5 for search field.
+
+* bugfix
+  * Beautiful migration & Rails 6 (fix #23)
+
 == 2.0.0.pre
 
 * enhancement
