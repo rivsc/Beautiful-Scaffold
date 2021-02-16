@@ -23,11 +23,10 @@ class BeautifulMigrationGeneratorTest < Rails::Generators::TestCase
 
   # At the end of test
   teardown do
-    #Dir.chdir(File.dirname(destination_root)) {
-    #  system 'rm -rf dummyappmigration'
-    #}
+    Dir.chdir(File.dirname(destination_root)) {
+      system 'rm -rf dummyappmigration'
+    }
   end
-
 
   test "generator runs with relation" do
     self.class.generator_class = BeautifulScaffoldGenerator
