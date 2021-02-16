@@ -30,11 +30,11 @@
       </div>
       <div class="navbar-collapse collapse">
         <nav class="nav navbar-nav">
-          <a href="/" class="nav-link">Home</a>-
+          <a href="/" class="nav-link">Home</a>
           <%%= render :partial => "layouts/beautiful_menu" %>
+          <!-- Beautiful_scaffold - Signin - Do not remove -->
         </nav>
         <i class="fa fa-question-circle text-white float-right" id="bs-help"></i>
-        <!-- Beautiful_scaffold - Signin - Do not remove -->
       </div>
     </div>
     <div class="container-fluid">
@@ -45,6 +45,13 @@
               <a class="close" data-dismiss="alert" href="#">×</a>
               <h4 class="alert-heading">Info : </h4>
               <%%= flash[:notice] %>
+            </div>
+          <%% end %>
+          <%% if !flash[:alert].blank? %>
+            <div class="alert alert-warning">
+              <a class="close" data-dismiss="alert" href="#">×</a>
+              <h4 class="alert-heading">Warning : </h4>
+              <%%= flash[:alert] %>
             </div>
           <%% end %>
           <%% if !flash[:error].blank? %>

@@ -1,0 +1,13 @@
+<%= form_with url: user_sessions_path, method: :post do |f| %>
+  <div class="form-group">
+    <%= f.label :email, :class => "control-label" %><br />
+    <%= f.text_field :email, :class => "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :password, :class => "control-label" %><br />
+    <%= f.password_field :password, :class => "form-control" %>
+  </div>
+  <div>
+    <%= f.submit :class => "btn btn-primary", :data => { :disable_with => t(:saving, :default => "Saving...") } %>
+  </div>
+<% end %>

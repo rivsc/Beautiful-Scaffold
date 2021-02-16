@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+</head>
+<body>
+<h1>Félicitations <%= @user.email %>!</h1>
+<p>
+  Vous avez activé votre compte sur www.example.com avec succès,
+  Votre identifiant est : <%= @user.email %>.
+</p>
+<p>
+  Pour ce connecter sur le site, veuillez suivre ce lien : <%= @url %>.
+</p>
+<p>
+  Merci de vous être inscrit, bonne journée !
+</p>
+</body>
+</html>

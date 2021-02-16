@@ -2,6 +2,11 @@
 
 Beautiful Scaffold is a gem which propose generators for a complete scaffold with paginate, sort and filter.
 Fully customizable.
+
+Note : Avoid to change Beautiful-Scaffold version in your project (incompatibility between generated code).
+Note 2 : Be careful to have a clean git repository for your project because Beautiful-Scaffold change many files.
+It will be easier to revert changes.
+
 Info : https://github.com/rivsc/Beautiful-Scaffold
 Demo : http://beautiful-scaffold.rivsc.ovh/
 
@@ -70,10 +75,19 @@ Run `rake db:migrate` before `rails g beautiful_locale` (to get lastest attribut
 
     rails g beautiful_jointable model1 model2
 
-TODO replace Devise by Sorcery & Cancan by Cancancan
-=== Install et Configure Devise (authentification) and Cancan (authorization)
+=== Install et preconfigure Sorcery (authentification) (this generator doesn't work on engine)
 
-    rails g beautiful_devisecancan model
+    # If it is not done yet
+    rails g beautiful_scaffold user email:string
+    rails g beautiful_sorcery
+
+=== Install et preconfigure Cancancan (authorization) (this generator doesn't work on engine)
+
+    # If it is not done yet
+    rails g beautiful_scaffold user email:string
+    # If it is not done yet
+    rails g beautiful_sorcery
+    rails g beautiful_cancancan
 
 === In views
 
@@ -103,7 +117,7 @@ Example : when you click on the #bs-help tag presentation tour display on screen
 
 If you want to add 'slide' :
 
-For add instruction to element, add this to your markup :
+For add instruction to DOM element, add this to your markup :
 
 id="myunique-id-in-the-page" data-present-title="Title for the slide" data-present-description="Short description" data-present-order="1"
 

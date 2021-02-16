@@ -12,5 +12,7 @@ Example:
 
     rails generate beautiful_jointable product tag
 
-    rails generate beautiful_devisecancan user
+    rails generate beautiful_sorcery
+    rails generate beautiful_cancancan
+
        

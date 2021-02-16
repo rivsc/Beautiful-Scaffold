@@ -4,6 +4,17 @@
 
 * bugfix
 
+== 2.0.1
+
+* enhancement
+  * Replace Devise by Sorcery
+  * Tests Sorcery and Cancancan generators
+
+* bugfix
+  * Locale : fix all locale in the same file.
+  * Visual fix ('-' in menu)
+  * Will_paginate locales
+
 == 2.0.0
 
 * enhancement
