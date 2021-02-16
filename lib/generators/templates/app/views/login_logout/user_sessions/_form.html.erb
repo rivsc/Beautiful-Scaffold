@@ -8,6 +8,8 @@
     <%= f.password_field :password, :class => "form-control" %>
   </div>
   <div>
+    <%= link_to t(:back, :default => 'Back'), users_path, :class => "btn btn-light" %>
     <%= f.submit :class => "btn btn-primary", :data => { :disable_with => t(:saving, :default => "Saving...") } %>
   </div>
 <% end %>
+
