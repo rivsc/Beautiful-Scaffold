@@ -18,13 +18,15 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
   
   def install_locale
     list_locales.each{ |temp_locale|
-      filename = "beautiful_scaffold.#{temp_locale}.yml"
-      gem_localepath = "app/locales/#{filename}"
-      app_localepath = "config/locales/#{filename}"
-      begin
-        copy_file gem_localepath, app_localepath
-      rescue
-        say_status("Error", "This beautiful_locale #{localestr} doesn't exist !", :red)
+
+      ["beautiful_scaffold.#{temp_locale}.yml"].each do |filename|
+        gem_localepath = "app/locales/#{filename}"
+        app_localepath = "config/locales/#{filename}"
+        begin
+          copy_file gem_localepath, app_localepath
+        rescue
+          say_status("Error", "This beautiful_locale #{temp_locale} doesn't exist !", :red)
+        end
       end
 
       rails_locale_file = "#{temp_locale}.yml"
@@ -36,7 +38,7 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
       end
 
       willpaginate_locale_file = "will_paginate.#{temp_locale}.yml"
-      download_path = "https://raw.github.com/mislav/will_paginate/master/lib/will_paginate/locale/en.yml"
+      download_path = "https://raw.githubusercontent.com/tigrish/will-paginate-i18n/master/config/locales/#{temp_locale}.yml"
       begin
         get download_path, "config/locales/#{willpaginate_locale_file}"
         say_status("Warning", "You must modify Will_paginate locale at : Rails.root/config/locale/#{willpaginate_locale_file}", :red)
@@ -51,8 +53,8 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
   def regenerate_app_locale
     require 'net/http'
 
-    app_name = (Rails.root || engine_opt)
-    engine_or_apps = (Rails.application.class.parent_name || engine_opt).downcase
+    app_path = (Rails.root || engine_opt)
+    app_name = Rails.application.class.name.split('::').first.downcase
     prefix = engine_opt.blank? ? '' : "#{engine_opt.camelize}::"
 
     already_processed = {}
@@ -63,7 +65,7 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
 
       already_processed[locale] ||= {}
 
-      filepath = File.join(app_name, 'config', 'locales', "#{engine_or_apps}.#{locale}.yml")
+      filepath = File.join(app_path, 'config', 'locales', "#{app_name}.#{locale}.yml")
       begin
         if File.exist?(filepath)
           hi18n = YAML.load_file(filepath)
@@ -154,7 +156,7 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
       File.unlink(filepath) if File.exist?(filepath)
 
       file = File.open(filepath, "w")
-      file.write(hi18n.to_yaml)
+      file.write(hi18n[locale].to_yaml)
       file.close
     end
   end
