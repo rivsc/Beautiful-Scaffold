@@ -208,8 +208,12 @@ module BeautifulScaffoldCommonMethods
       puts "============> Engine : You must add gems to your main app \n #{gems.to_a.map{ |a| "gem '#{a[0]}'#{(a[1].nil? ? '' : ", '#{a[1]}'")} " }.join("\n")}"
     end
 
+    gemfile_content = File.read('Gemfile')
     gems.each{ |gem_to_add, version|
-      gem(gem_to_add, version)
+      # Bug add at every times, need to check if already present
+      if !gemfile_content.include?(gem_to_add)
+        gem(gem_to_add, version)
+      end
     }
   end
 

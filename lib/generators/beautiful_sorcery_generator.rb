@@ -11,7 +11,9 @@ class BeautifulSorceryGenerator < Rails::Generators::Base
     model = "User"
     view_path = "app/views/"
 
-    gem("sorcery", "0.15.0")
+    if !File.read('Gemfile').include?("sorcery")
+      gem("sorcery", "0.16.0")
+    end
 
     Bundler.with_unbundled_env do
       run "bundle install"
@@ -49,7 +51,7 @@ end")
     # ===== Controller
     inject_into_file("app/controllers/users_controller.rb",
  "\n
-  skip_before_action :require_login, only: [:index, :new, :create, :activate]
+  skip_before_action :require_login, only: [:new, :create, :activate]
 \n", after: "< BeautifulController")
 
     inject_into_file("app/controllers/users_controller.rb",
