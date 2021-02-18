@@ -72,8 +72,10 @@ class BeautifulLoginLogoutGeneratorTest < Rails::Generators::TestCase
     assert_file 'app/views/user_sessions/new.html.erb'
 
     assert_file 'app/views/users/_form.html.erb' do |content|
-      assert_match('f.password_field :password, :class => "form-control"', content)
-      assert_match('f.password_field :password_confirmation, :class => "form-control"', content)
+      assert_match('<%= f.label :password, t(\'app.models.user.bs_attributes.password\', :default => \'password\').capitalize, :class => "control-label" %>', content)
+      assert_match('<%= f.password_field :password, :class => "form-control" %>', content)
+      assert_match('<%= f.label :password_confirmation, t(\'app.models.user.bs_attributes.password_confirmation\', :default => \'password_confirmation\').capitalize, :class => "control-label" %>', content)
+      assert_match('<%= f.password_field :password_confirmation, :class => "form-control" %>', content)
     end
 
     assert_file 'app/views/layouts/beautiful_layout.html.erb' do |content|

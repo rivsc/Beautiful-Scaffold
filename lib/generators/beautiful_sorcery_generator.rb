@@ -81,11 +81,11 @@ end")
     # ====== Views
     inject_into_file("app/views/users/_form.html.erb",
     '  <div class="form-group">
-    <%= f.label :password, :class => "control-label" %><br />
+    <%= f.label :password, t(\'app.models.user.bs_attributes.password\', :default => \'password\').capitalize, :class => "control-label" %><br />
     <%= f.password_field :password, :class => "form-control" %>
   </div>
   <div class="form-group">
-    <%= f.label :password_confirmation, :class => "control-label" %><br />
+    <%= f.label :password_confirmation, t(\'app.models.user.bs_attributes.password_confirmation\', :default => \'password_confirmation\').capitalize, :class => "control-label" %><br />
     <%= f.password_field :password_confirmation, :class => "form-control" %>
   </div>', before: '<!-- Beautiful_scaffold - AddField - Do not remove -->')
 
