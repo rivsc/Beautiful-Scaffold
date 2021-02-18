@@ -5,7 +5,7 @@ class BeautifulJointableGenerator < Rails::Generators::Base
 
   source_root File.expand_path('../templates', __FILE__)
 
-  argument :join_models, :type => :array, :default => [], :banner => "model model"
+  argument :join_models, :type => :array, :default => [], :banner => "Two model names singular downcase (ex: product family)"
 
   class_option :mountable_engine, default: nil
   

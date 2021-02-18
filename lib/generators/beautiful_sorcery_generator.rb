@@ -131,5 +131,7 @@ end")
     inject_into_file("#{view_path}layouts/beautiful_layout.html.erb",
                      "\n<%= render :partial => 'layouts/login_logout_register' %>\n",
                      :after => "<!-- Beautiful_scaffold - Signin - Do not remove -->")
+
+    say "Beautiful-Scaffold enable 'user_activation' sorcery module for you, so when you sign up, find in logs the activation link. You can't sign in yourself until you activate the account"
   end
 end

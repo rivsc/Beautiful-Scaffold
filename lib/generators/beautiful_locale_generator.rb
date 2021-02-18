@@ -5,7 +5,7 @@ class BeautifulLocaleGenerator < Rails::Generators::Base
 
   source_root File.expand_path('../templates', __FILE__)
 
-  argument :name, :type => :string, :desc => "type of locale : fr OR en OR de OR ja all..."
+  argument :name, :type => :string, :desc => "type of locale : fr, en, de, all"
 
   class_option :mountable_engine, :default => nil
 
