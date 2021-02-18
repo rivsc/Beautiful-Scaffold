@@ -9,11 +9,13 @@
 * enhancement
   * Replace Devise by Sorcery
   * Tests Sorcery and Cancancan generators
+  * New generator for ActiveStorage
 
 * bugfix
   * Locale : fix all locale in the same file.
   * Visual fix ('-' in menu)
-  * Will_paginate locales
+  * Will_paginate right locales
+  * Avoid adding gems multiple times
 
 == 2.0.0
 

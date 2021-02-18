@@ -89,6 +89,10 @@ Run `rake db:migrate` before `rails g beautiful_locale` (to get lastest attribut
     rails g beautiful_sorcery
     rails g beautiful_cancancan
 
+=== Storage (ActiveStorage)
+
+   rails g beautiful_storage model attachment_field
+
 === In views
 
 ==== Barcodes
