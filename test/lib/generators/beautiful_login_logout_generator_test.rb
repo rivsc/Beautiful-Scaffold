@@ -24,9 +24,9 @@ class BeautifulLoginLogoutGeneratorTest < Rails::Generators::TestCase
 
   # At the end of test
   teardown do
-    #Dir.chdir(File.dirname(destination_root)) {
-    #  system 'rm -rf dummyappsorcery'
-    #}
+    Dir.chdir(File.dirname(destination_root)) {
+      system 'rm -rf dummyappsorcery'
+    }
   end
 
   test "generator sorcery cancancan" do
