@@ -9,6 +9,8 @@ require 'generators/beautiful_storage_generator'
 # https://fossies.org/linux/rails/railties/test/generators/shared_generator_tests.rb
 # https://rossta.net/blog/testing-rails-generators.html
 
+# TODO test for engine
+
 class BeautifulStorageGeneratorTest < Rails::Generators::TestCase
   tests BeautifulScaffoldGenerator
   destination Rails.root.join('../tmp/dummyappstorage') # test/dummy/tmp/generators/dummyapp....
