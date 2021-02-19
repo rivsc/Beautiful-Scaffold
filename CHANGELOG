@@ -4,6 +4,20 @@
 
 * bugfix
 
+
+== Soon
+
+ActionText / trix.
+
+== 2.0.2
+
+* enhancement
+  * Native html colorpicker
+
+* bugfix
+  * Datetime picker for model form
+  * Display price in model form
+
 == 2.0.1
 
 * enhancement
