@@ -45,8 +45,8 @@
   <%- elsif @beautiful_attributes.include?(attribute.name + ':color') -%>
     <div class="form-group">
       <%%= f.label :<%= attribute.name %>, <%= i18n_t_a(singular_table_name, attribute.name) %>.capitalize, :class => "control-label" %>
-      <div class="input-group color" data-color="<%%= (@<%= model %>.<%= attribute.name %> || "rgba(0, 0, 0)") %>" data-color-format="rgba">
-        <%%= f.<%= attribute.field_type %> :<%= attribute.name %>, :class => "form-control" %><span class="input-group-addon"><i style="background-color: rgb(0, 0, 0)"></i></span>
+      <div class="input-group">
+        <%%= f.color_field :<%= attribute.name %>, :class => "form-control" %>
       </div>
     </div>
   <%- else -%>

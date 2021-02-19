@@ -72,7 +72,6 @@ class BeautifulScaffoldGeneratorTest < Rails::Generators::TestCase
     # js
     assert_file 'app/assets/javascripts/application-bs.js'
     assert_file 'app/assets/javascripts/beautiful_scaffold.js'
-    assert_file 'app/assets/javascripts/bootstrap-colorpicker.js'
     assert_file 'app/assets/javascripts/bootstrap-datetimepicker-for-beautiful-scaffold.js'
     assert_file 'app/assets/javascripts/bootstrap-wysihtml5.js'
     assert_file 'app/assets/javascripts/a-wysihtml5-0.3.0.min.js'
@@ -85,7 +84,6 @@ class BeautifulScaffoldGeneratorTest < Rails::Generators::TestCase
     assert_file 'app/assets/stylesheets/application-bs.scss'
     assert_file 'app/assets/stylesheets/beautiful-scaffold.css.scss'
     assert_file 'app/assets/stylesheets/bootstrap-wysihtml5.css'
-    assert_file 'app/assets/stylesheets/colorpicker.css'
     assert_file 'app/assets/stylesheets/tagit-dark-grey.css'
 
     ###############

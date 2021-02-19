@@ -10,6 +10,8 @@
                 <%% else %>
                   <%%= t(:any, :default => "Any") %>
                 <%% end %>
+              <%- elsif @beautiful_attributes.include?(attribute.name + ':color') -%>
+                <span class="overview-color" style="background-color:<%%= <%= singular_table_name %>.<%= attribute.name %> %>;">&nbsp;</span>
               <%- else -%>
                 <%%= <%= singular_table_name %>.<%= attribute.name %> %>
               <%- end -%>

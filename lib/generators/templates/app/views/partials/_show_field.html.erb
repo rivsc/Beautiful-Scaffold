@@ -7,6 +7,8 @@
       <%%= t((@<%= singular_table_name %>.<%= attribute.name %> ? "yes".to_sym : "no".to_sym)) %>
     <%- elsif @beautiful_attributes.include?(attribute.name + ':references') -%>
       <%%= (@<%= singular_table_name %>.<%= attribute.name %>.nil? ? "" : @<%= singular_table_name %>.<%= attribute.name %>.caption) %>
+    <%- elsif @beautiful_attributes.include?(attribute.name + ':color') -%>
+      <span class="overview-color" style="background-color:<%%= @<%= singular_table_name %>.<%= attribute.name %> %>;">&nbsp;</span>
     <%- else -%>
       <%%= @<%= singular_table_name %>.<%= attribute.name %> %>
     <%- end -%>
