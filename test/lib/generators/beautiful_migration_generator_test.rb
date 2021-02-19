@@ -52,7 +52,7 @@ class BeautifulMigrationGeneratorTest < Rails::Generators::TestCase
       # Label biography
       assert_match("<%= f.label :biography, t('app.models.user.bs_attributes.biography', :default => 'biography').capitalize, :class => \"control-label\" %>", content)
       # Input date (day)
-      assert_match('<input type="hidden" name="user[birthday(3i)]" id="user_birthday_3i" value="<%= begin @user.birthday.day rescue "" end %>" />', content)
+      assert_match('<%= f.hidden_field("birthday(#{i+1}i)", value: @user.birthday&.send(meth), id: "user_birthday_input_#{i+1}i") %>', content)
     end
 
     ###############################
