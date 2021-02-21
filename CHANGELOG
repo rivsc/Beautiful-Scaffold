@@ -4,10 +4,10 @@
 
 * bugfix
 
-
 == Soon
 
 ActionText / trix.
+Include pg_search for fulltext field.
 
 == 2.0.2
 
