@@ -4,10 +4,20 @@
 
 * bugfix
 
-== Soon
+== TODO
 
 ActionText / trix.
 Include pg_search for fulltext field.
+Remove "image_processing" specific version + add gem 'mini_magick' (pour la génération des variants)
+
+== 2.0.3
+
+* bugfix
+  * _ids in permitted_attributes (beautiful_jointable)
+
+* enhancement
+  * Replace tagit by select2 (+ _ids in permitted_attributes)
+  * Bootstrap 4.3 -> 5.1
 
 == 2.0.2
 
