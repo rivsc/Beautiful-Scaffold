@@ -62,7 +62,6 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
     # Css
     bc_css           = [
                         "beautiful-scaffold.css.scss",
-                        "tagit-dark-grey.css",
                         "bootstrap-wysihtml5.css"
                        ]
 
@@ -79,7 +78,6 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
 
     if !engine_name.blank?
       ['beautiful-scaffold',
-      'tagit-dark-grey',
       'bootstrap-wysihtml5'].each do |fileassets|
         gsub_file File.join(stylesheetspath_dest, "application-bs.scss"), " *= require #{fileassets}", " *= require #{engine_name}#{fileassets}"
       end
@@ -100,7 +98,6 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
                         "bootstrap-datetimepicker-for-beautiful-scaffold.js",
                         "jquery-barcode.js",
                         "jstree.min.js",
-                        "tagit.js",
                         "a-wysihtml5-0.3.0.min.js",
                         "bootstrap-wysihtml5.js",
                         "fixed_menu.js"
@@ -114,7 +111,6 @@ class BeautifulScaffoldGenerator < Rails::Generators::Base
       ['a-wysihtml5-0.3.0.min',
       'bootstrap-datetimepicker-for-beautiful-scaffold',
       'bootstrap-wysihtml5',
-      'tagit.js',
       'jstree.min.js',
       'jquery-barcode',
       'beautiful_scaffold',

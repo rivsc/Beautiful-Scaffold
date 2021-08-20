@@ -20,13 +20,13 @@
 <div class="form-group">
     <%= f.label plural_linked_model_name.to_sym, t(plural_linked_model_name.to_sym, :default => plural_linked_model_name.capitalize), :class => "control-label" %>
     <div>
-        <ul class="bs-tagit" id="<%= model_name %>_<%= linked_model_name %>_ids" name="<%= model_name %>[<%= linked_model_name %>_ids][]" data-url="<%= path_namespace %><%= plural_linked_model_name %>/search_and_filter.json" data-param="q[<%= field_to_search_for_linked_model %>_cont]" data-result="<%= attr_to_show %>">
+        <select multiple="multiple" class="form-control bs-tagit" id="<%= model_name %>_<%= linked_model_name %>_ids" name="<%= model_name %>[<%= linked_model_name %>_ids][]"  data-tags="true" data-placeholder="<%= t('select-an-option', default: 'Select an option') %>" data-allow-clear="true" data-ajax--cache="true" data-ajax--url="<%= path_namespace %><%= plural_linked_model_name %>/search_and_filter.json" data-param="q[<%= field_to_search_for_linked_model %>_cont]" data-result="<%= attr_to_show %>">
           <% begin %>
             <% for elt in model_class.send(plural_linked_model_name) %>
-            <li data-value="<%= elt.id %>"><%= elt.caption %></li>
+            <option selected="selected" data-value="<%= elt.id %>"><%= elt.caption %></option>
             <% end %>
           <% rescue %>
           <% end %>
-        </ul>
+        </select>
     </div>
 </div>

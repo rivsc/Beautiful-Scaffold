@@ -78,13 +78,11 @@ class BeautifulScaffoldGeneratorTest < Rails::Generators::TestCase
     assert_file 'app/assets/javascripts/fixed_menu.js'
     assert_file 'app/assets/javascripts/jstree.min.js'
     assert_file 'app/assets/javascripts/jquery-barcode.js'
-    assert_file 'app/assets/javascripts/tagit.js'
     #
     # css
     assert_file 'app/assets/stylesheets/application-bs.scss'
     assert_file 'app/assets/stylesheets/beautiful-scaffold.css.scss'
     assert_file 'app/assets/stylesheets/bootstrap-wysihtml5.css'
-    assert_file 'app/assets/stylesheets/tagit-dark-grey.css'
 
     ###############
     # Controllers
