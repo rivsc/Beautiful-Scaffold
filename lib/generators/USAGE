@@ -1,18 +1,30 @@
-Description:
-    scaffold, migration and locale
+#
+# How to test Beautiful-Scaffold in a fresh rails app
+#
 
-Example:
-    rails generate beautiful_scaffold model attribute:type attribute:type ...
-    rails generate beautiful scaffold price:price name:string visible:boolean description:richtext
-    rails generate beautiful_scaffold product family:references price:price name:string visible:boolean description:richtext
-    
-    rails generate beautiful_migration AddColorToProducts color:string
+rails new my_test_app
+cd my_test_app
+echo "gem 'beautiful_scaffold', '2.0.2'" >> Gemfile
+bundle update
 
-    rails generate beautiful_locale {fr|en|all}
+rails generate beautiful_scaffold family name:string description:wysiwyg
+rails generate beautiful_scaffold product family:references price:price name:string visible:boolean description:wysiwyg
+rails generate beautiful_scaffold user pseudo:string email:string
+rails generate beautiful_scaffold tag name:string
 
-    rails generate beautiful_jointable product tag
+rails generate beautiful_jointable product tag
 
-    rails generate beautiful_sorcery
-    rails generate beautiful_cancancan
+rails generate beautiful_migration AddColorToProducts color:string
+
+rails generate beautiful_locale fr
+
+rails generate beautiful_sorcery
+rails generate beautiful_cancancan
+
+rake db:migrate
+rails server
+
+# Open a web browser http://localhost:3000/
+# Register, and copy/paste the link you see in the rails server log : e.g. http://localhost:3000/users/axfEQ8i38ZtXTi-oTzuw/activate
 
        
