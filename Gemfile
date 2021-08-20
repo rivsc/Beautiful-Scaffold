@@ -14,7 +14,7 @@ group :test do
       'prawn' => nil, #'2.1.0',
       'prawn-table' => nil, #'0.2.2',
       'sanitize' => nil,
-      'bootstrap' => '~> 4.3.1',
+      'bootstrap' => '~> 5.1.0',
       'font-awesome-rails' => '4.7.0.7',
       'momentjs-rails' => '>= 2.9.0',
       'bootstrap4-datetime-picker-rails' => nil,

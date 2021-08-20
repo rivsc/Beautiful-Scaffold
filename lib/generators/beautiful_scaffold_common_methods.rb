@@ -195,7 +195,7 @@ module BeautifulScaffoldCommonMethods
       'prawn-table' => nil, #'0.2.2',
       'sanitize' => nil,
       #'twitter-bootstrap-rails' => '3.2.2', # Bootstrap 3 for Rails 6+
-      'bootstrap' => '~> 4.3.1', # Bootstrap 4 for Rails 6+
+      'bootstrap' => '~> 5.1.0', # Bootstrap 4 for Rails 6+
       'font-awesome-sass' => '~> 5.13.0',
       'momentjs-rails' => '>= 2.9.0',
       'bootstrap4-datetime-picker-rails' => nil,
