@@ -42,10 +42,8 @@ class BeautifulJointableGenerator < Rails::Generators::Base
       # Add habtm relation
       inject_into_file("app/models/#{engine_name}#{sorted_model[0]}.rb", "\n  #{engine_name.present? ? '  ' : ''}has_and_belongs_to_many :#{sorted_model[1].pluralize}", :after => "ApplicationRecord")
       inject_into_file("app/models/#{engine_name}#{sorted_model[1]}.rb", "\n  #{engine_name.present? ? '  ' : ''}has_and_belongs_to_many :#{sorted_model[0].pluralize}", :after => "ApplicationRecord")
-      inject_into_file("app/models/#{engine_name}#{sorted_model[0]}.rb", "{ :#{sorted_model[1]}_ids => [] }, ", :after => "permitted_attributes
-      return ")
-      inject_into_file("app/models/#{engine_name}#{sorted_model[1]}.rb", "{ :#{sorted_model[0]}_ids => [] }, ", :after => "permitted_attributes
-      return ")
+      inject_into_file("app/models/#{engine_name}#{sorted_model[0]}.rb", "{ :#{sorted_model[1]}_ids => [] }, ", :after => /permitted_attributes#{regexp_an_string}return /)
+      inject_into_file("app/models/#{engine_name}#{sorted_model[1]}.rb", "{ :#{sorted_model[0]}_ids => [] }, ", :after => /permitted_attributes#{regexp_an_string}return /)
     end
   end
 

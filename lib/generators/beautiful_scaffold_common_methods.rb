@@ -51,6 +51,10 @@ module BeautifulScaffoldCommonMethods
     return result
   end
 
+  def regexp_an_string
+    '\s*\R\s*'
+  end
+
   ############
   # Models
   ############
