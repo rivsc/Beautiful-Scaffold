@@ -14,7 +14,7 @@ rails generate beautiful_scaffold tag name:string
 
 rails generate beautiful_jointable product tag
 
-rails generate beautiful_migration AddColorToProducts color:string
+rails generate beautiful_migration AddColorSecToProducts color_secondary:color
 
 rails generate beautiful_locale fr
 
