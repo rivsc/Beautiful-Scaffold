@@ -8,7 +8,7 @@ Note 2 : Be careful to have a clean git repository for your project because Beau
 It will be easier to revert changes.
 
 Info : https://github.com/rivsc/Beautiful-Scaffold
-Demo : http://beautiful-scaffold.rivsc.ovh/
+Demo : http://beautiful-scaffold.rivsc.ovh/ (Soon disabled : heroku stops its free plan)
 
 == Install
 
